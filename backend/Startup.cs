@@ -40,8 +40,8 @@ namespace backend
             app.UseMvc();
 
             // Testing
-            var brandRepo = new BrandRepository(new DatabaseContext());
-            var bResult = brandRepo.GetAll();
+            var brandRepo = new BrandRepository();
+            var bResult = brandRepo.Get();
 
             var compRepo = new ComponentRepository();
             var cResultr = compRepo.Get();
