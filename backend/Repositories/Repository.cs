@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using backend.Models;
+using Backend.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace backend.Repositories
+namespace Backend.Repositories
 {
     public class Repository<T> where T : BaseEntity
     {
