@@ -6,45 +6,35 @@ namespace Backend.Repositories
 {
     public class ComponentTypeRepository
     {
-        public List<ComponentType> Get()
-        {
-            using (var db = new DatabaseContext())
-                return db.ComponentTypes.ToList();
-        }
+        private readonly DatabaseContext databaseContext;
 
-        public ComponentType Get(int id)
-        {
-            using (var db = new DatabaseContext())
-                return db.ComponentTypes.Find(id);
-        }
+        public ComponentTypeRepository(DatabaseContext databaseContext) =>
+            this.databaseContext = databaseContext;
+
+        public List<ComponentType> Get() =>
+            databaseContext.ComponentTypes.ToList();
+
+        public ComponentType Get(int id) =>
+            databaseContext.ComponentTypes.Find(id);
 
         public ComponentType Create(ComponentType type)
         {
-            using (var db = new DatabaseContext())
-            {
-                var result = db.ComponentTypes.Add(type);
-                db.SaveChanges();
-                return result.Entity;
-            }
+            var result = databaseContext.ComponentTypes.Add(type);
+            databaseContext.SaveChanges();
+            return result.Entity;
         }
 
         public ComponentType Update(ComponentType type)
         {
-            using (var db = new DatabaseContext())
-            {
-                var updated = db.ComponentTypes.Update(type);
-                db.SaveChanges();
-                return updated.Entity;
-            }
+            var updated = databaseContext.ComponentTypes.Update(type);
+            databaseContext.SaveChanges();
+            return updated.Entity;
         }
 
         public void Delete(int id)
         {
-            using (var db = new DatabaseContext())
-            {
-                db.ComponentTypes.Remove(Get(id));
-                db.SaveChanges();
-            }
+            databaseContext.ComponentTypes.Remove(Get(id));
+            databaseContext.SaveChanges();
         }
     }
 }
