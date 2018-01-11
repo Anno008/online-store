@@ -1,3 +1,0 @@
-﻿To create our database with the relationships defined in the models, and very important, referenced in DatabaseContext as DbSets we have to run:
-	- dotnet ef migrations add InitialCreate to scaffold a migration and create the initial set of tables for the model.
-	- dotnet ef database update to apply the new migration to the database. This command creates the database before applying migrations.
