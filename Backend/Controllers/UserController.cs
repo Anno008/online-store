@@ -4,6 +4,8 @@ using Backend.DTOs;
 using Backend.Services;
 using System.Net.Http;
 using System.Net;
+using Microsoft.AspNetCore.Authorization;
+using Backend.Models;
 
 namespace Backend.Controllers
 {
@@ -40,10 +42,10 @@ namespace Backend.Controllers
 
         [HttpGet]
         [ActionName("test")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "User")]
         public IActionResult Test()
         {
-            //return "Super secret content, I hope you've got clearance for this...";
-            return StatusCode(401, "What are you");
+            return Ok("Super secret content, I hope you've got clearance for this...");
         }
     }
 }
