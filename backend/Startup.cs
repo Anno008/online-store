@@ -1,19 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Backend.Repositories;
 using Backend.Services;
 using Backend.Services.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Backend
@@ -41,8 +35,12 @@ namespace Backend
             services.Configure<JWTSettings>(Configuration.GetSection("JWTSettings"));
             services.AddSingleton<IConfiguration>(Configuration);
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options => GetTokenValidationParameters());
+            // Enable token authentication
+            services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options => options.TokenValidationParameters = GetTokenValidationParameters());
+
+            services.AddAuthorization(options => options.AddPolicy("User", policy => policy.RequireRole("User")));
 
             services.AddMvc();
 
@@ -80,21 +78,17 @@ namespace Backend
         private TokenValidationParameters GetTokenValidationParameters() =>
           new TokenValidationParameters
           {
-              // The signing key must match!
-              ValidateIssuerSigningKey = true,
-              // Validate the JWT Issuer (iss) claim
+              ValidateActor = true,
               ValidateIssuer = true,
-              // Validate the JWT Audience (aud) claim
               ValidateAudience = true,
-              ValidIssuer = Configuration.Get<JWTSettings>().Issuer,
-              ValidAudience = Configuration.Get<JWTSettings>().Audience,
-              NameClaimType = "sub",
-              // Validate the token expiry
               ValidateLifetime = true,
+              ValidateIssuerSigningKey = true,
+              ValidIssuer = Configuration.GetSection("JWTSettings:Issuer").Value,
+              ValidAudience = Configuration.GetSection("JWTSettings:Audience").Value,
               // Amount of clock drift -
               ClockSkew = TimeSpan.FromSeconds(30),
               IssuerSigningKey = new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(Configuration.Get<JWTSettings>().SecretKey))
+                    Encoding.UTF8.GetBytes(Configuration.GetSection("JWTSettings:SecretKey").Value))
           };
     }
 }
