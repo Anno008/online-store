@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Backend.Repositories;
 using Backend.Models;
+using System.Security.Claims;
 
 namespace Backend.Services
 {
@@ -31,7 +32,7 @@ namespace Backend.Services
             var user = userRepository.Create(username, password);
             return user == null ? null : GetToken(username);
         }
-     
+
         private string GetToken(string username)
         {
             var secret = options.SecretKey;
@@ -42,12 +43,10 @@ namespace Backend.Services
             var token = new JwtSecurityToken(
                 issuer: options.Issuer,
                 audience: options.Audience,
-                //claims: claims,
+                claims: new Claim[] {new Claim("sub", username)},
                 expires: DateTime.Now.AddMinutes(30),
                 signingCredentials: creds);
-            token.Payload["sub"] = username;
-            token.Payload["role"] = Role.User;
-
+            token.Payload["roles"] = new string[] { Role.User.ToString() };
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
