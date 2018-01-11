@@ -5,6 +5,6 @@ To run the backend after cloning the repository the following steps are necessar
 * dotnet run to start the application.
 * You can also just open the project in Visual Studio and let the IDE do everything for you.
 
-If you have made changes to the models and want to re generate the database with the new tables run:
+To create our database with the relationships defined in the models, and very important, referenced in DatabaseContext as DbSets we have to run:
 * **dotnet ef migrations add InitialCreate** to scaffold a migration and create the initial set of tables for the model.
 * **dotnet ef database update** to apply the new migration to the database. This command creates the database before applying migrations.
