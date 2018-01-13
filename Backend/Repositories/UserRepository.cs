@@ -5,20 +5,17 @@ using Backend.Models;
 
 namespace Backend.Repositories
 {
-    public class UserRepository
+    public class UserRepository : BaseRepository<User>
     {
-        private readonly DatabaseContext databaseContext;
-
-        public UserRepository(DatabaseContext databaseContext) =>
-            this.databaseContext = databaseContext;
+        public UserRepository(DatabaseContext databaseContext) : base(databaseContext)
+        { }
 
         public User Authenticate(string username, string password)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 return null;
 
-            User user = null;
-            user = databaseContext.Users.SingleOrDefault(x => x.Username == username);
+            var user = databaseContext.Users.SingleOrDefault(x => x.Username == username);
 
             // check if username exists
             if (user == null)
@@ -32,22 +29,19 @@ namespace Backend.Repositories
             return user;
         }
 
-        public User Create(string username, string password)
+        public User Register(string username, string password)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 return null;
 
-            User user = null;
-            user = databaseContext.Users.SingleOrDefault(x => x.Username == username);
+            var user = databaseContext.Users.SingleOrDefault(x => x.Username == username);
 
             // user with the given username already exists
             if (user != null)
                 return null;
 
             // registration successful
-            var retVal = databaseContext.Users.Add(new User { Username = username, Password = HashPassword(password), Role = Role.User });
-            databaseContext.SaveChanges();
-            return retVal.Entity;
+            return base.Create(new User { Username = username, Password = HashPassword(password), Role = Role.User });
         }
 
         private string HashPassword(string password)
