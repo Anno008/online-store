@@ -21,18 +21,12 @@ namespace Backend.Services
             this.options = options.Value;
         }
 
-        public string Login(string username, string password)
-        {
-            var user = userRepository.Authenticate(username, password);
-            return user == null ? null : GetToken(username);
-        }
+        public string Login(string username, string password) =>
+            userRepository.Authenticate(username, password) == null ? null : GetToken(username);
 
-        internal string Register(string username, string password)
-        {
-            var user = userRepository.Create(username, password);
-            return user == null ? null : GetToken(username);
-        }
-
+        internal string Register(string username, string password) =>
+            userRepository.Register(username, password) == null ? null : GetToken(username);
+        
         private string GetToken(string username)
         {
             var secret = options.SecretKey;
