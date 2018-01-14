@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.AspNetCore;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Backend
 {
@@ -44,6 +46,8 @@ namespace Backend
 
             services.AddMvc();
 
+            services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" }));
+
             services.AddDbContext<DatabaseContext>();
             services.AddTransient<UserService>();
             services.AddTransient<UserRepository>();
@@ -58,6 +62,13 @@ namespace Backend
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+            
             // handle exceptions globally
             AppDomain.CurrentDomain.UnhandledException += HandleErrors;
 
