@@ -1,16 +1,12 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Backend.DTOs;
 using Backend.Services;
-using System.Net.Http;
-using System.Net;
 using Microsoft.AspNetCore.Authorization;
-using Backend.Models;
 
 namespace Backend.Controllers
 {
     [Route("api/[controller]/[action]")]
-    //[Authorize(AuthenticationSchemes = "Bearer")]
+    //[Authorize()]
     public class UserController : Controller
     {
         private readonly UserService _userService;
