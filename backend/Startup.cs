@@ -46,7 +46,19 @@ namespace Backend
 
             services.AddMvc();
 
-            services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" }));
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+
+                c.AddSecurityDefinition("Bearer", new ApiKeyScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = "header",
+                    Type = "apiKey"
+                });
+            }
+            );
 
             services.AddDbContext<DatabaseContext>();
             services.AddTransient<UserService>();
@@ -68,7 +80,7 @@ namespace Backend
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
-            
+
             // handle exceptions globally
             AppDomain.CurrentDomain.UnhandledException += HandleErrors;
 
