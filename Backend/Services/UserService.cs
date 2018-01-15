@@ -24,7 +24,7 @@ namespace Backend.Services
         public string Login(string username, string password) =>
             userRepository.Authenticate(username, password) == null ? null : GetToken(username);
 
-        internal string Register(string username, string password) =>
+        public string Register(string username, string password) =>
             userRepository.Register(username, password) == null ? null : GetToken(username);
         
         private string GetToken(string username)
@@ -38,7 +38,7 @@ namespace Backend.Services
                 issuer: options.Issuer,
                 audience: options.Audience,
                 claims: new Claim[] {new Claim("sub", username)},
-                expires: DateTime.Now.AddMinutes(30),
+                expires: DateTime.Now.AddMinutes(options.Expiration),
                 signingCredentials: creds);
             token.Payload["roles"] = new string[] { Role.User.ToString() };
             return new JwtSecurityTokenHandler().WriteToken(token);
