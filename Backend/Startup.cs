@@ -57,8 +57,7 @@ namespace Backend
                     In = "header",
                     Type = "apiKey"
                 });
-            }
-            );
+            });
 
             services.AddDbContext<DatabaseContext>(options => options.UseSqlite($"Data Source={Configuration["Connection"]}"));
             services.AddTransient<UserService>();
