@@ -10,9 +10,6 @@ namespace Backend.Repositories
         public DbSet<ComponentType> ComponentTypes { get; set; }
         public DbSet<User> Users { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlite("Data Source=database.db");
-        }
+        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
     }
 }

@@ -6,10 +6,10 @@ using Backend.Services.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Swashbuckle.AspNetCore;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Backend
@@ -60,7 +60,7 @@ namespace Backend
             }
             );
 
-            services.AddDbContext<DatabaseContext>();
+            services.AddDbContext<DatabaseContext>(options => options.UseSqlite($"Data Source={Configuration["Connection"]}"));
             services.AddTransient<UserService>();
             services.AddTransient<UserRepository>();
 
