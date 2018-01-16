@@ -7,11 +7,11 @@ namespace Backend.Controllers
 {
     [Route("api/[controller]/[action]")]
     //[Authorize()]
-    public class UserController : Controller
+    public class UsersController : Controller
     {
         private readonly UserService _userService;
 
-        public UserController(UserService userService) =>
+        public UsersController(UserService userService) =>
             _userService = userService;
 
         [HttpPost]
