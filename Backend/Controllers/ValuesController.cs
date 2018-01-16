@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
@@ -11,9 +8,10 @@ namespace Backend.Controllers
     {
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "User")]
+        public string Get()
         {
-            return new string[] { "value1", "value2" };
+            return "Super secret content, I hope you've got clearance for this...";
         }
 
         // GET api/values/5
