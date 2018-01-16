@@ -36,12 +36,6 @@ namespace Backend.Controllers
             return BadRequest("The user with the given username already exists.");
         }
 
-        [HttpGet]
-        [ActionName("test")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "User")]
-        public IActionResult Test()
-        {
-            return Ok("Super secret content, I hope you've got clearance for this...");
-        }
+     
     }
 }
