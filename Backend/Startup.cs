@@ -3,9 +3,11 @@ using System.Text;
 using Backend.Repositories;
 using Backend.Services;
 using Backend.Services.Security;
+using Backend.Validation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,6 +35,9 @@ namespace Backend
         {
             // Enable CORS requests
             services.AddCors();
+
+            // Adding our filter which will validate incoming dtos, based on the IValidatableObject.Validate method
+            services.Configure<MvcOptions>(x => x.Conventions.Add(new ModelStateValidatorConvention()));
 
             services.Configure<JWTSettings>(Configuration.GetSection("JWTSettings"));
             services.AddSingleton<IConfiguration>(Configuration);
