@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Microsoft.AspNetCore.Hosting;
 
-namespace Backend
+namespace Backend.WebApi
 {
     public class Program
     {

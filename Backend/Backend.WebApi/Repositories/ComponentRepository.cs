@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Backend.Models;
 using Microsoft.EntityFrameworkCore;
+using Backend.WebApi.Models;
 
-namespace Backend.Repositories
+namespace Backend.WebApi.Repositories
 {
     public class ComponentRepository : BaseRepository<Component>
     {

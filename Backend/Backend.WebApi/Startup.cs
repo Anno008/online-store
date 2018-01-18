@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Text;
-using Backend.Repositories;
-using Backend.Services;
-using Backend.Services.Security;
-using Backend.Validation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,8 +9,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
+using Backend.WebApi.Repositories;
+using Backend.WebApi.Services;
+using Backend.WebApi.Services.Security;
+using Backend.WebApi.Validation;
 
-namespace Backend
+namespace Backend.WebApi
 {
     public class Startup
     {

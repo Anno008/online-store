@@ -1,4 +1,4 @@
-﻿namespace Backend.Services.Security
+﻿namespace Backend.WebApi.Services.Security
 {
     public class JWTSettings
     {

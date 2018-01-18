@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Backend.Models;
 using Microsoft.EntityFrameworkCore;
+using Backend.WebApi.Models;
 
-namespace Backend.Repositories
+namespace Backend.WebApi.Repositories
 {
     public class BaseRepository<T> where T : BaseEntity
     {

@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Backend.DTOs;
-using Backend.Services;
+using Backend.WebApi.DTOs;
+using Backend.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Backend.Controllers
+namespace Backend.WebApi.Controllers
 {
     [Route("api/[controller]/[action]")]
     //[Authorize()]

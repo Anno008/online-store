@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Backend.Validation
+namespace Backend.WebApi.Validation
 {
     public class ModelStateValidationFilterAttribute : ActionFilterAttribute
     {

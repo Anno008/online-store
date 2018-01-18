@@ -1,4 +1,4 @@
-﻿namespace Backend.Models
+﻿namespace Backend.WebApi.Models
 {
     public class Brand : BaseEntity
     {

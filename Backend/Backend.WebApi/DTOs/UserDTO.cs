@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Backend.DTOs
+namespace Backend.WebApi.DTOs
 {
     public class UserDTO : IValidatableObject
     {

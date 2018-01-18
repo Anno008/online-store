@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using Backend.Models;
+using Backend.WebApi.Models;
 
-namespace Backend.Repositories
+namespace Backend.WebApi.Repositories
 {
     public class UserRepository : BaseRepository<User>
     {

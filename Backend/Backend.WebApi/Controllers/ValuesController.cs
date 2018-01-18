@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Backend.Controllers
+namespace Backend.WebApi.Controllers
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller

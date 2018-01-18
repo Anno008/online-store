@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
-namespace Backend.Validation
+namespace Backend.WebApi.Validation
 {
     public class ModelStateValidatorConvention : IApplicationModelConvention
     {

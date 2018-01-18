@@ -1,14 +1,15 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-using Backend.Services.Security;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Backend.Repositories;
-using Backend.Models;
 using System.Security.Claims;
 
-namespace Backend.Services
+using Backend.WebApi.Services.Security;
+using Backend.WebApi.Repositories;
+using Backend.WebApi.Models;
+
+namespace Backend.WebApi.Services
 {
     public class UserService
     {
