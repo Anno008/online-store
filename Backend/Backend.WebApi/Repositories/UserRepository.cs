@@ -44,6 +44,9 @@ namespace Backend.WebApi.Repositories
             return base.Create(new User { Username = username, Password = HashPassword(password), Role = Role.User });
         }
 
+        public bool UserExists(string username) => 
+            databaseContext.Users.Any(user => user.Username == username);
+
         private string HashPassword(string password)
         {
             using (var algorithm = SHA256.Create())
