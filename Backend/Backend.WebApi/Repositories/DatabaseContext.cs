@@ -9,6 +9,7 @@ namespace Backend.WebApi.Repositories
         public DbSet<Component> Components { get; set; }
         public DbSet<ComponentType> ComponentTypes { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<RefreshToken> Tokens { get; set; }
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
     }
