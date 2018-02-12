@@ -66,6 +66,9 @@ namespace Backend.WebApi
 
             services.AddDbContext<DatabaseContext>(options => options.UseSqlite($"Data Source={Configuration["Connection"]}"));
             services.AddTransient<UserService>();
+            services.AddTransient<AuthService>();
+            services.AddTransient<JWTHandler>();
+            services.AddTransient<TokenRepository>();
             services.AddTransient<UserRepository>();
 
         }
@@ -105,17 +108,24 @@ namespace Backend.WebApi
         private TokenValidationParameters GetTokenValidationParameters() =>
           new TokenValidationParameters
           {
-              ValidateActor = true,
-              ValidateIssuer = true,
-              ValidateAudience = true,
-              ValidateLifetime = true,
+              // The signing key must match
               ValidateIssuerSigningKey = true,
-              ValidIssuer = Configuration.GetSection("JWTSettings:Issuer").Value,
-              ValidAudience = Configuration.GetSection("JWTSettings:Audience").Value,
-              // Amount of clock drift -
-              ClockSkew = TimeSpan.FromSeconds(30),
               IssuerSigningKey = new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(Configuration.GetSection("JWTSettings:SecretKey").Value))
+                    Encoding.UTF8.GetBytes(Configuration.GetSection("JWTSettings:SecretKey").Value)),
+
+              // Validate the JWT issuer (Iss) claim
+              ValidateIssuer = true,
+              ValidIssuer = Configuration.GetSection("JWTSettings:Issuer").Value,
+
+              // Validate the JWT audience (Aud) claim
+              ValidateAudience = true,
+              ValidAudience = Configuration.GetSection("JWTSettings:Audience").Value,
+
+              // Validate token expiration
+              ValidateLifetime = true,
+
+              // Amount of clock drift
+              ClockSkew = TimeSpan.FromSeconds(30),
           };
     }
 }
