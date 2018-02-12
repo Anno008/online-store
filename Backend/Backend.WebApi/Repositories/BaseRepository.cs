@@ -10,7 +10,6 @@ namespace Backend.WebApi.Repositories
     {
         protected readonly DatabaseContext databaseContext;
         private readonly DbSet<T> entities;
-        string errorMessage = string.Empty;
 
         public BaseRepository(DatabaseContext context)
         {
