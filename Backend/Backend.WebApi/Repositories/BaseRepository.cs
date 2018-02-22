@@ -45,6 +45,9 @@ namespace Backend.WebApi.Repositories
 
         public virtual T Update(T entity)
         {
+            if (!entities.Any(e => e.Id == entity.Id))
+                return null;
+
             var result = databaseContext.Update(entity);
             databaseContext.SaveChanges();
             return result.Entity;
@@ -52,6 +55,9 @@ namespace Backend.WebApi.Repositories
 
         public virtual async Task<T> UpdateAsync(T entity)
         {
+            if (!entities.Any(e => e.Id == entity.Id))
+                return null;
+
             var result = databaseContext.Update(entity);
             await databaseContext.SaveChangesAsync();
             return result.Entity;
