@@ -23,7 +23,7 @@ namespace Backend.WebApi.Repositories
         public virtual async Task<List<T>> GetAllAsync() =>
             await entities.ToListAsync();
 
-        public virtual T Get(long id) => 
+        public virtual T Get(long id) =>
             entities.SingleOrDefault(s => s.Id == id);
 
         public virtual async Task<T> GetAsync(long id) =>
@@ -45,33 +45,43 @@ namespace Backend.WebApi.Repositories
 
         public virtual T Update(T entity)
         {
-            if (!entities.Any(e => e.Id == entity.Id))
+            var existingEntity = entities.FirstOrDefault(e => e.Id == entity.Id);
+
+            if (existingEntity == null)
                 return null;
 
-            var result = databaseContext.Update(entity);
+            existingEntity.Update(entity);
             databaseContext.SaveChanges();
-            return result.Entity;
+            return existingEntity;
         }
 
         public virtual async Task<T> UpdateAsync(T entity)
         {
-            if (!entities.Any(e => e.Id == entity.Id))
+            var existingEntity = entities.FirstOrDefault(e => e.Id == entity.Id);
+
+            if (existingEntity == null)
                 return null;
 
-            var result = databaseContext.Update(entity);
+            existingEntity.Update(entity);
             await databaseContext.SaveChangesAsync();
-            return result.Entity;
+            return existingEntity;
         }
 
         public virtual void Delete(T entity)
         {
-            entities.Remove(entity);
+            if (!entities.Any(e => e.Id == entity.Id))
+                return;
+
+            entities.Remove(entities.Find(entity.Id));
             databaseContext.SaveChanges();
         }
 
         public virtual async void DeleteAsync(T entity)
         {
-            entities.Remove(entity);
+            if (!entities.Any(e => e.Id == entity.Id))
+                return;
+
+            entities.Remove(entities.Find(entity.Id));
             await databaseContext.SaveChangesAsync();
         }
     }
