@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-
+using Backend.WebApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
