@@ -17,6 +17,8 @@ namespace Backend.Tests.UnitTests.Repositories
                 .Options;
 
             dbContext = new DatabaseContext(options);
+            // a work around to reset the auto generation after each test,
+            // far from ideal since it occasionally causes the tests to fail
             dbContext.ResetValueGenerators();
         }
 
