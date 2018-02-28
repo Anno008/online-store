@@ -64,12 +64,20 @@ namespace Backend.WebApi
                 });
             });
 
+            // Db
             services.AddDbContext<DatabaseContext>(options => options.UseSqlite($"Data Source={Configuration["Connection"]}"));
+
+            // Services
             services.AddTransient<UserService>();
             services.AddTransient<AuthService>();
+
+            // Utils
             services.AddTransient<JWTHandler>();
+
+            // Repositories
             services.AddTransient<TokenRepository>();
             services.AddTransient<UserRepository>();
+            services.AddTransient<BrandRepository>();
 
         }
 
