@@ -67,21 +67,21 @@ namespace Backend.WebApi.Repositories
             return existingEntity;
         }
 
-        public virtual void Delete(T entity)
+        public virtual void Delete(int id)
         {
-            if (!entities.Any(e => e.Id == entity.Id))
+            if (!entities.Any(e => e.Id == id))
                 return;
 
-            entities.Remove(entities.Find(entity.Id));
+            entities.Remove(entities.Find(id));
             databaseContext.SaveChanges();
         }
 
-        public virtual async void DeleteAsync(T entity)
+        public virtual async void DeleteAsync(int id)
         {
-            if (!entities.Any(e => e.Id == entity.Id))
+            if (!entities.Any(e => e.Id == id))
                 return;
 
-            entities.Remove(entities.Find(entity.Id));
+            entities.Remove(entities.Find(id));
             await databaseContext.SaveChangesAsync();
         }
     }
