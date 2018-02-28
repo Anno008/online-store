@@ -147,18 +147,18 @@ namespace Backend.Tests.UnitTests.Repositories
         [Fact]
         public void Delete_ShouldDeleteTheBrandFromTheDatabase()
         {
-            var brand = new Brand { Id = 1 };
+            var brandId = 1;
 
-            brandRepository.Delete(brand);
+            brandRepository.Delete(brandId);
             Assert.Equal(1, dbContext.Brands.Count());
         }
 
         [Fact]
         public void DeleteAsync_ShouldDeleteTheBrandFromTheDatabase()
         {
-            var brand = new Brand { Id = 1 };
+            var brandId = 1;
 
-            brandRepository.DeleteAsync(brand);
+            brandRepository.DeleteAsync(brandId);
             Assert.Equal(1, dbContext.Brands.Count());
         }
     }
