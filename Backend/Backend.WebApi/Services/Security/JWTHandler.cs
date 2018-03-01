@@ -40,18 +40,18 @@ namespace Backend.WebApi.Services.Security
 
             return new JwtSecurityTokenHandler().WriteToken(token);
 
-            var jwtHeader = new JwtHeader(creds);
-            var jwtPayload = new JwtPayload
-            {
-                {"sub", clientId },
-                {"iss", options.Issuer},
-                {"aud", options.Audience },
-                {"exp", DateTime.Now.Add(TimeSpan.FromMinutes(options.Expiration)) },
-                {"user_name", username },
-                {"roles", new string[] { Role.User.ToString() } }
-            };
+            // var jwtHeader = new JwtHeader(creds);
+            // var jwtPayload = new JwtPayload
+            // {
+            //     {"sub", clientId },
+            //     {"iss", options.Issuer},
+            //     {"aud", options.Audience },
+            //     {"exp", DateTime.Now.Add(TimeSpan.FromMinutes(options.Expiration)) },
+            //     {"user_name", username },
+            //     {"roles", new string[] { Role.User.ToString() } }
+            // };
 
-            return new JwtSecurityTokenHandler().WriteToken(new JwtSecurityToken(jwtHeader, jwtPayload));
+            // return new JwtSecurityTokenHandler().WriteToken(new JwtSecurityToken(jwtHeader, jwtPayload));
         }
 
         public string CreateRefreshToken(string clientId, string username, string refreshTokenId)
