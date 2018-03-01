@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,7 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+
 using Swashbuckle.AspNetCore.Swagger;
+
 using Backend.WebApi.Repositories;
 using Backend.WebApi.Services;
 using Backend.WebApi.Services.Security;
@@ -78,7 +81,7 @@ namespace Backend.WebApi
             services.AddTransient<TokenRepository>();
             services.AddTransient<UserRepository>();
             services.AddTransient<BrandRepository>();
-
+            services.AddTransient<ComponentTypeRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
