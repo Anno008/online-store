@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Backend.WebApi.Models;
 using System.Threading.Tasks;
+using Backend.WebApi.DTOs;
 
 namespace Backend.WebApi.Repositories
 {
@@ -12,7 +13,7 @@ namespace Backend.WebApi.Repositories
         public ComponentRepository(DatabaseContext databaseContext) : base(databaseContext) { }
 
         public (List<Component> components, int totalPages, int totalItems, int itemsOnPage, int currentPage) GetAll(
-            string name, int[] brandIds, int typeId, int currentPage, int pageSize)
+            string name, int[] brandIds, int typeId, int currentPage, int pageSize, OrderComponentsBy orderBy)
         {
             // Forcing eager loading on foreign tables
             databaseContext.Components.Include(c => c.Type).Load();
@@ -40,6 +41,11 @@ namespace Backend.WebApi.Repositories
                        .Skip((currentPage - 1) * pageSize)
                        .Take(pageSize);
             }
+
+            if (orderBy == OrderComponentsBy.PriceAscending)
+                all = all.OrderBy(x => x.Price);
+            else
+                all = all.OrderByDescending(x => x.Price);
 
             return (
                 components: all.ToList(),
