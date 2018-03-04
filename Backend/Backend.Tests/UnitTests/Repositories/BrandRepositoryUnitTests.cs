@@ -22,7 +22,7 @@ namespace Backend.Tests.UnitTests.Repositories
         {
             var brands = brandRepository.GetAll();
 
-            Assert.Equal(2, brands.ToList().Count());
+            Assert.Equal(2, brands.ToList().Count);
             Assert.Equal(1, brands.First().Id);
             Assert.Equal("Intel", brands.First().Name);
         }
@@ -32,7 +32,7 @@ namespace Backend.Tests.UnitTests.Repositories
         {
             var brands = await brandRepository.GetAllAsync();
 
-            Assert.Equal(2, brands.ToList().Count());
+            Assert.Equal(2, brands.ToList().Count);
             Assert.Equal(1, brands.First().Id);
             Assert.Equal("Intel", brands.First().Name);
         }
