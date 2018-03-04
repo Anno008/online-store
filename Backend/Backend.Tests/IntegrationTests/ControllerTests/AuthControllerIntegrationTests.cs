@@ -1,21 +1,23 @@
 ﻿using System;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Xunit;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
+
+using Backend.Tests.IntegrationTests.TestServerSetup;
 using Backend.WebApi.Controllers;
-using Backend.WebApi.DTOs;
+using Backend.WebApi.DTOs.RequestDTOs;
+using Backend.WebApi.DTOs.ResponseDTOs;
 using Backend.WebApi.Models;
 using Backend.WebApi.Repositories;
 using Backend.WebApi.Services;
 using Backend.WebApi.Services.Security;
-using Backend.Tests.IntegrationTests.TestServerSetup;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Xunit;
 
 namespace Backend.Tests.IntegrationTests.Controllers
 {
@@ -37,13 +39,13 @@ namespace Backend.Tests.IntegrationTests.Controllers
             var jwtHandler = new JWTHandler(jwtOptions);
             authService = new AuthService(userRepository, jwtHandler, tokenRepository);
 
-            authService.Register(new RegisterDTO { Username = "Test", Password = "Test", ClientId = "Test" });
+            authService.Register(new RegisterRequestDTO { Username = "Test", Password = "Test", ClientId = "Test" });
         }
 
         [Fact]
         public void IfUsernameIsntTaken_CompleteRegistration()
         {
-            var user = new RegisterDTO { Username = "Test1", Password = "Test1", ClientId = "Test" };
+            var user = new RegisterRequestDTO { Username = "Test1", Password = "Test1", ClientId = "Test" };
             var controller = new AuthController(authService);
 
             var result = (controller.Register(user) as ObjectResult).Value as AuthResponseDTO;
@@ -62,7 +64,7 @@ namespace Backend.Tests.IntegrationTests.Controllers
         [Fact]
         public void IfUsernameIsTaken_ReturnBadRequest()
         {
-            var user = new RegisterDTO {
+            var user = new RegisterRequestDTO {
                 Username = "Test",
                 Password = "Test",
                 ClientId = "Test"
@@ -78,7 +80,7 @@ namespace Backend.Tests.IntegrationTests.Controllers
         [Fact]
         public void IfUserExists_CompleteLoginAndReturnToken()
         {
-            var user = new AuthDTO
+            var user = new AuthRequestDTO
             {
                 Username = "Test",
                 Password = "Test",
@@ -99,7 +101,7 @@ namespace Backend.Tests.IntegrationTests.Controllers
         {
             var controller = new AuthController(authService);
             
-            var user = new AuthDTO
+            var user = new AuthRequestDTO
             {
                 Username = "Test",
                 Password = "Test",
@@ -121,7 +123,7 @@ namespace Backend.Tests.IntegrationTests.Controllers
         {
             var controller = new AuthController(authService);
 
-            var firstLoginToCreateRefreshToken = new AuthDTO
+            var firstLoginToCreateRefreshToken = new AuthRequestDTO
             {
                 Username = "Test",
                 Password = "Test",
@@ -132,7 +134,7 @@ namespace Backend.Tests.IntegrationTests.Controllers
 
             var login = controller.Auth(firstLoginToCreateRefreshToken).Result as ObjectResult;
 
-            var user = new AuthDTO { ClientId = "Test", GrantType = "refresh_token", RefreshToken= (login.Value as AuthResponseDTO).RefreshToken };
+            var user = new AuthRequestDTO { ClientId = "Test", GrantType = "refresh_token", RefreshToken= (login.Value as AuthResponseDTO).RefreshToken };
             var result = controller.Auth(user).Result as ObjectResult;
             var content = result.Value as AuthResponseDTO;
 
@@ -144,7 +146,7 @@ namespace Backend.Tests.IntegrationTests.Controllers
         [Fact]
         public void IfUserExists_RememberMeFalse_RefreshTokenNull()
         {
-            var user = new AuthDTO { Username = "Test", Password = "Test", ClientId = "Test", GrantType = "password", RememberMe = false };
+            var user = new AuthRequestDTO { Username = "Test", Password = "Test", ClientId = "Test", GrantType = "password", RememberMe = false };
             var controller = new AuthController(authService);
             var result = controller.Auth(user).Result as ObjectResult;
             var content = result.Value as AuthResponseDTO;
@@ -157,7 +159,7 @@ namespace Backend.Tests.IntegrationTests.Controllers
         [Fact]
         public void IfUserDoesntExists_ReturnBadRequest()
         {
-            var user = new AuthDTO { Username = "Test123", Password = "Test123", ClientId = "Test", GrantType = "password" };
+            var user = new AuthRequestDTO { Username = "Test123", Password = "Test123", ClientId = "Test", GrantType = "password" };
 
             var controller = new AuthController(authService);
             var result = controller.Auth(user).Result as ObjectResult;
@@ -169,7 +171,7 @@ namespace Backend.Tests.IntegrationTests.Controllers
         [Fact]
         public void RequestWithoutGrantType_ReturnsBadRequest()
         {
-            var user = new AuthDTO();
+            var user = new AuthRequestDTO();
             var controller = new AuthController(authService);
             var result = controller.Auth(user).Result as ObjectResult;
 
@@ -179,7 +181,7 @@ namespace Backend.Tests.IntegrationTests.Controllers
         [Fact]
         public void RegisterRequestWithoutData_ReturnsBadRequest()
         {
-            var user = new RegisterDTO();
+            var user = new RegisterRequestDTO();
             var controller = new AuthController(authService);
             var result = controller.Register(null) as StatusCodeResult;
 

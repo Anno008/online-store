@@ -1,12 +1,14 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Xunit;
+
 using Backend.WebApi.Controllers;
-using Backend.WebApi.DTOs;
+using Backend.WebApi.DTOs.RequestDTOs;
 using Backend.WebApi.Repositories;
 using Backend.WebApi.Services;
 using Backend.WebApi.Services.Security;
+
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Xunit;
 
 namespace Backend.Tests.UnitTests.Services
 {
@@ -30,14 +32,14 @@ namespace Backend.Tests.UnitTests.Services
             authService = new AuthService(userRepository, jwtHandler, tokenRepository);
 
             //var user = new User { Username = "Test", Password = "Test", Role = Role.User };
-            authService.Register(new RegisterDTO { Username = "Test", Password = "Test", ClientId = "Test" });
+            authService.Register(new RegisterRequestDTO { Username = "Test", Password = "Test", ClientId = "Test" });
         }
 
         [Fact]
         public void IfUsernameIsntTaken_CompleteRegistration_ReturnAccessToken()
         {
             // Arrange
-            var user = new RegisterDTO
+            var user = new RegisterRequestDTO
             {
                 Username = "Test1",
                 Password = "Test1",
@@ -57,7 +59,7 @@ namespace Backend.Tests.UnitTests.Services
         public void IfUsernameIsTaken_ReturnNull()
         {
             // Arrange
-            var user = new RegisterDTO
+            var user = new RegisterRequestDTO
             {
                 Username = "Test",
                 Password = "Test",
@@ -74,7 +76,7 @@ namespace Backend.Tests.UnitTests.Services
         [Fact]
         public void IfUserExists_CompleteLogin_ReturnToken()
         {
-            var user = new AuthDTO
+            var user = new AuthRequestDTO
             {
                 Username = "Test",
                 Password = "Test",
@@ -93,7 +95,7 @@ namespace Backend.Tests.UnitTests.Services
         {
             var controller = new AuthController(authService);
 
-            var user = new AuthDTO
+            var user = new AuthRequestDTO
             {
                 Username = "Test",
                 Password = "Test",
@@ -115,7 +117,7 @@ namespace Backend.Tests.UnitTests.Services
         {
             var controller = new AuthController(authService);
 
-            var firstLoginToCreateRefreshToken = new AuthDTO
+            var firstLoginToCreateRefreshToken = new AuthRequestDTO
             {
                 Username = "Test",
                 Password = "Test",
@@ -125,7 +127,7 @@ namespace Backend.Tests.UnitTests.Services
             };
 
             var login = authService.Login(firstLoginToCreateRefreshToken).Result;
-            var user = new AuthDTO { ClientId = "Test", GrantType = "refresh_token", RefreshToken = login.RefreshToken };
+            var user = new AuthRequestDTO { ClientId = "Test", GrantType = "refresh_token", RefreshToken = login.RefreshToken };
             var result = authService.RefreshAccessToken(user);
 
             Assert.NotNull(result);
@@ -137,7 +139,7 @@ namespace Backend.Tests.UnitTests.Services
         [Fact]
         public void IfUserExists_RememberMeFalse_RefreshTokenNull()
         {
-            var user = new AuthDTO
+            var user = new AuthRequestDTO
             {
                 Username = "Test",
                 Password = "Test",
