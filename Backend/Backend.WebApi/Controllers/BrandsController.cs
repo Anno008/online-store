@@ -25,17 +25,17 @@ namespace Backend.WebApi.Controllers
             brandRepository.GetAsync(id);
 
         [HttpPost]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "User")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public Task<Brand> Post([FromBody]Brand brand) =>
             brandRepository.CreateAsync(brand);
 
         [HttpPut("{id}")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "User")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public Task<Brand> Put(int id, [FromBody]Brand brand) =>
             brandRepository.UpdateAsync(brand);
 
         [HttpDelete("{id}")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "User")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public void Delete(int id) =>
             brandRepository.DeleteAsync(id);
     }

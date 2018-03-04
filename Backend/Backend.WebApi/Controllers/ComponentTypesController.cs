@@ -26,17 +26,17 @@ namespace Backend.WebApi.Controllers
             componentTypeRepository.GetAsync(id);
 
         [HttpPost]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "User")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public Task<ComponentType> Post([FromBody]ComponentType ComponentType) =>
             componentTypeRepository.CreateAsync(ComponentType);
 
         [HttpPut("{id}")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "User")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public Task<ComponentType> Put(int id, [FromBody]ComponentType ComponentType) =>
             componentTypeRepository.UpdateAsync(ComponentType);
 
         [HttpDelete("{id}")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "User")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public void Delete(int id) =>
             componentTypeRepository.DeleteAsync(id);
     }
