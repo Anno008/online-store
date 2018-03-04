@@ -82,6 +82,7 @@ namespace Backend.WebApi
             services.AddTransient<UserRepository>();
             services.AddTransient<BrandRepository>();
             services.AddTransient<ComponentTypeRepository>();
+            services.AddTransient<ComponentRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -112,7 +113,7 @@ namespace Backend.WebApi
         {
             if (sender is Exception)
             {
-                Console.WriteLine((sender as Exception).Message);
+                Console.WriteLine((sender as Exception)?.Message);
             }
         }
 
