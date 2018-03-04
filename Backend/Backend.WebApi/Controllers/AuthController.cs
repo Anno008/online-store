@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Backend.WebApi.DTOs;
+﻿using System.Threading.Tasks;
+using Backend.WebApi.DTOs.RequestDTOs;
 using Backend.WebApi.Services;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.WebApi.Controllers
 {
@@ -15,7 +15,7 @@ namespace Backend.WebApi.Controllers
         
         [HttpPost]
         [ActionName("auth")]
-        public async Task<IActionResult> Auth(AuthDTO authDto)
+        public async Task<IActionResult> Auth(AuthRequestDTO authDto)
         {
             if (authDto.GrantType == "password")
             {
@@ -35,7 +35,7 @@ namespace Backend.WebApi.Controllers
 
         [HttpPost]
         [ActionName("register")]
-        public IActionResult Register(RegisterDTO registerDTO)
+        public IActionResult Register(RegisterRequestDTO registerDTO)
         {
             if (registerDTO == null)
                 return BadRequest();

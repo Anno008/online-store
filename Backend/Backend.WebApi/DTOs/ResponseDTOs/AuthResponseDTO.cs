@@ -1,4 +1,4 @@
-﻿namespace Backend.WebApi.DTOs
+﻿namespace Backend.WebApi.DTOs.ResponseDTOs
 {
     public class AuthResponseDTO
     {

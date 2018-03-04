@@ -3,9 +3,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using Backend.WebApi.DTOs;
+using Backend.WebApi.DTOs.RequestDTOs;
 using Backend.WebApi.Models;
 using Backend.WebApi.Repositories;
+using Backend.WebApi.DTOs.ResponseDTOs;
 
 namespace Backend.WebApi.Controllers
 {
