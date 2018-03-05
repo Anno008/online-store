@@ -12,7 +12,7 @@ namespace Backend.WebApi.Models
         public void Update(List<ShoppingCartItem> items)
         {
             Items = items;
-            TotalPrice = items.Sum(x => x.Compopnent.Price);
+            TotalPrice = items.Sum(x => x.Component.Price);
         }
 
         public override void Update(BaseEntity e)
