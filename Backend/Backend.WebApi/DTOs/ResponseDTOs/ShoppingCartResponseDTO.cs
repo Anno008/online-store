@@ -7,5 +7,11 @@ namespace Backend.WebApi.DTOs.ResponseDTOs
     {
         public string Username { get; set; }
         public List<ShoppingCartItem> Items { get; set; }
+
+        public ShoppingCartResponseDTO(ShoppingCart cart)
+        {
+            Username = cart.User.Username;
+            Items = cart.Items;
+        }
     }
 }
