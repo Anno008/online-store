@@ -3,7 +3,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Backend.WebApi.DTOs;
+using Backend.WebApi.DTOs.RequestDTOs;
+using Backend.WebApi.DTOs.ResponseDTOs;
 using Backend.WebApi.Models;
 using Backend.WebApi.Repositories;
 using Backend.WebApi.Services.Security;
@@ -23,7 +24,7 @@ namespace Backend.WebApi.Services
             this.tokenRepository = tokenRepository;
         }
 
-        public async Task<AuthResponseDTO> Login(AuthDTO authDto)
+        public async Task<AuthResponseDTO> Login(AuthRequestDTO authDto)
         {
             var user = userRepository.Authenticate(authDto.Username, authDto.Password);
 
@@ -53,11 +54,11 @@ namespace Backend.WebApi.Services
             };
         }
 
-        public AuthResponseDTO Register(RegisterDTO registerDto) =>
+        public AuthResponseDTO Register(RegisterRequestDTO registerDto) =>
             userRepository.Register(registerDto.Username, registerDto.Password) == null ? null :
                 new AuthResponseDTO { AccessToken = jwtHandler.CreateJWT(registerDto.ClientId, registerDto.Username) };
 
-        public AuthResponseDTO RefreshAccessToken(AuthDTO authDto)
+        public AuthResponseDTO RefreshAccessToken(AuthRequestDTO authDto)
         {
             if (authDto.RefreshToken == null)
                 return null;
