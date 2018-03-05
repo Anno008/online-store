@@ -68,13 +68,14 @@ namespace Backend.WebApi
             });
 
             // Db
-            services.AddDbContext<DatabaseContext>(options => options.UseSqlite($"Data Source={Configuration["Connection"]}"));
+            services.AddDbContext<DatabaseContext>(options =>
+                    options.UseSqlite($"Data Source={Configuration["Connection"]}"));
 
             // Services
             services.AddTransient<UserService>();
             services.AddTransient<AuthService>();
 
-            // Utils
+            // Utilities
             services.AddTransient<JWTHandler>();
 
             // Repositories
@@ -83,6 +84,7 @@ namespace Backend.WebApi
             services.AddTransient<BrandRepository>();
             services.AddTransient<ComponentTypeRepository>();
             services.AddTransient<ComponentRepository>();
+            services.AddTransient<ShoppingCartRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
