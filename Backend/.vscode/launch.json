@@ -1,0 +1,32 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "debug web api",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/Backend.WebApi/bin/Debug/netcoreapp2.0/Backend.WebApi.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Backend.WebApi",
+            "console": "internalConsole",
+            "stopAtEntry": false,
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "name": "run tests",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "tests",
+            "program": "${workspaceFolder}/Backend.Tests/bin/Debug/netcoreapp2.0/Backend.Tests.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Backend.Tests",
+            "console": "internalConsole",
+            "stopAtEntry": false,
+            "internalConsoleOptions": "openOnSessionStart"
+        }
+    ]
+}

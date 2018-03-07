@@ -1,0 +1,21 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/Backend.sln",
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "tests",
+            "type": "process",
+            "command": "dotnet test \"${workspaceFolder}\\Backend.Tests\\Backend.Tests.csproj\"",
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}
