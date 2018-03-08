@@ -12,14 +12,6 @@ namespace Backend.Tests.UnitTests.Repositories
         protected RepositoryUnitTestsBase()
         {
             // Setup
-            dbContext = new DatabaseContext(CreateNewContextOptions());
-        }
-
-        public void Dispose() =>
-            dbContext.Dispose();
-
-        private DbContextOptions<DatabaseContext> CreateNewContextOptions()
-        {
             // Create a fresh service provider, and therefore a fresh 
             // InMemory database instance.
             var serviceProvider = new ServiceCollection()
@@ -28,12 +20,15 @@ namespace Backend.Tests.UnitTests.Repositories
 
             // Create a new options instance telling the context to use an
             // InMemory database and the new service provider.
-            return new DbContextOptionsBuilder<DatabaseContext>()
+            var options = new DbContextOptionsBuilder<DatabaseContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .UseInternalServiceProvider(serviceProvider)
                 .Options;
-        }
-    }
 
-    
+            dbContext = new DatabaseContext(options);
+        }
+
+        public void Dispose() =>
+            dbContext.Dispose();
+    }
 }
