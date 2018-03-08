@@ -161,6 +161,24 @@ namespace Backend.Tests.UnitTests.Repositories
             brandRepository.DeleteAsync(brandId);
             Assert.Equal(1, dbContext.Brands.Count());
         }
+
+        [Fact]
+        public void Delete_AttemptToDeleteAnEntityThatDoesntExist_ShouldntChangeTheTotalCount()
+        {
+            var brandId = 11;
+
+            brandRepository.Delete(brandId);
+            Assert.Equal(2, dbContext.Brands.Count());
+        }
+
+        [Fact]
+        public void DeleteAsync_AttemptToDeleteAnEntityThatDoesntExist_ShouldntChangeTheTotalCount()
+        {
+            var brandId = 11;
+
+            brandRepository.DeleteAsync(brandId);
+            Assert.Equal(2, dbContext.Brands.Count());
+        }
     }
 }
 
