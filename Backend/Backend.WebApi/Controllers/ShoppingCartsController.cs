@@ -1,9 +1,11 @@
 ﻿using System.Threading.Tasks;
+
 using Backend.WebApi.DTOs.RequestDTOs;
 using Backend.WebApi.DTOs.ResponseDTOs;
 using Backend.WebApi.Models;
 using Backend.WebApi.Repositories;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.WebApi.Controllers
@@ -20,10 +22,12 @@ namespace Backend.WebApi.Controllers
             repo.Get(userId);
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<ShoppingCartResponseDTO> Post([FromBody]ShoppingCartRequestDTO cart) =>
             new ShoppingCartResponseDTO(await repo.CreateAsync(cart.Username));
 
         [HttpPut]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<ShoppingCartResponseDTO> Put([FromBody]ShoppingCartRequestDTO cart) =>
            new ShoppingCartResponseDTO(await repo.UpdateAsync(cart.Username, cart.ComponentIds));
     }
