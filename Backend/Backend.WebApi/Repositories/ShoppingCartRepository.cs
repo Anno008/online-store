@@ -8,9 +8,7 @@ namespace Backend.WebApi.Repositories
 {
     public class ShoppingCartRepository : BaseRepository<ShoppingCart>
     {
-        public ShoppingCartRepository(DatabaseContext context) : base(context)
-        {
-        }
+        public ShoppingCartRepository(DatabaseContext context) : base(context) { }
 
         public override Task<ShoppingCart> GetAsync(long id)
         {
@@ -47,9 +45,9 @@ namespace Backend.WebApi.Repositories
 
             var user = databaseContext.Users.FirstOrDefault(x => x.Username == username);
             var usersShoppingCart = databaseContext.ShoppingCarts.FirstOrDefault(x => x.User.Id == user.Id);
+
             if (usersShoppingCart == null || user == null)
                 return null;
-
 
             var items = componentIds.Select(i => new ShoppingCartItem
             {
