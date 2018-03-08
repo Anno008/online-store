@@ -56,21 +56,12 @@ namespace Backend.WebApi.Repositories
                 );
         }
 
-        private int CalculateTotalPages(int totalItems, int itemsPerPage)
-        {
-            var totalPages = totalItems / itemsPerPage;
-
-            if (totalItems % itemsPerPage != 0)
-                totalPages++;
-
-            return totalPages;
-        }
-
         public override Component Create(Component entity)
         {
             var brand = databaseContext.Brands.FirstOrDefault(b => b.Id == entity.Brand.Id);
             var componentType = databaseContext.ComponentTypes.FirstOrDefault(c => c.Id == entity.Brand.Id);
 
+            // The brand and component type must exist to successfully create the component
             if (brand == null || componentType == null)
                 return null;
 
@@ -136,6 +127,16 @@ namespace Backend.WebApi.Repositories
             entity.Type = componentType;
 
             return base.UpdateAsync(entity);
+        }
+
+        private int CalculateTotalPages(int totalItems, int itemsPerPage)
+        {
+            var totalPages = totalItems / itemsPerPage;
+
+            if (totalItems % itemsPerPage != 0)
+                totalPages++;
+
+            return totalPages;
         }
     }
 }
