@@ -6,28 +6,28 @@ using Backend.WebApi.Models;
 
 namespace Backend.WebApi.Repositories
 {
-    public class BaseRepository<T> where T : BaseEntity
+    public abstract class BaseRepository<T> where T : BaseEntity
     {
         protected readonly DatabaseContext databaseContext;
         private readonly DbSet<T> entities;
 
-        public BaseRepository(DatabaseContext context)
+        protected BaseRepository(DatabaseContext context)
         {
-            this.databaseContext = context;
+            databaseContext = context;
             entities = context.Set<T>();
         }
 
         public virtual IEnumerable<T> GetAll() =>
             entities.AsEnumerable();
 
-        public virtual async Task<List<T>> GetAllAsync() =>
-            await entities.ToListAsync();
+        public virtual Task<List<T>> GetAllAsync() =>
+            entities.ToListAsync();
 
         public virtual T Get(long id) =>
             entities.SingleOrDefault(s => s.Id == id);
 
-        public virtual async Task<T> GetAsync(long id) =>
-            await entities.SingleOrDefaultAsync(s => s.Id == id);
+        public virtual Task<T> GetAsync(long id) =>
+            entities.SingleOrDefaultAsync(s => s.Id == id);
 
         public virtual T Create(T entity)
         {
