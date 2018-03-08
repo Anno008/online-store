@@ -55,18 +55,28 @@ namespace Backend.Tests.IntegrationTests.TestServerSetup
             services.AddAuthorization(options => options.AddPolicy(Role.User.ToString(), policy => policy.RequireRole(Role.User.ToString())));
 
             services.AddMvc();
+
+            // Db
             services.AddDbContext<DatabaseContext>(option => option.UseInMemoryDatabase(Guid.NewGuid().ToString()));
+
+            // Services
             services.AddTransient<UserService>();
             services.AddTransient<AuthService>();
+
+            // Utils
             services.AddTransient<JWTHandler>();
+
+            // Repositories
             services.AddTransient<TokenRepository>();
             services.AddTransient<UserRepository>();
+            services.AddTransient<BrandRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, TestDataSet seedData)
         {
             // Seeding our in memory database with the test data
             seedData.Users.Select(x => app.ApplicationServices.GetService<UserService>().Register(x.Username, x.Password));
+            seedData.Brands.Select(x => app.ApplicationServices.GetService<BrandRepository>().Create(x));
 
             app.UseMvc();
         }

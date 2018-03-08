@@ -33,12 +33,16 @@ namespace Backend.Tests.IntegrationTests.TestServerSetup
         {
             var testData = new TestDataSet
             {
-                Users = new List<User>()
+                Users = new List<User>(),
+                Brands = new List<Brand>()
             };
 
             // Users
             testData.Users.Add(new User { Username = "User", Password = "User", Role = Role.User });
-            
+
+            // Brands
+            testData.Brands.Add(new Brand { Name = "Inte" });
+            testData.Brands.Add(new Brand { Name = "Amd" });
 
             return testData;
         }
