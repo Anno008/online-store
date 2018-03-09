@@ -24,11 +24,6 @@ namespace Backend.WebApi.Controllers
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<ShoppingCartResponseDTO> Post([FromBody]ShoppingCartRequestDTO cart) =>
-            new ShoppingCartResponseDTO(await repo.CreateAsync(cart.Username));
-
-        [HttpPut]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<ShoppingCartResponseDTO> Put([FromBody]ShoppingCartRequestDTO cart) =>
-           new ShoppingCartResponseDTO(await repo.UpdateAsync(cart.Username, cart.ComponentIds));
+            new ShoppingCartResponseDTO(await repo.UpdateAsync(cart.Username, cart.ComponentIds));
     }
 }

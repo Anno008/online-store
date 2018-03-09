@@ -10,7 +10,7 @@ namespace Backend.WebApi.Repositories
     {
         public ShoppingCartRepository(DatabaseContext context) : base(context) { }
 
-        public override Task<ShoppingCart> GetAsync(long id)
+        public override Task<ShoppingCart> GetAsync(long userId)
         {
             // Forcing eager loading on foreign tables
             databaseContext.ShoppingCarts
@@ -23,19 +23,7 @@ namespace Backend.WebApi.Repositories
                 .ThenInclude(c => c.Type)
                 .Load();
 
-            return databaseContext.ShoppingCarts.FirstOrDefaultAsync(x => x.User.Id == id);
-        }
-
-        public async Task<ShoppingCart> CreateAsync(string username)
-        {
-            if (string.IsNullOrWhiteSpace(username))
-                return null;
-
-            var user = databaseContext.Users.FirstOrDefault(x => x.Username == username);
-
-            var result = databaseContext.ShoppingCarts.Add(new ShoppingCart() { User = user });
-            await databaseContext.SaveChangesAsync();
-            return result.Entity;
+            return databaseContext.ShoppingCarts.FirstOrDefaultAsync(x => x.User.Id == userId);
         }
 
         public async Task<ShoppingCart> UpdateAsync(string username, List<int> componentIds)
@@ -44,10 +32,19 @@ namespace Backend.WebApi.Repositories
                 return null;
 
             var user = databaseContext.Users.FirstOrDefault(x => x.Username == username);
+
+            // User doesn't exist
+            if (user == null)
+                return null;
+
             var usersShoppingCart = databaseContext.ShoppingCarts.FirstOrDefault(x => x.User.Id == user.Id);
 
-            if (usersShoppingCart == null || user == null)
-                return null;
+            // If the user doesn't already have a shopping cart, create one
+            if (usersShoppingCart == null)
+            {
+                usersShoppingCart = new ShoppingCart { User = user };
+                databaseContext.ShoppingCarts.Add(usersShoppingCart);
+            }
 
             var items = componentIds.Select(i => new ShoppingCartItem
             {
