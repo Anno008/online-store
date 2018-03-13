@@ -1,0 +1,51 @@
+body{
+  margin: 0;
+  padding: 0;
+}
+
+.app {
+    text-align: center;
+  }
+  
+  .app-logo {
+    animation: app-logo-pulse infinite 4s linear;
+    height: 100px;
+  }
+  
+  .app-logo-rev {
+    animation: app-logo-pulse-rev infinite 4s linear;
+    height: 100px;
+  }
+  
+  .app-header {
+    background-color: black;
+    height: 200px;
+    padding: 20px;
+    color: white;
+    /* position: absolute; */
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /* margin: auto; */
+  }
+  
+  .app-title {
+    font-size: 2em;
+  }
+  
+  .app-intro {
+    font-size: large;
+  }
+  
+  @keyframes app-logo-pulse {
+    25% { transform: scale(1.25) rotate(90deg); }
+    75% { transform: scale(0.75) rotate(270deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  @keyframes app-logo-pulse-rev {
+    25% { transform: scale(0.75) rotate(-90deg); }
+    75% { transform: scale(1.25) rotate(-270deg); }
+    100% { transform: rotate(-360deg); }
+  }
