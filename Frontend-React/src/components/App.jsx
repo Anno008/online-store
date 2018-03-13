@@ -1,6 +1,7 @@
 import React from "react";
 import ReactLogo from "assets/react.svg";
 import ReduxLogo from "assets/redux.svg";
+import { Route, BrowserRouter as Router } from "react-router-dom";
 import "css/app.css";
 
 const App = () => (
@@ -13,7 +14,25 @@ const App = () => (
                 <img className="app-logo-rev" src={ReduxLogo} alt="redux-logo" />
             </a>
             <h1 className="app-title">Welcome to React & Redux!</h1>
+            <Router>
+                <div>
+                    <Route exact path="/" component={FirstComponent} />
+                    <Route path="/auth" component={SecondComponent} />
+                </div>
+            </Router>
         </header>
     </div>);
+
+const FirstComponent = () => (
+    <div>
+        <h1>First</h1>
+    </div>
+);
+
+const SecondComponent = () => (
+    <div>
+        <h1>Second</h1>
+    </div>
+);
 
 export default App;
