@@ -12,10 +12,10 @@ namespace Backend.WebApi.Controllers
 
         public AuthController(AuthService authService) =>
             this.authService = authService;
-        
+
         [HttpPost]
         [ActionName("auth")]
-        public async Task<IActionResult> Auth(AuthRequestDTO authDto)
+        public async Task<IActionResult> Auth([FromBody] AuthRequestDTO authDto)
         {
             if (authDto.GrantType == "password")
             {
@@ -35,7 +35,7 @@ namespace Backend.WebApi.Controllers
 
         [HttpPost]
         [ActionName("register")]
-        public IActionResult Register(RegisterRequestDTO registerDTO)
+        public IActionResult Register([FromBody] RegisterRequestDTO registerDTO)
         {
             if (registerDTO == null)
                 return BadRequest();
