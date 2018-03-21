@@ -1,12 +1,8 @@
 import { combineReducers } from "redux";
-
-const temp = (state = {}, action = {}) => {
-    return { ...state };
-};
+import { BrandsReducer } from "./BrandsReducer";
 
 const reducers = combineReducers({
-   temp
+   brandsState: BrandsReducer
 });
 
 export default reducers;
-
