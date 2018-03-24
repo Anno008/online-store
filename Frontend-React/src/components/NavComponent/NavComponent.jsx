@@ -17,17 +17,17 @@ const NavComponent = props => {
     <div className="navBar">
       <button
         className="userInfo"
-        onClick={() => handleAuth(props.authState.data)}
+        onClick={() => handleAuth(props.userState.data)}
       >
-        {props.authState.data && props.authState.data.username
-          ? `Welcome ${props.authState.data.username}, Logout` : "Login"}
+        {props.userState.data && props.userState.data.username
+          ? `Welcome ${props.userState.data.username}, Logout` : "Login"}
       </button>
     </div>
   );
 };
 
 const mapStateToProps = state => ({
-  authState: state.authState
+  userState: state.userState
 });
 
 const mapDispatchToProps = dispatch => ({

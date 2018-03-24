@@ -4,7 +4,7 @@ import { AuthReducer } from "./AuthReducer";
 
 const reducers = combineReducers({
    brandsState: BrandsReducer,
-   authState: AuthReducer
+   userState: AuthReducer
 });
 
 export default reducers;
