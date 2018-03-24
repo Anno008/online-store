@@ -8,6 +8,8 @@ export const AuthReducer = (state, action) => {
       return { ...state, data: action.data, error: false, isFetching: false };
     case actions.AUTH_FAILURE:
       return { ...state, data: {}, error: action.error, isFetching: false };
+    case actions.LOGOUT_USER:
+      return { ...state, data: {}, error: false, isFetching: false };
     default:
       return { ...state };
   }
