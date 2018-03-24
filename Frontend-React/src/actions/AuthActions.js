@@ -15,6 +15,8 @@ const authFailed = error => ({
   error: error
 });
 
+const logoutUser = () => ({ type: actions.LOGOUT_USER });
+
 export const login = (username, password, rememberMe) => dispatch => {
   dispatch(authInProgress());
   const config = {
@@ -44,6 +46,14 @@ export const login = (username, password, rememberMe) => dispatch => {
     });
 };
 
+export const checkForUser = () => dispatch => {
+  const token = localStorage.getItem("accessToken");
+  if (token) {
+    const decodedToken = jwt_decode(token);
+    return dispatch(authSuccessful(decodedToken.user_name, decodedToken.roles));
+  }
+};
+
 export const register = (username, password) => dispatch => {
   dispatch(authInProgress());
 
@@ -69,4 +79,9 @@ export const register = (username, password) => dispatch => {
     .catch(error => {
       dispatch(authFailed(error.message));
     });
+};
+
+export const logout = () => dispatch => {
+  localStorage.clear();
+  dispatch(logoutUser());
 };
