@@ -28,6 +28,7 @@ body {
     rgba(43, 0, 48, 1) 0%,
     rgba(44, 6, 140, 1) 100%
   );
+  display: flex;
 }
 
 .filter {
