@@ -24,5 +24,5 @@ export const fetchBrands = () => dispatch => {
 
   return apiCall(config)
     .then(result => dispatch(getDataSuccess(result)))
-    .catch(error => dispatch(getDataFailure(error)));
+    .catch(error => dispatch(getDataFailure(error.message)));
 };
