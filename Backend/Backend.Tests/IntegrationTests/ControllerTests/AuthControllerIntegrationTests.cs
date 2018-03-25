@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 using Backend.Tests.IntegrationTests.TestServerSetup;
@@ -17,6 +18,7 @@ using Backend.WebApi.Services.Security;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using Xunit;
 
 namespace Backend.Tests.IntegrationTests.Controllers
@@ -191,8 +193,8 @@ namespace Backend.Tests.IntegrationTests.Controllers
         [Fact]
         public async Task IfGrantTypeIsInvalid_Auth_ShoudReturnBadRequest()
         {
+            // Arrange
             var controller = new AuthController(authService);
-
             var formData = new Dictionary<string, string>
               {
                 {"Username", "Test"},
@@ -200,23 +202,20 @@ namespace Backend.Tests.IntegrationTests.Controllers
                 {"ClientId", "Test"},
                 {"GrantType", "abc"}
               };
-
-            var postRequest = new HttpRequestMessage(HttpMethod.Post, "api/auth/auth")
-            {
-                Content = new FormUrlEncodedContent(formData)
-            };
+            var content = new StringContent(JsonConvert.SerializeObject(formData), Encoding.UTF8, "application/json");
 
             // Act
-            var response = await client.SendAsync(postRequest);
+            var response = await client.PostAsync("api/auth/auth", content);
 
+            // Assert
             Assert.Equal("Bad Request", response.ReasonPhrase);
         }
 
         [Fact]
         public async Task IfGrantTypeIsNull_Auth_ShoudReturnBadRequest()
         {
+            // Arrange
             var controller = new AuthController(authService);
-
             var formData = new Dictionary<string, string>
               {
                 {"Username", "Test"},
@@ -224,13 +223,10 @@ namespace Backend.Tests.IntegrationTests.Controllers
                 {"ClientId", "Test"},
               };
 
-            var postRequest = new HttpRequestMessage(HttpMethod.Post, "api/auth/auth")
-            {
-                Content = new FormUrlEncodedContent(formData)
-            };
+            var content = new StringContent(JsonConvert.SerializeObject(formData), Encoding.UTF8, "application/json");
 
             // Act
-            var response = await client.SendAsync(postRequest);
+            var response = await client.PostAsync("api/auth/auth", content);
 
             Assert.Equal("Bad Request", response.ReasonPhrase);
         }
