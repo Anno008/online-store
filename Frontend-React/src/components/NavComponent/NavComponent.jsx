@@ -1,12 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
-import "components/NavComponent/nav.css";
+import "components/css/btn.css";
 import { logout } from "../../actions/AuthActions";
 import { redirectUri } from "../../constants";
 
 const NavComponent = props => {
-  const handleAuth = userExists => {
-    if (userExists) {
+  const handleAuth = user => {
+    if (user && user.username) {
       props.logout();
     } else {
       location.href = redirectUri;
@@ -16,7 +16,7 @@ const NavComponent = props => {
   return (
     <div className="navBar">
       <button
-        className="userInfo"
+        className="btn"
         onClick={() => handleAuth(props.userState.data)}>
         {props.userState.data && props.userState.data.username
           ? `Welcome ${props.userState.data.username}, Logout` : "Login"}
