@@ -8,7 +8,9 @@
     "rules": {
         "indent": 0,
         "quotes": [2, "double", { "avoidEscape": true }],
-        "linebreak-style": 0
+        "linebreak-style": 0,
+        "no-duplicate-imports":"error",
+        "sort-imports": "error"
         },
     "settings": {
         "import/resolver": {
