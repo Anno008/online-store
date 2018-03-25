@@ -1,0 +1,53 @@
+.btn {
+    color: white;
+    margin: 10px;
+    margin-left: auto;
+    box-shadow: 1px 1px 10px #50bfe6;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 15px;
+    text-decoration: none;
+    padding: 0px 20px 0px 20px;
+    font-weight: bold;
+    border: solid #080b0d 0px;
+    opacity: 0.8;
+    background: linear-gradient(0deg, #12a1e3 0%, #4bd670 100%);
+  }
+  
+  .btn:hover {
+    background: linear-gradient(0deg, #4bd670 0%, #12a1e3 100%);
+    transition: background 2s ease;
+    -webkit-animation: swing 1s ease;
+    animation: swing 1s ease;
+    -webkit-animation-iteration-count: 1;
+    animation-iteration-count: 1;
+    opacity: 1;
+  }
+  
+  @keyframes swing {
+    15% {
+      -webkit-transform: translateX(5px);
+      transform: translateX(5px);
+    }
+    30% {
+      -webkit-transform: translateX(-5px);
+      transform: translateX(-5px);
+    }
+    50% {
+      -webkit-transform: translateX(3px);
+      transform: translateX(3px);
+    }
+    65% {
+      -webkit-transform: translateX(-3px);
+      transform: translateX(-3px);
+    }
+    80% {
+      -webkit-transform: translateX(2px);
+      transform: translateX(2px);
+    }
+    100% {
+      -webkit-transform: translateX(0);
+      transform: translateX(0);
+    }
+  }
+  
