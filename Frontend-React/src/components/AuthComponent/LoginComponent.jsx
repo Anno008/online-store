@@ -23,7 +23,6 @@ class LoginComponent extends React.Component {
 
   login(e) {
     e.preventDefault();
-    e.stopPropagation();
     const { username, password, rememberMe } = this.state;
     this.props.login(username, password, rememberMe);
   }
