@@ -19,11 +19,11 @@ namespace Backend.WebApi.Controllers
         {
             if (authDto.GrantType == "password")
             {
-                var re = await authService.Login(authDto);
-                if (re == null)
+                var retVal = await authService.Login(authDto);
+                if (retVal == null)
                     return BadRequest("Incorrect credentials.");
 
-                return Ok(re);
+                return Ok(retVal);
             }
 
             var result = authService.RefreshAccessToken(authDto);
