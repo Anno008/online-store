@@ -1,5 +1,5 @@
-import React from "react";
 import { login, register } from "../../actions/AuthActions";
+import React from "react";
 import { connect } from "react-redux";
 
 class RegisterComponent extends React.Component {
