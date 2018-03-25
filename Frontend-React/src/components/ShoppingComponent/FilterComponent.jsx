@@ -1,17 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
+import BrandsComponent from "./BrandsComponent";
 
 const FilterComponent = props => (
   <React.Fragment>
     <input />
-    <select>
-      <option>All</option>
-      {props.brandsState.data
-        ? props.brandsState.data.map(item => (
-            <option key={item.id}>{item.name} </option>
-          ))
-        : null}
-    </select>
+    <br />
+    {props.brandsState.error ? <p>{props.brandsState.error}</p> :
+    <React.Fragment>
+       <BrandsComponent />
+    </React.Fragment>}
   </React.Fragment>
 );
 
