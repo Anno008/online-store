@@ -17,8 +17,7 @@ const NavComponent = props => {
     <div className="navBar">
       <button
         className="userInfo"
-        onClick={() => handleAuth(props.userState.data)}
-      >
+        onClick={() => handleAuth(props.userState.data)}>
         {props.userState.data && props.userState.data.username
           ? `Welcome ${props.userState.data.username}, Logout` : "Login"}
       </button>
