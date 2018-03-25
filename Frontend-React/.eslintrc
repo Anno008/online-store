@@ -9,8 +9,7 @@
         "indent": 0,
         "quotes": [2, "double", { "avoidEscape": true }],
         "linebreak-style": 0,
-        "no-duplicate-imports":"error",
-        "sort-imports": "error"
+        "no-duplicate-imports":"error"
         },
     "settings": {
         "import/resolver": {
