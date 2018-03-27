@@ -4,8 +4,6 @@ import BrandsFilterComponent from "./FilterComponents/BrandsFilterComponent";
 
 const FilterComponent = props => (
   <React.Fragment>
-    <input />
-    <br />
     {props.brandsState.error ? <p>{props.brandsState.error}</p> :
     <React.Fragment>
        <BrandsFilterComponent />
