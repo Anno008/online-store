@@ -8,7 +8,7 @@ import "components/css/label.css";
 class AuthComponent extends React.Component {
   constructor(props) {
     super(props);
-    if (props.userState.data != undefined) {
+    if (props.userState.data) {
       location.href = "/";
     }
   }
