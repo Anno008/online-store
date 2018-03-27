@@ -5,7 +5,7 @@ import { fetchBrands } from "../../actions/BrandActions";
 import { fetchComponentTypes } from "../../actions/ComponentTypeActions";
 import apiCall from "../../api/ApiWrapper";
 
-class ShoppingComponent extends React.Component {
+class ComponentsCatalogComponent extends React.Component {
   constructor(props) {
     super(props);
     props.initializeBrands();
@@ -31,4 +31,4 @@ const mapDispatchToProps = dispatch => ({
   initializeComponentTypes: () => dispatch(fetchComponentTypes())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShoppingComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(ComponentsCatalogComponent);
