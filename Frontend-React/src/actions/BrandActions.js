@@ -18,7 +18,7 @@ export const fetchBrands = () => dispatch => {
   dispatch(getData());
   const config = {
     method: "GET",
-    needsAuth: true,
+    needsAuth: false,
     url: `${apiUrl}/brands`
   };
 
