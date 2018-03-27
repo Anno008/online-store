@@ -1,6 +1,6 @@
 import actions from "../actions/Actions";
 
-export const BrandsReducer = (state, action) => {
+export const ComponentTypesReducer = (state, action) => {
   switch (action.type) {
     case actions.FETCHING_COMPONENT_TYPES:
       return { ...state, data: [], isFetching: true };
