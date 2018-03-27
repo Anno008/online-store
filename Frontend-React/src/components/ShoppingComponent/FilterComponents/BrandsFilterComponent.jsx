@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-const BrandsComponent = props => (
+const BrandsFilterComponent = props => (
     <select>
       <option>All</option>
       {props.brandsState.data
@@ -18,4 +18,4 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(BrandsComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(BrandsFilterComponent);

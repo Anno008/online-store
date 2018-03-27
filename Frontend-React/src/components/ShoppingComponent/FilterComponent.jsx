@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import BrandsComponent from "./BrandsComponent";
+import BrandsFilterComponent from "./FilterComponents/BrandsFilterComponent";
 
 const FilterComponent = props => (
   <React.Fragment>
@@ -8,7 +8,7 @@ const FilterComponent = props => (
     <br />
     {props.brandsState.error ? <p>{props.brandsState.error}</p> :
     <React.Fragment>
-       <BrandsComponent />
+       <BrandsFilterComponent />
     </React.Fragment>}
   </React.Fragment>
 );
