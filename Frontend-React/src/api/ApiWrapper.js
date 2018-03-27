@@ -49,18 +49,19 @@ const acquireAccessToken = async () => {
       if (refreshToken) {
         return await fetch(`${apiUrl}/Auth/auth`, {
           method: "POST",
-          headers: headers,
+          headers: await createHeader(false),
           body: JSON.stringify({ grantType: "refresh_token" })
         })
           .then(response => response.json().then(res => res.accessToken))
           .catch(error => {
-            throw new Error("Failed to refresh access token");
+            throw new Error("Failed to refresh access token").message;
           });
       } else {
         location.href = redirectUri;
       }
     }
   }
+  return token;
 };
 
 export default apiCall;
