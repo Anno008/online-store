@@ -16,7 +16,7 @@ namespace Backend.WebApi.Repositories
             string name, int[] brandIds, int typeId, int currentPage, int pageSize, OrderComponentsBy orderBy)
         {
             // Forcing eager loading on foreign tables
-            databaseContext.Components.Include(c => c.Type).Load();
+            databaseContext.Components.Include(c => c.ComponentType).Load();
             databaseContext.Components.Include(c => c.Brand).Load();
 
             var all = databaseContext.Components.AsQueryable();
@@ -32,7 +32,7 @@ namespace Backend.WebApi.Repositories
 
             // filtering by component type
             if (typeId != 0)
-                all = all.Where(x => x.Type.Id == typeId);
+                all = all.Where(x => x.ComponentType.Id == typeId);
 
             // Get only the required page
             if (pageSize != 0)
@@ -66,7 +66,7 @@ namespace Backend.WebApi.Repositories
                 return null;
 
             entity.Brand = brand;
-            entity.Type = componentType;
+            entity.ComponentType = componentType;
 
             return base.Create(entity);
         }
@@ -80,7 +80,7 @@ namespace Backend.WebApi.Repositories
                 return Task.FromResult<Component>(null);
 
             entity.Brand = brand;
-            entity.Type = componentType;
+            entity.ComponentType = componentType;
 
             return base.CreateAsync(entity);
         }
@@ -88,7 +88,7 @@ namespace Backend.WebApi.Repositories
         public override Task<Component> GetAsync(long id)
         {
             // Forcing eager loading on foreign tables
-            databaseContext.Components.Include(c => c.Type).Load();
+            databaseContext.Components.Include(c => c.ComponentType).Load();
             databaseContext.Components.Include(c => c.Brand).Load();
             return base.GetAsync(id);
         }
@@ -96,7 +96,7 @@ namespace Backend.WebApi.Repositories
         public override Component Get(long id)
         {
             // Forcing eager loading on foreign tables
-            databaseContext.Components.Include(c => c.Type).Load();
+            databaseContext.Components.Include(c => c.ComponentType).Load();
             databaseContext.Components.Include(c => c.Brand).Load();
             return base.Get(id);
         }
@@ -110,7 +110,7 @@ namespace Backend.WebApi.Repositories
                 return null;
 
             entity.Brand = brand;
-            entity.Type = componentType;
+            entity.ComponentType = componentType;
 
             return base.Update(entity);
         }
@@ -124,7 +124,7 @@ namespace Backend.WebApi.Repositories
                 return Task.FromResult<Component>(null);
 
             entity.Brand = brand;
-            entity.Type = componentType;
+            entity.ComponentType = componentType;
 
             return base.UpdateAsync(entity);
         }

@@ -23,28 +23,28 @@ namespace Backend.Tests.UnitTests.Repositories
             dbContext.Components.Add(new Component
             {
                 Brand = new Brand { Id = 2, Name = "AMD" },
-                Type = new ComponentType { Id = 1, Name = "GPU" },
+                ComponentType = new ComponentType { Id = 1, Name = "GPU" },
                 Name = "RX 460",
                 Price = 100
             });
             dbContext.Components.Add(new Component
             {
                 Brand = new Brand { Id = 2, Name = "AMD" },
-                Type = new ComponentType { Id = 1, Name = "GPU" },
+                ComponentType = new ComponentType { Id = 1, Name = "GPU" },
                 Name = "RX 470",
                 Price = 100
             });
             dbContext.Components.Add(new Component
             {
                 Brand = new Brand { Id = 2, Name = "AMD" },
-                Type = new ComponentType { Id = 1, Name = "GPU" },
+                ComponentType = new ComponentType { Id = 1, Name = "GPU" },
                 Name = "RX 480",
                 Price = 100
             });
             dbContext.Components.Add(new Component
             {
                 Brand = new Brand { Id = 2, Name = "AMD" },
-                Type = new ComponentType { Id = 1, Name = "GPU" },
+                ComponentType = new ComponentType { Id = 1, Name = "GPU" },
                 Name = "Vega 64",
                 Price = 100
             });
@@ -52,7 +52,7 @@ namespace Backend.Tests.UnitTests.Repositories
             dbContext.Components.Add(new Component
             {
                 Brand = new Brand { Id = 2, Name = "AMD" },
-                Type = new ComponentType { Id = 2, Name = "CPU" },
+                ComponentType = new ComponentType { Id = 2, Name = "CPU" },
                 Name = "Ryzen 1700x",
                 Price = 100
             });
@@ -60,7 +60,7 @@ namespace Backend.Tests.UnitTests.Repositories
             dbContext.Components.Add(new Component
             {
                 Brand = new Brand { Id = 2, Name = "AMD" },
-                Type = new ComponentType { Id = 2, Name = "CPU" },
+                ComponentType = new ComponentType { Id = 2, Name = "CPU" },
                 Name = "Ryzen 1500",
                 Price = 100
             });
@@ -68,7 +68,7 @@ namespace Backend.Tests.UnitTests.Repositories
             dbContext.Components.Add(new Component
             {
                 Brand = new Brand { Id = 1, Name = "Intel" },
-                Type = new ComponentType { Id = 2, Name = "CPU" },
+                ComponentType = new ComponentType { Id = 2, Name = "CPU" },
                 Name = "Intel 6600k",
                 Price = 100
             });
@@ -76,7 +76,7 @@ namespace Backend.Tests.UnitTests.Repositories
             dbContext.Components.Add(new Component
             {
                 Brand = new Brand { Id = 1, Name = "Intel" },
-                Type = new ComponentType { Id = 2, Name = "CPU" },
+                ComponentType = new ComponentType { Id = 2, Name = "CPU" },
                 Name = "Celeron duo",
                 Price = 100
             });
@@ -170,7 +170,7 @@ namespace Backend.Tests.UnitTests.Repositories
             {
                 Name = "Test",
                 Brand = unexistingBrand,
-                Type = componentType,
+                ComponentType = componentType,
                 Price = 123,
             };
 
@@ -188,7 +188,7 @@ namespace Backend.Tests.UnitTests.Repositories
             {
                 Name = "Test",
                 Brand = unexistingBrand,
-                Type = componentType,
+                ComponentType = componentType,
                 Price = 123,
             };
 
@@ -206,7 +206,7 @@ namespace Backend.Tests.UnitTests.Repositories
             {
                 Name = "Test",
                 Brand = brand,
-                Type = type,
+                ComponentType = type,
                 Price = 123,
             };
 
@@ -214,7 +214,7 @@ namespace Backend.Tests.UnitTests.Repositories
             Assert.NotNull(result);
             Assert.Equal(component.Name, result.Name);
             Assert.Equal(component.Brand.Name, result.Brand.Name);
-            Assert.Equal(component.Type.Name, result.Type.Name);
+            Assert.Equal(component.ComponentType.Name, result.ComponentType.Name);
             Assert.Equal(9, dbContext.Components.Count());
         }
 
@@ -228,7 +228,7 @@ namespace Backend.Tests.UnitTests.Repositories
             {
                 Name = "Test",
                 Brand = brand,
-                Type = type,
+                ComponentType = type,
                 Price = 123,
             };
 
@@ -236,7 +236,7 @@ namespace Backend.Tests.UnitTests.Repositories
             Assert.NotNull(result);
             Assert.Equal(component.Name, result.Name);
             Assert.Equal(component.Brand.Name, result.Brand.Name);
-            Assert.Equal(component.Type.Name, result.Type.Name);
+            Assert.Equal(component.ComponentType.Name, result.ComponentType.Name);
             Assert.Equal(9, dbContext.Components.Count());
         }
 
@@ -251,7 +251,7 @@ namespace Backend.Tests.UnitTests.Repositories
                 Id = 111,
                 Name = "Test",
                 Brand = unexistingBrand,
-                Type = componentType,
+                ComponentType = componentType,
                 Price = 123,
             };
 
@@ -269,7 +269,7 @@ namespace Backend.Tests.UnitTests.Repositories
             {
                 Name = "Test",
                 Brand = unexistingBrand,
-                Type = componentType,
+                ComponentType = componentType,
                 Price = 123,
             };
 
@@ -287,7 +287,7 @@ namespace Backend.Tests.UnitTests.Repositories
             {
                 Name = "Test",
                 Brand = unexistingBrand,
-                Type = componentType,
+                ComponentType = componentType,
                 Price = 123,
             };
 
@@ -308,7 +308,7 @@ namespace Backend.Tests.UnitTests.Repositories
             {
                 Id = 1,
                 Brand = brand2,
-                Type = type2,
+                ComponentType = type2,
                 Name = "AMD FX 6600",
                 Price = 150
             };
@@ -317,7 +317,7 @@ namespace Backend.Tests.UnitTests.Repositories
             Assert.NotNull(result);
             Assert.Equal(component.Name, result.Name);
             Assert.Equal(component.Brand.Name, result.Brand.Name);
-            Assert.Equal(component.Type.Name, result.Type.Name);
+            Assert.Equal(component.ComponentType.Name, result.ComponentType.Name);
             Assert.Equal(8, dbContext.Components.Count());
         }
 
@@ -334,7 +334,7 @@ namespace Backend.Tests.UnitTests.Repositories
             {
                 Id = 1,
                 Brand = brand2,
-                Type = type2,
+                ComponentType = type2,
                 Name = "AMD FX 6600",
                 Price = 150
             };
@@ -343,7 +343,7 @@ namespace Backend.Tests.UnitTests.Repositories
             Assert.NotNull(result);
             Assert.Equal(component.Name, result.Name);
             Assert.Equal(component.Brand.Name, result.Brand.Name);
-            Assert.Equal(component.Type.Name, result.Type.Name);
+            Assert.Equal(component.ComponentType.Name, result.ComponentType.Name);
             Assert.Equal(8, dbContext.Components.Count());
         }
 

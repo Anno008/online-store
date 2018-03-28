@@ -15,10 +15,10 @@ namespace Backend.Tests.UnitTests.Repositories
             var brand = new Brand { Name = "Intel" };
             var type = new ComponentType { Name = "CPU" };
 
-            var component1 = new Component { Name = "Component1", Brand = brand, Type = type, Price = 40 };
-            var component2 = new Component { Name = "Component2", Brand = brand, Type = type, Price = 80 };
-            var component3 = new Component { Name = "Component3", Brand = brand, Type = type, Price = 120 };
-            var component4 = new Component { Name = "Component4", Brand = brand, Type = type, Price = 160 };
+            var component1 = new Component { Name = "Component1", Brand = brand, ComponentType = type, Price = 40 };
+            var component2 = new Component { Name = "Component2", Brand = brand, ComponentType = type, Price = 80 };
+            var component3 = new Component { Name = "Component3", Brand = brand, ComponentType = type, Price = 120 };
+            var component4 = new Component { Name = "Component4", Brand = brand, ComponentType = type, Price = 160 };
 
             var user1 = new User { Username = "Test", Password = "Test" };
             var user2 = new User { Username = "Test", Password = "Test" };

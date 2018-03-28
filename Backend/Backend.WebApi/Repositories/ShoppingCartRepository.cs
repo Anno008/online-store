@@ -20,7 +20,7 @@ namespace Backend.WebApi.Repositories
                 .ThenInclude(c => c.Brand)
                 .Include(c => c.Items)
                 .ThenInclude(c => c.Component)
-                .ThenInclude(c => c.Type)
+                .ThenInclude(c => c.ComponentType)
                 .Load();
 
             return databaseContext.ShoppingCarts.FirstOrDefaultAsync(x => x.User.Id == userId);
