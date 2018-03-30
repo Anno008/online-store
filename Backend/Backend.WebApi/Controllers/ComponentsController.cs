@@ -26,7 +26,7 @@ namespace Backend.WebApi.Controllers
         public ComponentsResponseDTO Get(ComponentsRequestDTO dto) =>
               new ComponentsResponseDTO(componentRepository.GetAll(
                   dto.ComponentName,
-                  dto.BrandIds, 
+                  dto.BrandId, 
                   dto.ComponentTypeId, 
                   dto.Page, 
                   dto.PageSize,

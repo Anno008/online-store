@@ -13,7 +13,7 @@ namespace Backend.WebApi.Repositories
         public ComponentRepository(DatabaseContext databaseContext) : base(databaseContext) { }
 
         public (List<Component> components, int totalPages, int totalItems, int itemsOnPage, int currentPage) GetAll(
-            string name, int[] brandIds, int typeId, int currentPage, int pageSize, OrderComponentsBy orderBy)
+            string name, int brandId, int typeId, int currentPage, int pageSize, OrderComponentsBy orderBy)
         {
             // Forcing eager loading on foreign tables
             databaseContext.Components.Include(c => c.ComponentType).Load();
@@ -27,8 +27,8 @@ namespace Backend.WebApi.Repositories
                 all = all.Where(x => x.Name.Contains(name));
 
             // filtering by brands
-            if (brandIds?.Length > 0)
-                all = all.Where(x => brandIds.Any(y => y == x.Brand.Id));
+            if (brandId != 0)
+                all = all.Where(x => x.Brand.Id == brandId);
 
             // filtering by component type
             if (typeId != 0)

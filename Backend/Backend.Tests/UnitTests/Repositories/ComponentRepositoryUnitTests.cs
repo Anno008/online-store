@@ -90,7 +90,7 @@ namespace Backend.Tests.UnitTests.Repositories
         {
             // Filtering params
             string name = null;
-            int[] brandIds = null;
+            int brandId = 0;
             var typeId = 0;
 
             // paging params
@@ -101,7 +101,7 @@ namespace Backend.Tests.UnitTests.Repositories
             var orderBy = OrderComponentsBy.Nothing;
 
             var (components, totalPages, totalItems, itemsOnPage, currentPage) =
-                componentRepository.GetAll(name, brandIds, typeId, currentPageIn, pageSize, orderBy);
+                componentRepository.GetAll(name, brandId, typeId, currentPageIn, pageSize, orderBy);
 
             Assert.Equal(8, components.Count);
             Assert.Equal(8, totalItems);
@@ -115,7 +115,7 @@ namespace Backend.Tests.UnitTests.Repositories
         {
             // Filtering params
             string name = "Ryzen";
-            int[] brandIds = null;
+            int brandId = 0;
             var typeId = 0;
 
             // paging params
@@ -126,7 +126,7 @@ namespace Backend.Tests.UnitTests.Repositories
             var orderBy = OrderComponentsBy.Nothing;
 
             var (components, totalPages, totalItems, itemsOnPage, currentPage) =
-                componentRepository.GetAll(name, brandIds, typeId, currentPageIn, pageSize, orderBy);
+                componentRepository.GetAll(name, brandId, typeId, currentPageIn, pageSize, orderBy);
 
             Assert.Equal(2, components.Count);
             Assert.Equal(8, totalItems);
@@ -140,7 +140,7 @@ namespace Backend.Tests.UnitTests.Repositories
         {
             // Filtering params
             string name = null;
-            int[] brandIds = null;
+            int brandId = 0;
             var typeId = 0;
 
             // paging params
@@ -151,7 +151,7 @@ namespace Backend.Tests.UnitTests.Repositories
             var orderBy = OrderComponentsBy.Nothing;
 
             var (components, totalPages, totalItems, itemsOnPage, currentPage) =
-                componentRepository.GetAll(name, brandIds, typeId, currentPageIn, pageSize, orderBy);
+                componentRepository.GetAll(name, brandId, typeId, currentPageIn, pageSize, orderBy);
 
             Assert.Equal(3, components.Count);
             Assert.Equal(8, totalItems);
