@@ -1,6 +1,4 @@
 import actions from "./Actions";
-import apiCall from "../api/ApiWrapper";
-import { apiUrl } from "../constants";
 
 const searchBarTextChanged = text => dispatch =>
   dispatch({ type: actions.SEARCH_BAR_TEXT_CHANGED, data: text });
