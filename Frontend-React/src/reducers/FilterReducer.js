@@ -1,6 +1,6 @@
 import actions from "../actions/Actions";
 
-const initialComponentFilter = { componentName: "", brandIds: [], componentTypeId: 0 };
+const initialComponentFilter = { componentName: "", brandId: 0, componentTypeId: 0 };
 
 export const FilterReducer = (state = initialComponentFilter, action) => {
   switch (action.type) {
