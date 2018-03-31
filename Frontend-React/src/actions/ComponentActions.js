@@ -1,4 +1,6 @@
 import actions from "./Actions";
+import apiCall from "../api/ApiWrapper";
+import { apiUrl } from "../constants";
 
 const fetchingComponents = () => ({ type: actions.FETCHING_COMPONENTS });
 
