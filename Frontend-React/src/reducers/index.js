@@ -1,12 +1,17 @@
 import { combineReducers } from "redux";
 import { BrandsReducer } from "./BrandsReducer";
 import { AuthReducer } from "./AuthReducer";
+import { FilterReducer } from "./FilterReducer";
+import { PagingReducer } from "./PagingReducer";
+
 import { ComponentTypesReducer } from "./ComponentTypesReducer";
 
 const reducers = combineReducers({
-   brandsState: BrandsReducer,
-   userState: AuthReducer,
-   componentTypesState: ComponentTypesReducer
+  brandsState: BrandsReducer,
+  userState: AuthReducer,
+  componentTypesState: ComponentTypesReducer,
+  filterState: FilterReducer,
+  pagingState: PagingReducer
 });
 
 export default reducers;
