@@ -7,9 +7,9 @@ export const FilterReducer = (state = initialComponentFilter, action) => {
     case actions.SEARCH_BAR_TEXT_CHANGED:
       return { ...state, componentName: action.data };
     case actions.BRAND_SELECTION_CHANGED:
-      return { ...state, componentName: action.data };
+      return { ...state, brandId: action.data };
     case actions.COMPONENT_TYPE_SELECTION_CHANGED:
-      return { ...state, componentName: action.data };
+      return { ...state, componentTypeId: action.data };
     default:
       return { ...state };
   }
