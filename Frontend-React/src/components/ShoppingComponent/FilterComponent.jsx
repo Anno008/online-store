@@ -13,8 +13,8 @@ class FilterComponent extends React.Component {
   componentWillReceiveProps(props) {
     // checking if the new props differ from the old ones, if they do make a get request
     if(props.filterState.brandId !== this.props.filterState.brandId ||
-      props.filterState.componentTypeId !== this.props.filterState.componentTypeId &&
-      props.filterState.componentName !== this.props.filterState.componentName &&
+      props.filterState.componentTypeId !== this.props.filterState.componentTypeId ||
+      props.filterState.componentName !== this.props.filterState.componentName ||
       props.pagingState.page !== this.props.pagingState.page ||
       props.pagingState.pageSize !== this.props.pagingState.pageSize){
         props.fetchComponents(props.filterState, props.pagingState);
