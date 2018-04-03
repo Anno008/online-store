@@ -4,12 +4,25 @@ import FilterComponent from "./FilterComponent";
 import { fetchBrands } from "../../actions/BrandActions";
 import { fetchComponentTypes } from "../../actions/ComponentTypeActions";
 import apiCall from "../../api/ApiWrapper";
+import { fetchComponents } from "actions/ComponentActions";
 
 class ComponentsCatalogComponent extends React.Component {
   constructor(props) {
     super(props);
     props.initializeBrands();
     props.initializeComponentTypes();
+  }
+
+  componentWillReceiveProps(props) {
+    console.log(props);
+    // checking if the new props differ from the old ones, if they do make a get request
+    if(props.filterState.brandId !== this.props.filterState.brandId ||
+      props.filterState.componentTypeId !== this.props.filterState.componentTypeId ||
+      props.filterState.componentName !== this.props.filterState.componentName ||
+      props.pagingState.page !== this.props.pagingState.page ||
+      props.pagingState.pageSize !== this.props.pagingState.pageSize){
+        props.fetchComponents(props.filterState, props.pagingState);
+    }
   }
 
   render() {
@@ -24,11 +37,16 @@ class ComponentsCatalogComponent extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  brandsState: state.brandsState,
+  filterState: state.filterState,
+  pagingState: state.pagingState
+});
 
 const mapDispatchToProps = dispatch => ({
   initializeBrands: () => dispatch(fetchBrands()),
-  initializeComponentTypes: () => dispatch(fetchComponentTypes())
+  initializeComponentTypes: () => dispatch(fetchComponentTypes()),
+  fetchComponents: (filter, paging) => dispatch(fetchComponents(filter, paging))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ComponentsCatalogComponent);
