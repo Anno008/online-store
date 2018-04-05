@@ -5,16 +5,17 @@ import { fetchBrands } from "../../actions/BrandActions";
 import { fetchComponentTypes } from "../../actions/ComponentTypeActions";
 import apiCall from "../../api/ApiWrapper";
 import { fetchComponents } from "actions/ComponentActions";
+import ComponentListComponent from "./ComponentListComponent";
 
 class ComponentsCatalogComponent extends React.Component {
   constructor(props) {
     super(props);
     props.initializeBrands();
     props.initializeComponentTypes();
+    props.fetchComponents(props.filterState, props.pagingState);
   }
 
   componentWillReceiveProps(props) {
-    console.log(props);
     // checking if the new props differ from the old ones, if they do make a get request
     if(props.filterState.brandId !== this.props.filterState.brandId ||
       props.filterState.componentTypeId !== this.props.filterState.componentTypeId ||
@@ -31,7 +32,9 @@ class ComponentsCatalogComponent extends React.Component {
         <div className="filter">
           <FilterComponent />
         </div>
-        <div className="main">Main</div>
+        <div className="main">
+          <ComponentListComponent />
+        </div>
       </React.Fragment>
     );
   }
