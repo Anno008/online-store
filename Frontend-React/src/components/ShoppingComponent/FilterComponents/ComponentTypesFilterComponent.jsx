@@ -1,10 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 import { componentTypeSelectionChanged } from "actions/FilterActions";
+import "components/css/dropdown.css";
 
 const ComponentTypesFilterComponent = props => (
-    <select onChange={(e) => props.handleComponentTypeChange(e.currentTarget.value)}>
-      <option value="0">All</option>
+    <select className="dropdown" onChange={(e) => props.handleComponentTypeChange(e.currentTarget.value)}>
+      <option value="0">All component types</option>
       {props.componentTypesState.data
         ? props.componentTypesState.data.map(item => (
             <option key={item.id} value={item.id}>{item.name} </option>
