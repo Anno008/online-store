@@ -1,10 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 import { brandSelectionChanged } from "actions/FilterActions";
+import "components/css/dropdown.css";
 
 const BrandsFilterComponent = props => (
-    <select onChange={(e) => props.handleBrandSelectionChanged(e.currentTarget.value)}>
-      <option value="0">All</option>
+    <select className="dropdown" onChange={(e) => props.handleBrandSelectionChanged(e.currentTarget.value)}>
+      <option value="0">All brands</option>
       {props.brandsState.data
         ? props.brandsState.data.map(item => (
             <option key={item.id} value={item.id}>{item.name}</option>
