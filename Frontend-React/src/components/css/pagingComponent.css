@@ -20,8 +20,21 @@
     opacity: 0.8;
 }
 
+.pagingContainer input:hover {
+    border: 1px solid crimson;
+    color: crimson;
+    cursor: pointer;
+}
+
 .pagingContainer input:disabled {
     background: gray;
+    color: white;
+    cursor: not-allowed;
+}
+
+.pagingContainer input:hover:disabled {
+    border: 1px solid black;
+    color: white;
 }
 
 .itemsParePage {
