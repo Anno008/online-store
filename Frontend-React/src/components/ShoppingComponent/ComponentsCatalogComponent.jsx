@@ -6,6 +6,7 @@ import { fetchComponentTypes } from "../../actions/ComponentTypeActions";
 import apiCall from "../../api/ApiWrapper";
 import { fetchComponents } from "actions/ComponentActions";
 import ComponentListComponent from "./ComponentListComponent";
+import PagingComponent from "./PagingComponent";
 
 class ComponentsCatalogComponent extends React.Component {
   constructor(props) {
@@ -33,6 +34,7 @@ class ComponentsCatalogComponent extends React.Component {
           <FilterComponent />
         </div>
         <div className="main">
+        <PagingComponent />
           <ComponentListComponent />
         </div>
       </React.Fragment>
