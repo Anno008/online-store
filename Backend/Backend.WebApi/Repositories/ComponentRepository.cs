@@ -20,7 +20,6 @@ namespace Backend.WebApi.Repositories
             databaseContext.Components.Include(c => c.Brand).Load();
 
             var all = databaseContext.Components.AsQueryable();
-            var totalItems = all.Count();
 
             // filtering by name
             if(!string.IsNullOrWhiteSpace(name))
@@ -33,6 +32,9 @@ namespace Backend.WebApi.Repositories
             // filtering by component type
             if (typeId != 0)
                 all = all.Where(x => x.ComponentType.Id == typeId);
+
+            // after filtering get the number of components that match
+            var totalItems = all.Count();
 
             // Get only the required page
             if (pageSize != 0)

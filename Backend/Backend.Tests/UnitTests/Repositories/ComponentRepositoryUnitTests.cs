@@ -129,7 +129,7 @@ namespace Backend.Tests.UnitTests.Repositories
                 componentRepository.GetAll(name, brandId, typeId, currentPageIn, pageSize, orderBy);
 
             Assert.Equal(2, components.Count);
-            Assert.Equal(8, totalItems);
+            Assert.Equal(2, totalItems);
             Assert.Equal(1, totalPages);
             Assert.Equal(2, itemsOnPage);
             Assert.Equal(1, currentPage);
