@@ -16,14 +16,14 @@ const PagingComponent = props => (
       <option value={10}>10</option>
       <option value={15}>15</option>
     </select>
-    Total items: {props.componentsState.data.totalItems}
+    Total items: {props.componentsState.data.totalItems || 0}
     <input
         type="button" 
         className="horizontalPadding"
         disabled={props.componentsState.data.currentPage <= 1}
         onClick={() => props.handlePageNumberChanged(props.componentsState.data.currentPage - 1)}
         value="&lt;&lt;"/>
-    {props.componentsState.data.currentPage}/ {props.componentsState.data.pages}
+    {props.componentsState.data.currentPage || 0}/ {props.componentsState.data.pages || 0}
     <input 
         type="button"
         className="horizontalPadding"
