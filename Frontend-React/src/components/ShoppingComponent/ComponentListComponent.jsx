@@ -1,13 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
 import { pageNumberChanged, pageSizeChanged } from "actions/PagingActions";
+import ComponentComponent from "./ComponentComponent";
+import "components/css/catalog.css";
 
 const ComponentListComponent = props => (
-  <React.Fragment>
+  <div className="catalog">
     {props.componentsState.data ?
     props.componentsState.data.components ?
-       props.componentsState.data.components.map(c => <p key={c.id}>{c.name}</p>) : null : null}
-  </React.Fragment>
+      props.componentsState.data.components.map(c => <ComponentComponent key={c.id} component={c}/>) : null : null}
+  </div>
   );
 
 const mapStateToProps = state => ({
