@@ -73,11 +73,16 @@ VALUES ("User", "b512d97e7cbf97c273e4db073bbb547aa65a84589227f8f3d9e4a72b9372a24
 /* Brands */
 INSERT INTO Brands ( Name) VALUES ("Intel");
 INSERT INTO Brands ( Name) VALUES ("Nvidia");
-INSERT INTO Brands ( Name) VALUES ("AND");
+INSERT INTO Brands ( Name) VALUES ("AMD");
+INSERT INTO Brands ( Name) VALUES ("SAMSUNG");
+INSERT INTO Brands ( Name) VALUES ("Corsair");
 
 /* Component types */
 INSERT INTO ComponentTypes ( Name) VALUES ("CPU");
 INSERT INTO ComponentTypes ( Name) VALUES ("GPU");
+INSERT INTO ComponentTypes ( Name) VALUES ("SSD");
+INSERT INTO ComponentTypes ( Name) VALUES ("RAM");
+
 
 /* Components */
 INSERT INTO Components (Name, Price, BrandId, ComponentTypeId)
@@ -92,10 +97,60 @@ CROSS JOIN (SELECT Id FROM ComponentTypes WHERE Name like "GPU") AS typesF;
 
 INSERT INTO Components (Name, Price, BrandId, ComponentTypeId)
 SELECT "AMD RYZEN 7 1700 8-Core 3.0 GHz (3.7 GHz Turbo) ", 280, brandsF.Id, typesF.Id
-FROM (SELECT Id FROM Brands WHERE Name like "AND") AS brandsF
+FROM (SELECT Id FROM Brands WHERE Name like "AMD") AS brandsF
 CROSS JOIN (SELECT Id FROM ComponentTypes WHERE Name like "CPU") AS typesF;
 
 INSERT INTO Components (Name, Price, BrandId, ComponentTypeId)
 SELECT "AMD Radeon RX 480 4GB", 270, brandsF.Id, typesF.Id
-FROM (SELECT Id FROM Brands WHERE Name like "AND") AS brandsF
+FROM (SELECT Id FROM Brands WHERE Name like "AMD") AS brandsF
 CROSS JOIN (SELECT Id FROM ComponentTypes WHERE Name like "GPU") AS typesF;
+
+INSERT INTO Components (Name, Price, BrandId, ComponentTypeId)
+SELECT "NVIDIA - Founders Edition GeForce GTX 1080", 589, brandsF.Id, typesF.Id
+FROM (SELECT Id FROM Brands WHERE Name like "Nvidia") AS brandsF
+CROSS JOIN (SELECT Id FROM ComponentTypes WHERE Name like "GPU") AS typesF;
+
+INSERT INTO Components (Name, Price, BrandId, ComponentTypeId)
+SELECT "Inte Core i7 8700K", 359, brandsF.Id, typesF.Id
+FROM (SELECT Id FROM Brands WHERE Name like "Intel") AS brandsF
+CROSS JOIN (SELECT Id FROM ComponentTypes WHERE Name like "CPU") AS typesF;
+
+INSERT INTO Components (Name, Price, BrandId, ComponentTypeId)
+SELECT "Inte Core i7 8750H", 395, brandsF.Id, typesF.Id
+FROM (SELECT Id FROM Brands WHERE Name like "Intel") AS brandsF
+CROSS JOIN (SELECT Id FROM ComponentTypes WHERE Name like "CPU") AS typesF;
+
+INSERT INTO Components (Name, Price, BrandId, ComponentTypeId)
+SELECT "AMD Ryzen Threadripper 1950X (16-core/32-thread)", 922, brandsF.Id, typesF.Id
+FROM (SELECT Id FROM Brands WHERE Name like "AMD") AS brandsF
+CROSS JOIN (SELECT Id FROM ComponentTypes WHERE Name like "CPU") AS typesF;
+
+INSERT INTO Components (Name, Price, BrandId, ComponentTypeId)
+SELECT "XFX Radeon RX Vega 64 8 GB", 1300, brandsF.Id, typesF.Id
+FROM (SELECT Id FROM Brands WHERE Name like "AMD") AS brandsF
+CROSS JOIN (SELECT Id FROM ComponentTypes WHERE Name like "GPU") AS typesF;
+
+INSERT INTO Components (Name, Price, BrandId, ComponentTypeId)
+SELECT "Samsung 850 EVO 250GB", 108, brandsF.Id, typesF.Id
+FROM (SELECT Id FROM Brands WHERE Name like "SAMSUNG") AS brandsF
+CROSS JOIN (SELECT Id FROM ComponentTypes WHERE Name like "SSD") AS typesF;
+
+INSERT INTO Components (Name, Price, BrandId, ComponentTypeId)
+SELECT "Samsung 950 PRO Series - 512GB PCIe NVMe", 239, brandsF.Id, typesF.Id
+FROM (SELECT Id FROM Brands WHERE Name like "SAMSUNG") AS brandsF
+CROSS JOIN (SELECT Id FROM ComponentTypes WHERE Name like "SSD") AS typesF;
+
+INSERT INTO Components (Name, Price, BrandId, ComponentTypeId)
+SELECT "Samsung 960 EVO 250GB", 140, brandsF.Id, typesF.Id
+FROM (SELECT Id FROM Brands WHERE Name like "SAMSUNG") AS brandsF
+CROSS JOIN (SELECT Id FROM ComponentTypes WHERE Name like "SSD") AS typesF;
+
+INSERT INTO Components (Name, Price, BrandId, ComponentTypeId)
+SELECT "Corsair Vengeance LPX 16GB (2x8GB) DDR4 DRAM 3000MHz C15 Desktop Memory Kit", 189, brandsF.Id, typesF.Id
+FROM (SELECT Id FROM Brands WHERE Name like "Corsair") AS brandsF
+CROSS JOIN (SELECT Id FROM ComponentTypes WHERE Name like "RAM") AS typesF;
+
+INSERT INTO Components (Name, Price, BrandId, ComponentTypeId)
+SELECT "Corsair Vengeance 8 GB (2 x 4 GB) DDR3 1600 MHz", 67, brandsF.Id, typesF.Id
+FROM (SELECT Id FROM Brands WHERE Name like "Corsair") AS brandsF
+CROSS JOIN (SELECT Id FROM ComponentTypes WHERE Name like "RAM") AS typesF;
