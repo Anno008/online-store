@@ -23,7 +23,7 @@ namespace Backend.WebApi.Repositories
 
             // filtering by name
             if(!string.IsNullOrWhiteSpace(name))
-                all = all.Where(x => x.Name.Contains(name));
+                all = all.Where(x => x.Name.IndexOf(name, System.StringComparison.OrdinalIgnoreCase) >= 0);
 
             // filtering by brands
             if (brandId != 0)
