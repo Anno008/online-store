@@ -3,3 +3,15 @@
     grid-template-columns: 2fr 1fr 1fr;
     grid-gap: 10px;
 }
+
+@media screen and (max-width: 1100px){
+    .filterContainer {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media screen and (max-width: 700px){
+    .filterContainer {
+        grid-template-columns: 1fr;
+    }
+}
