@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { pageNumberChanged, pageSizeChanged } from "actions/PagingActions";
-import "components/css/pagingComponent.css";
+import "components/css/paging.css";
 
 const PagingComponent = props => (
   <div className="pagingContainer">
