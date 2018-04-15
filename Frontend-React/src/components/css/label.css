@@ -1,4 +1,5 @@
 .simpleLabel {
     cursor: pointer;
     color: navy;
+    font-weight: bold;
 }

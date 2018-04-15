@@ -13,11 +13,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
   font-weight: bold;
-  background: linear-gradient(
-    91deg,
-    rgba(43, 0, 48, 0.7) 0%,
-    rgba(44, 6, 140, 0.5) 100%
-  );
+  background: linear-gradient(40deg, #12a1e3 0%, #4bd670 100%);
+  user-select: none;
+  cursor: pointer;
 }
 
 .component:hover {
@@ -26,13 +24,21 @@
   text-shadow: 0 0 8px #ccc;
 }
 
+.component:active{
+  background: linear-gradient(
+    91deg,
+    rgb(132, 3, 146) 0%,
+    rgb(253, 6, 6) 100%
+  );
+}
+
 @media screen and (max-width: 1100px) {
   .catalog {
     grid-template-columns: 1fr 1fr;
   }
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 600px) {
   .catalog {
     grid-template-columns: 1fr;
   }
@@ -40,9 +46,9 @@
 
 @keyframes pulsate {
   from {
-    box-shadow: 0 0 10px #333 inset;
+    box-shadow: 0 0 16px 6px #333 inset;
   }
   to {
-    box-shadow: 0 0 20px #c00 inset;
+    box-shadow: 0px 0 16px 4px #c00 inset;
   }
 }
