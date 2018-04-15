@@ -15,11 +15,13 @@ const NavComponent = props => {
 
   return (
     <div className="navBar">
-      <button
-        className="btn"
-        onClick={() => handleAuth(props.userState.data)}>
+      <button className="btn" onClick={() => (location.href = "/")}>
+        Home
+      </button>
+      <button className="btn" onClick={() => handleAuth(props.userState.data)}>
         {props.userState.data && props.userState.data.username
-          ? `Welcome ${props.userState.data.username}, Logout` : "Login"}
+          ? `Welcome ${props.userState.data.username}, Logout`
+          : "Login"}
       </button>
     </div>
   );
