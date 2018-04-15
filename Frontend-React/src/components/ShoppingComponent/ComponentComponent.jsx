@@ -7,11 +7,11 @@ const ComponentComponent = props => (
         <div className="component">
             {props.component.name}
             <br/>
-            {props.component.price}
+            Price: {props.component.price}
             <br/>
-            {props.component.brand.name}
+            Brand: {props.component.brand.name}
             <br/>
-            {props.component.componentType.name}
+            Type: {props.component.componentType.name}
         </div> : null
   );
 
