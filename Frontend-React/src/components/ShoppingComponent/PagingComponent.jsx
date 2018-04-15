@@ -10,7 +10,7 @@ const PagingComponent = props => (
       id="itemsPerPage"
       className="dropdown itemsParePage horizontalPadding"
       value={props.pagingState.pageSize}
-      onChange={e => props.handlePageChanged(e.target.value)}>
+      onChange={e => props.handlePageSizeChanged(e.target.value)}>
       <option value={1}>1</option>
       <option value={5}>5</option>
       <option value={10}>10</option>
@@ -40,7 +40,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   handlePageNumberChanged: pageNumber => dispatch(pageNumberChanged(pageNumber)),
-  handlePageChanged: pageSize => dispatch(pageSizeChanged(pageSize))
+  handlePageSizeChanged: pageSize => dispatch(pageSizeChanged(pageSize))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PagingComponent);
