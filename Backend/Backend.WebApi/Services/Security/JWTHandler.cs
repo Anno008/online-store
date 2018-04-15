@@ -15,7 +15,7 @@ namespace Backend.WebApi.Services.Security
         public JWTHandler(IOptions<JWTSettings> options) =>
             this.options = options.Value;
 
-        public string CreateJWT(string clientId, string username)
+        public string CreateJWT(string clientId, string username, string role)
         {
             var secret = options.SecretKey;
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.SecretKey));
@@ -36,7 +36,7 @@ namespace Backend.WebApi.Services.Security
                 expires: DateTime.Now.Add(TimeSpan.FromMinutes(options.Expiration)),
                 signingCredentials: creds);
 
-            token.Payload["roles"] = new string[] { Role.User.ToString() };
+            token.Payload["roles"] = new string[] { role };
 
             return new JwtSecurityTokenHandler().WriteToken(token);
 

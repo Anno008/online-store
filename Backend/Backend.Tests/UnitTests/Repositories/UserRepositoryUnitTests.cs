@@ -93,9 +93,9 @@ namespace Backend.Tests.UnitTests.Repositories
         {
             var username = "Test";
 
-            var result = userRepository.UserExists(username);
+            var user = userRepository.GetUserByName(username);
 
-            Assert.True(result);
+            Assert.True(user != null);
         }
 
         [Fact]
@@ -103,9 +103,9 @@ namespace Backend.Tests.UnitTests.Repositories
         {
             var username = "Test1";
 
-            var result = userRepository.UserExists(username);
+            var user = userRepository.GetUserByName(username);
 
-            Assert.False(result);
+            Assert.False(user != null);
         }
     }
 }
