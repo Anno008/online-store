@@ -29,8 +29,7 @@ namespace Backend.WebApi.Controllers
                   dto.BrandId, 
                   dto.ComponentTypeId, 
                   dto.Page, 
-                  dto.PageSize,
-                  dto.OrderBy));
+                  dto.PageSize));
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]

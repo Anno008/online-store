@@ -97,11 +97,8 @@ namespace Backend.Tests.UnitTests.Repositories
             int currentPageIn = 0;
             int pageSize = 0;
 
-            // Ordering params
-            var orderBy = OrderComponentsBy.Nothing;
-
             var (components, totalPages, totalItems, itemsOnPage, currentPage) =
-                componentRepository.GetAll(name, brandId, typeId, currentPageIn, pageSize, orderBy);
+                componentRepository.GetAll(name, brandId, typeId, currentPageIn, pageSize);
 
             Assert.Equal(8, components.Count);
             Assert.Equal(8, totalItems);
@@ -122,11 +119,8 @@ namespace Backend.Tests.UnitTests.Repositories
             int currentPageIn = 0;
             int pageSize = 0;
 
-            // Ordering params
-            var orderBy = OrderComponentsBy.Nothing;
-
             var (components, totalPages, totalItems, itemsOnPage, currentPage) =
-                componentRepository.GetAll(name, brandId, typeId, currentPageIn, pageSize, orderBy);
+                componentRepository.GetAll(name, brandId, typeId, currentPageIn, pageSize);
 
             Assert.Equal(2, components.Count);
             Assert.Equal(2, totalItems);
@@ -147,11 +141,8 @@ namespace Backend.Tests.UnitTests.Repositories
             int currentPageIn = 0;
             int pageSize = 3;
 
-            // Ordering params
-            var orderBy = OrderComponentsBy.Nothing;
-
             var (components, totalPages, totalItems, itemsOnPage, currentPage) =
-                componentRepository.GetAll(name, brandId, typeId, currentPageIn, pageSize, orderBy);
+                componentRepository.GetAll(name, brandId, typeId, currentPageIn, pageSize);
 
             Assert.Equal(3, components.Count);
             Assert.Equal(8, totalItems);
