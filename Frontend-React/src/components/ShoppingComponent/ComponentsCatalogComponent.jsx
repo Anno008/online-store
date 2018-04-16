@@ -7,13 +7,14 @@ import apiCall from "../../api/ApiWrapper";
 import { fetchComponents } from "actions/ComponentActions";
 import ComponentListComponent from "./ComponentListComponent";
 import PagingComponent from "./PagingComponent";
+import { debounce } from "lodash";
 
 class ComponentsCatalogComponent extends React.Component {
   constructor(props) {
     super(props);
-    props.initializeBrands();
-    props.initializeComponentTypes();
-    props.fetchComponents(props.filterState, props.pagingState);
+    this.props.initializeBrands();
+    this.props.initializeComponentTypes();
+    props.fetchComponents(this.props.filterState, this.props.pagingState);
   }
 
   componentWillReceiveProps(props) {
@@ -23,9 +24,7 @@ class ComponentsCatalogComponent extends React.Component {
       props.filterState.componentName !== this.props.filterState.componentName ||
       props.pagingState.page !== this.props.pagingState.page ||
       props.pagingState.pageSize !== this.props.pagingState.pageSize){
-        props.fetchComponents(props.filterState, props.pagingState);
-        props.initializeBrands();
-        props.initializeComponentTypes();
+        this.props.fetchComponentsWithDelay(props, 100);
     }
   }
 
@@ -44,6 +43,9 @@ class ComponentsCatalogComponent extends React.Component {
   }
 }
 
+const updateWithDelay = debounce((dispatch, props) => 
+  dispatch(fetchComponents(props.filterState, props.pagingState)), 800);
+
 const mapStateToProps = state => ({
   brandsState: state.brandsState,
   filterState: state.filterState,
@@ -53,7 +55,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   initializeBrands: () => dispatch(fetchBrands()),
   initializeComponentTypes: () => dispatch(fetchComponentTypes()),
-  fetchComponents: (filter, paging) => dispatch(fetchComponents(filter, paging))
+  fetchComponents: (filter, paging) => dispatch(fetchComponents(filter, paging)),
+  fetchComponentsWithDelay: (props) => updateWithDelay(dispatch, props)
+  
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ComponentsCatalogComponent);
