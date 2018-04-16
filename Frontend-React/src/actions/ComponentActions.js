@@ -22,8 +22,7 @@ export const fetchComponents = (filter, paging) => dispatch => {
     `brandId=${filter.brandId}&` +
     `componentTypeId=${filter.componentTypeId}&` +
     `page=${paging.page}&` +
-    `pageSize=${paging.pageSize}&` +
-    `orderBy=${0}`;
+    `pageSize=${paging.pageSize}`;
 
   const config = {
     method: "GET",
