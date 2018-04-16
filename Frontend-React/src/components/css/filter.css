@@ -4,6 +4,14 @@
     grid-gap: 10px;
 }
 
+.error {
+    font-weight: bold;
+    color:black;
+    text-shadow: 1px 1px 2px red;
+    margin-bottom: 30px;
+    font-size: 20px;
+}
+
 @media screen and (max-width: 1100px){
     .filterContainer {
         grid-template-columns: 1fr 1fr;
