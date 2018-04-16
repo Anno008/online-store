@@ -7,6 +7,5 @@
         public int ComponentTypeId { get; set; }
         public int Page { get; set; }
         public int PageSize { get; set; }
-        public OrderComponentsBy OrderBy { get; set; }
     }
 }
