@@ -4,7 +4,10 @@ import { brandSelectionChanged } from "actions/FilterActions";
 import "components/css/dropdown.css";
 
 const BrandsFilterComponent = props => (
-    <select className="dropdown" onChange={(e) => props.handleBrandSelectionChanged(e.currentTarget.value)}>
+    <select 
+    value={props.filterState.brandId} 
+    className="dropdown" 
+    onChange={(e) => props.handleBrandSelectionChanged(e.currentTarget.value)}>
       <option value="0">All brands</option>
       {props.brandsState.data
         ? props.brandsState.data.map(item => (
@@ -15,7 +18,8 @@ const BrandsFilterComponent = props => (
 );
 
 const mapStateToProps = state => ({
-  brandsState: state.brandsState
+  brandsState: state.brandsState,
+  filterState: state.filterState
 });
 
 const mapDispatchToProps = dispatch => ({

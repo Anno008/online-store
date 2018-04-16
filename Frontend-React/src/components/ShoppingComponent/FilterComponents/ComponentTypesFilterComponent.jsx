@@ -4,7 +4,10 @@ import { componentTypeSelectionChanged } from "actions/FilterActions";
 import "components/css/dropdown.css";
 
 const ComponentTypesFilterComponent = props => (
-    <select className="dropdown" onChange={(e) => props.handleComponentTypeChange(e.currentTarget.value)}>
+    <select 
+      value={props.filterState.componentTypeId} 
+      className="dropdown" 
+      onChange={(e) => props.handleComponentTypeChange(e.currentTarget.value)}>
       <option value="0">All component types</option>
       {props.componentTypesState.data
         ? props.componentTypesState.data.map(item => (
@@ -15,7 +18,8 @@ const ComponentTypesFilterComponent = props => (
 );
 
 const mapStateToProps = state => ({
-  componentTypesState: state.componentTypesState
+  componentTypesState: state.componentTypesState,
+  filterState: state.filterState
 });
 
 const mapDispatchToProps = dispatch => ({
