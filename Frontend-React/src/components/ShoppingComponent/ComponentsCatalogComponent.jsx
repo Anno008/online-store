@@ -24,6 +24,8 @@ class ComponentsCatalogComponent extends React.Component {
       props.pagingState.page !== this.props.pagingState.page ||
       props.pagingState.pageSize !== this.props.pagingState.pageSize){
         props.fetchComponents(props.filterState, props.pagingState);
+        props.initializeBrands();
+        props.initializeComponentTypes();
     }
   }
 
