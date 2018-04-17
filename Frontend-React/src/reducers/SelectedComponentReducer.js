@@ -9,7 +9,7 @@ export const SelectedComponentReducer = (state, action) => {
     case actions.FETCHING_ONE_COMPONENT_FAILURE:
       return { ...state, error: action.error, isFetching: false };
     case actions.RESET_SELECTED_COMPONENT:
-      return { ...state};
+      return { ...state, data: undefined};
     default:
       return { ...state };
   }
