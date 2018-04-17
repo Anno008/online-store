@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import BrandsFilterComponent from "./FilterComponents/BrandsFilterComponent";
-import ComponentsNameFilterComponent from "./FilterComponents/ComponentsNameFilterComponent";
-import ComponentTypesFilterComponent from "./FilterComponents/ComponentTypesFilterComponent";
+import BrandsFilterComponent from "./BrandsFilterComponent";
+import ComponentsNameFilterComponent from "./ComponentsNameFilterComponent";
+import ComponentTypesFilterComponent from "./ComponentTypesFilterComponent";
 import { fetchComponents } from "actions/ComponentActions";
-import "../css/filter.css";
+import "../../css/filter.css";
 
 const FilterComponent = props => {
   return (

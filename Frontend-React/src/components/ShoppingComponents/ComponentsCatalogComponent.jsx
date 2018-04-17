@@ -1,12 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
-import FilterComponent from "./FilterComponent";
+import FilterComponent from "./FilterComponents/FilterComponent";
 import { fetchBrands } from "../../actions/BrandActions";
 import { fetchComponentTypes } from "../../actions/ComponentTypeActions";
 import apiCall from "../../api/ApiWrapper";
 import { fetchComponents } from "actions/ComponentActions";
-import ComponentListComponent from "./ComponentListComponent";
-import PagingComponent from "./PagingComponent";
+import ComponentListComponent from "./ComponentComponents/ComponentListComponent";
+import PagingComponent from "./PagingComponents/PagingComponent";
 import { debounce } from "lodash";
 
 class ComponentsCatalogComponent extends React.Component {

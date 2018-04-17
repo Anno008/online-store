@@ -5,7 +5,7 @@ import "css/app.css";
 import AuthComponent from "./AuthComponent/AuthComponent";
 import NavComponent from "./NavComponent/NavComponent";
 import { checkForUser } from "../actions/AuthActions";
-import ComponentsCatalogComponent from "./ShoppingComponent/ComponentsCatalogComponent";
+import ComponentsCatalogComponent from "components/ShoppingComponents/ComponentsCatalogComponent";
 
 class App extends React.Component {
   constructor(props) {
