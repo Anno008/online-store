@@ -14,6 +14,18 @@ const fetchingComponentsFailed = error => ({
   error
 });
 
+const fetchingOneComponent = () => ({ type: actions.FETCHING_ONE_COMPONENT });
+
+const fetchingOneComponentSucceeded = data => ({
+  type: actions.FETCHING_ONE_COMPONENT_SUCCESS,
+  data
+});
+
+const fetchingOneComponentFailed = error => ({
+  type: actions.FETCHING_ONE_COMPONENT_FAILURE,
+  error
+});
+
 export const fetchComponents = (filter, paging) => dispatch => {
   dispatch(fetchingComponents());
 
@@ -33,3 +45,20 @@ export const fetchComponents = (filter, paging) => dispatch => {
     .then(result => dispatch(fetchingComponentsSucceeded(result)))
     .catch(error => dispatch(fetchingComponentsFailed(error.message)));
 };
+
+export const componentSelected = id => dispatch => {
+  dispatch(fetchingOneComponent());
+  
+  const config = {
+    method: "GET",
+    url: `${apiUrl}/components/${id}`
+  };
+
+  return apiCall(config)
+    .then(result => {
+      dispatch(fetchingOneComponentSucceeded(result));
+      console.log(result);
+    }
+    )
+    .catch(error => dispatch(fetchingOneComponentFailed(error.message)));
+}
