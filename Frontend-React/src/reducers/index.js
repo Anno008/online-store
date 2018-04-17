@@ -6,6 +6,7 @@ import { PagingReducer } from "./PagingReducer";
 
 import { ComponentTypesReducer } from "./ComponentTypesReducer";
 import { ComponentsReducer } from "./ComponentsReducer";
+import { SelectedComponentReducer } from "./SelectedComponentReducer";
 
 const reducers = combineReducers({
   brandsState: BrandsReducer,
@@ -13,7 +14,8 @@ const reducers = combineReducers({
   componentTypesState: ComponentTypesReducer,
   filterState: FilterReducer,
   pagingState: PagingReducer,
-  componentsState: ComponentsReducer
+  componentsState: ComponentsReducer,
+  selectedComponentState: SelectedComponentReducer
 });
 
 export default reducers;
