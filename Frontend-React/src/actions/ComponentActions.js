@@ -62,3 +62,5 @@ export const componentSelected = id => dispatch => {
     )
     .catch(error => dispatch(fetchingOneComponentFailed(error.message)));
 }
+
+export const reset = () => dispatch => dispatch({ type: actions.RESET_SELECTED_COMPONENT });
