@@ -8,6 +8,7 @@ import { fetchComponents } from "actions/ComponentActions";
 import ComponentListComponent from "./ComponentComponents/ComponentListComponent";
 import PagingComponent from "./PagingComponents/PagingComponent";
 import { debounce } from "lodash";
+import ComponentDetailsComponent from "./ComponentDetailsComponents/ComponentDetailsComponent";
 
 class ComponentsCatalogComponent extends React.Component {
   constructor(props) {
@@ -30,27 +31,29 @@ class ComponentsCatalogComponent extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
-        <div className="filter">
-          <FilterComponent />
-        </div>
-        <div className="main">
-        <PagingComponent />
-          <ComponentListComponent />
-        </div>
-      </React.Fragment>
+      this.props.selectedComponent.data ? <ComponentDetailsComponent/> :
+        <React.Fragment>
+          <div className="filter">
+            <FilterComponent />
+          </div>
+          <div className="main">
+          <PagingComponent />
+            <ComponentListComponent />
+          </div>
+        </React.Fragment>
     );
   }
 }
 
-const updateWithDelay = debounce((dispatch, props) => 
-  dispatch(fetchComponents(props.filterState, props.pagingState)), 800);
-
 const mapStateToProps = state => ({
   brandsState: state.brandsState,
   filterState: state.filterState,
-  pagingState: state.pagingState
+  pagingState: state.pagingState,
+  selectedComponent: state.selectedComponentState
 });
+
+const updateWithDelay = debounce((dispatch, props) => 
+  dispatch(fetchComponents(props.filterState, props.pagingState)), 800);
 
 const mapDispatchToProps = dispatch => ({
   initializeBrands: () => dispatch(fetchBrands()),
