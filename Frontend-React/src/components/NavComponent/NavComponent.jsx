@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import "components/css/btn.css";
-import { logout } from "../../actions/AuthActions";
+import { logout } from "actions/AuthActions";
+import { reset } from "actions/ComponentActions";
 import { redirectUri } from "../../constants";
 
 const NavComponent = props => {
@@ -15,7 +16,10 @@ const NavComponent = props => {
 
   return (
     <div className="navBar">
-      <button className="btn" onClick={() => (location.href = "/")}>
+  <button className="btn" onClick={() => {
+    props.reset();
+    location.href = "/";
+  }}>
         Home
       </button>
       <span>
@@ -36,7 +40,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  logout: () => dispatch(logout())
+  logout: () => dispatch(logout()),
+  reset: () => dispatch(reset())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavComponent);
