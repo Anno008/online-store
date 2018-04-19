@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --mode development --open",
     "startProd": "webpack-dev-server  --env.production --mode production --open",
-    "build": "webpack --mode production --env.production"
+    "build": "webpack --mode production"
   },
   "author": "Anno8",
   "license": "ISC",
@@ -17,7 +17,6 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.7",
-    "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0"
   },
