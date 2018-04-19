@@ -1,5 +1,4 @@
 import React from "react";
-import { Route, HashRouter as Router, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import "css/app.css";
 import AuthComponent from "./AuthComponent/AuthComponent";
