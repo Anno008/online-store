@@ -2,24 +2,17 @@ import React from "react";
 import { connect } from "react-redux";
 import "components/css/btn.css";
 import { logout } from "actions/AuthActions";
-import { reset } from "actions/ComponentActions";
 import { redirectUri } from "../../constants";
+import { navigationComponentChanged } from "../../actions/SelectedNavigationComponentActions";
+import { keys } from "../../navigation/NavigationKeys";
 
 const NavComponent = props => {
-  const handleAuth = user => {
-    if (user && user.username) {
-      props.logout();
-    } else {
-      location.href = redirectUri;
-    }
-  };
+  const handleAuth = user => user && user.username ?
+      props.logout() : props.changeNavigation(keys.auth);
 
   return (
     <div className="navBar">
-  <button className="btn" onClick={() => {
-    props.reset();
-    location.href = "/";
-  }}>
+    <button className="btn" onClick={() => props.changeNavigation(keys.catalog)}>
         Home
       </button>
       <span>
@@ -41,7 +34,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   logout: () => dispatch(logout()),
-  reset: () => dispatch(reset())
+  changeNavigation: (key) => dispatch(navigationComponentChanged(key))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavComponent);

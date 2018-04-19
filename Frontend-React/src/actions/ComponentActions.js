@@ -1,6 +1,7 @@
 import actions from "./Actions";
 import apiCall from "../api/ApiWrapper";
 import { apiUrl } from "../constants";
+import { navigationComponentChanged } from "./SelectedNavigationComponentActions";
 
 const fetchingComponents = () => ({ type: actions.FETCHING_COMPONENTS });
 
@@ -57,10 +58,8 @@ export const componentSelected = id => dispatch => {
   return apiCall(config)
     .then(result => {
       dispatch(fetchingOneComponentSucceeded(result));
-      console.log(result);
+      dispatch(navigationComponentChanged("details"))
     }
     )
     .catch(error => dispatch(fetchingOneComponentFailed(error.message)));
 }
-
-export const reset = () => dispatch => dispatch({ type: actions.RESET_SELECTED_COMPONENT });

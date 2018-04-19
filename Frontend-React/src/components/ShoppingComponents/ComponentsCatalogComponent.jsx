@@ -31,7 +31,6 @@ class ComponentsCatalogComponent extends React.Component {
 
   render() {
     return (
-      this.props.selectedComponent.data ? <ComponentDetailsComponent/> :
         <React.Fragment>
           <div className="filter">
             <FilterComponent />

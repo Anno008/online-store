@@ -1,11 +1,12 @@
 import React from "react";
-import { Route, BrowserRouter as Router } from "react-router-dom";
+import { Route, HashRouter as Router, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import "css/app.css";
 import AuthComponent from "./AuthComponent/AuthComponent";
 import NavComponent from "./NavComponent/NavComponent";
 import { checkForUser } from "../actions/AuthActions";
 import ComponentsCatalogComponent from "components/ShoppingComponents/ComponentsCatalogComponent";
+import { get } from "../navigation/NavigationComponentsDictionary";
 
 class App extends React.Component {
   constructor(props) {
@@ -16,20 +17,17 @@ class App extends React.Component {
   render() {
     return (
       <div className="app">
-        <NavComponent />
-        <Router>
-          <React.Fragment>
-            <Route exact path="/" component={ComponentsCatalogComponent} />
-            <Route path="/auth" component={AuthComponent} />
-          </React.Fragment>
-        </Router>
+        <NavComponent  />
+        {get(this.props.selectedNavigationComponent.data)}
         <div className="footer" />
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  selectedNavigationComponent: state.selectedNavigationComponent
+});
 
 const mapDispatchToProps = dispatch => ({
   checkIfTheUserWasLoggedIn: () => dispatch(checkForUser())
