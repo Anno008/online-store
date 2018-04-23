@@ -3,12 +3,12 @@ image: microsoft/dotnet:latest
 stages:
   - build
   - test
-  - deploy
+  # - deploy
 
 build:
   stage: build
   variables:
-  build_path: "Backend"
+    build_path: "Backend"
   script:
     - "cd $build_path"
     - "dotnet restore"
@@ -17,13 +17,13 @@ build:
 test:
   stage: test
   variables:
-  test_path: "Backend.Tests"
+    test_path: "Backend.Tests"
   script:
     - "cd $test_path"
     - "dotnet test"
 
-deploy:
-  stage: deploy:
-  image: docker:latest
-  script:
-    - ""
+# deploy:
+#   stage: deploy:
+#   image: docker:latest
+#   script:
+#     - ""
