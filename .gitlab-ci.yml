@@ -15,14 +15,14 @@ build:
     - "dotnet restore"
     - "dotnet build"
 
-  frontend-build:
-    stage: build
-    variables:
-      build_path: "Frontend-React"
-    script:
-      - "cd $build_path"
-      - npm install
-      - npm run build
+# frontend-build:
+#   stage: build
+#   variables:
+#     build_path: "Frontend-React"
+#   script:
+#     - "cd $build_path"
+#     - npm install
+#     - npm run build
 
 test:
   stage: test
