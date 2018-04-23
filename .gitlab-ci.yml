@@ -3,7 +3,6 @@ image: node:latest
 
 stages:
   - build
-  - frontendBuild
   - test
   # - deploy
 
@@ -16,8 +15,8 @@ build:
     - "dotnet restore"
     - "dotnet build"
 
-  frontendBuild:
-    stage: frontendBuild
+  frontend-build:
+    stage: build
     variables:
       build_path: "Frontend-React"
     script:
