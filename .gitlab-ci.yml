@@ -1,5 +1,4 @@
 image: microsoft/dotnet:latest
-image: node:latest
 
 stages:
   - build
