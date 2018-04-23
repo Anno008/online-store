@@ -8,7 +8,7 @@ stages:
 build:
   stage: build
   variables:
-  build_path: "$project"
+  build_path: "Backend"
   script:
     - "cd $build_path"
     - "dotnet restore"
@@ -17,7 +17,7 @@ build:
 test:
   stage: test
   variables:
-    test_path: "$project.Tests"
+    test_path: "Backend.Tests"
   script:
     - "cd $test_path"
     - "dotnet test"
