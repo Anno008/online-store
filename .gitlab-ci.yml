@@ -1,12 +1,11 @@
-image: microsoft/dotnet:latest
-
 stages:
   - build
   - test
-  # - deploy
+  - deploy
 
-build:
+buildBackend:
   stage: build
+  image: microsoft/dotnet:latest
   variables:
     build_path: "Backend"
   script:
@@ -14,17 +13,19 @@ build:
     - "dotnet restore"
     - "dotnet build"
 
-# frontend-build:
-#   stage: build
-#   variables:
-#     build_path: "Frontend-React"
-#   script:
-#     - "cd $build_path"
-#     - npm install
-#     - npm run build
+buildFrontend:
+  stage: build
+  image: node:9.11.1
+  variables:
+    build_path: "Frontend-React"
+  script:
+    - "cd $build_path"
+    - "npm install"
+    - "npm run build"
 
 test:
   stage: test
+  image: microsoft/dotnet:latest
   variables:
     test_path: "Backend/Backend.Tests"
   script:
