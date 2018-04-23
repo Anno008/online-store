@@ -17,7 +17,7 @@ build:
 test:
   stage: test
   variables:
-    test_path: "Backend.Tests"
+    test_path: "Backend/Backend.Tests"
   script:
     - "cd $test_path"
     - "dotnet test"
