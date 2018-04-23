@@ -6,26 +6,23 @@ stages:
   - test
   # - deploy
 
-build: &build
+build:
   stage: build
-
-frontend:
-  <<: *build
-  variables:
-    build_path: "Frontend-React"
-  script:
-    - "cd $build_path"
-    - npm install
-    - npm run build
-
-backend:
-  <<: *build
   variables:
     build_path: "Backend"
+  script:
+    - "cd $build_path"
+    - "dotnet restore"
+    - "dotnet build"
+
+  frontend-build:
+    stage: build
+    variables:
+      build_path: "Frontend-React"
     script:
       - "cd $build_path"
-      - "dotnet restore"
-      - "dotnet build"
+      - npm install
+      - npm run build
 
 test:
   stage: test
@@ -40,46 +37,3 @@ test:
 #   image: docker:latest
 #   script:
 #     - ""
-
-
-
-
-# image: microsoft/dotnet:latest
-# image: node:latest
-
-# stages:
-#   - build
-#   - test
-#   # - deploy
-
-# build:
-#   stage: build
-#   variables:
-#     build_path: "Backend"
-#   script:
-#     - "cd $build_path"
-#     - "dotnet restore"
-#     - "dotnet build"
-
-#   frontend-build:
-#     stage: build
-#     variables:
-#       build_path: "Frontend-React"
-#     script:
-#       - "cd $build_path"
-#       - npm install
-#       - npm run build
-
-# test:
-#   stage: test
-#   variables:
-#     test_path: "Backend/Backend.Tests"
-#   script:
-#     - "cd $test_path"
-#     - "dotnet test"
-
-# # deploy:
-# #   stage: deploy:
-# #   image: docker:latest
-# #   script:
-# #     - ""
