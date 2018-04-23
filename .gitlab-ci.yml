@@ -24,6 +24,6 @@ test:
 
 deploy:
   stage: deploy:
-    script:
     image: docker:latest
+    script:
     - ""
