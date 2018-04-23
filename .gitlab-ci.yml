@@ -17,13 +17,13 @@ build:
 test:
   stage: test
   variables:
-    test_path: "Backend.Tests"
+  test_path: "Backend.Tests"
   script:
     - "cd $test_path"
     - "dotnet test"
 
 deploy:
   stage: deploy:
-    image: docker:latest
-    script:
+  image: docker:latest
+  script:
     - ""
