@@ -1,7 +1,9 @@
 image: microsoft/dotnet:latest
+image: node:latest
 
 stages:
   - build
+  - frontend-build
   - test
   # - deploy
 
@@ -13,6 +15,15 @@ build:
     - "cd $build_path"
     - "dotnet restore"
     - "dotnet build"
+
+  frontend-build:
+    stage: frontend-build
+    variables:
+      build_path: "Frontend-React"
+    script:
+      - "cd $build_path"
+      - npm install
+      - npm run build
 
 test:
   stage: test
