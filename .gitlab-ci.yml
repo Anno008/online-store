@@ -33,7 +33,7 @@ testBackend:
     - "dotnet test"
 
 testFrontend:
-  stage: build
+  stage: test
   image: node:9.11.1
   variables:
     build_path: "Frontend-React"
