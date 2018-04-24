@@ -42,6 +42,7 @@ testFrontend:
     - "npm install"
     - "npm test"
 
+
 # deploy:
 #   stage: deploy:
 #   image: docker:latest
