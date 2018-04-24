@@ -32,17 +32,6 @@ testBackend:
     - "cd $test_path"
     - "dotnet test"
 
-testFrontend:
-  stage: test
-  image: node:9.11.1
-  variables:
-    build_path: "Frontend-React"
-  script:
-    - "cd $build_path"
-    - "npm install"
-    - "npm test"
-
-
 # deploy:
 #   stage: deploy:
 #   image: docker:latest
