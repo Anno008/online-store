@@ -23,7 +23,7 @@ buildFrontend:
     - "npm install"
     - "npm run build"
 
-test:
+testBackend:
   stage: test
   image: microsoft/dotnet:latest
   variables:
@@ -31,6 +31,16 @@ test:
   script:
     - "cd $test_path"
     - "dotnet test"
+
+testFrontend:
+  stage: build
+  image: node:9.11.1
+  variables:
+    build_path: "Frontend-React"
+  script:
+    - "cd $build_path"
+    - "npm install"
+    - "npm test"
 
 # deploy:
 #   stage: deploy:
