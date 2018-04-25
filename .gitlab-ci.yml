@@ -35,27 +35,27 @@ testBackend:
     - "cd $test_path"
     - "dotnet test"
 
-# deployBackend:
-#   stage: deploy
-#   variables:
-#     build_path: "Backend/Backend.WebApi"
-#   script:
-#     - "cd $build_path"
-#     - "git init"
-#     - "git config user.email 'you@example.com'"
-#     - "git config user.name 'Your Name'"
-#     - "git add ."
-#     - "git commit -m 'Publish'"
-#     - "git remote add heroku https://heroku:$api_key@git.heroku.com/on-star.git"
-#     - "git push -f heroku master"
-
 deployBackend:
-  type: deploy
+  stage: deploy
   variables:
     build_path: "Backend/Backend.WebApi"
   script:
-  - "cd $build_path"
-  - apt-get update -qy
-  - apt-get install -y ruby-dev
-  - gem install dpl
-  - dpl --provider=heroku --app=on-star --api-key=$api_key
+    - "cd $build_path"
+    - "git init"
+    - "git config user.email 'you@example.com'"
+    - "git config user.name 'Your Name'"
+    - "git add ."
+    - "git commit -m 'Publish'"
+    - "git remote add heroku https://heroku:$api_key@git.heroku.com/on-star.git"
+    - "git push -f heroku master"
+
+# deployBackend:
+#   type: deploy
+#   variables:
+#     build_path: "Backend/Backend.WebApi"
+#   script:
+#   - "cd $build_path"
+#   - apt-get update -qy
+#   - apt-get install -y ruby-dev
+#   - gem install dpl
+#   - dpl --provider=heroku --app=on-star --api-key=$api_key
