@@ -26,7 +26,7 @@ buildFrontend:
     - "npm install"
     - "npm run build"
 
-test:
+testBackend:
   stage: test
   image: microsoft/dotnet:latest
   variables:
