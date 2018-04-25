@@ -1,4 +1,4 @@
-﻿using System.IO;
+﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
 namespace Backend.WebApi
@@ -9,11 +9,8 @@ namespace Backend.WebApi
             BuildWebHost(args).Run();
 
         public static IWebHost BuildWebHost(string[] args) =>
-            new WebHostBuilder()
-              .UseKestrel()
-              .UseContentRoot(Directory.GetCurrentDirectory())
-              .UseUrls("http://*:8080")
-              .UseStartup<Startup>()
-              .Build();
+          WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>()
+                .Build();
     }
 }
