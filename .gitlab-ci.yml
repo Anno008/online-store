@@ -68,7 +68,7 @@ deployFrontend:
     - "git init"
     - "git config user.email 'you@example.com'"
     - "git config user.name Anno"
-    - "echo '<?php include_once('index.html'); ?>' > index.php"
+    - "echo '<?php include_once('index.html'); ?>' | dd of =index.php"
     - "git add ."
     - "git commit -m 'Publish'"
     - "git remote add heroku https://heroku:$api_key@git.heroku.com/front-star.git"
