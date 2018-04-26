@@ -1,4 +1,4 @@
-import { apiUrl, redirectUri } from "../constants";
+import { apiUrl } from "../constants";
 import jwt_decode from "jwt-decode";
 
 const apiCall = async config => {
@@ -57,7 +57,8 @@ const acquireAccessToken = async () => {
             throw new Error("Failed to refresh access token").message;
           });
       } else {
-        location.href = redirectUri;
+        // Couldn't acquire access token
+        throw Error("Please login.");
       }
     }
   }
