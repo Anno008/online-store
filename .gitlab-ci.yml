@@ -49,7 +49,7 @@ deployBackend:
     - "git remote add heroku https://heroku:$api_key@git.heroku.com/backon.git"
     - "git push -f heroku master"
 
-deployBackend:
+deployFrontend:
   stage: deploy
   variables:
     build_path: "Frontend-React"
