@@ -2,6 +2,7 @@ stages:
   - build
   - test
   - deploy
+  - deployFront
 
 variables:
   api_key: $HEROKU_API_KEY
@@ -37,6 +38,7 @@ testBackend:
 
 deployBackend:
   stage: deploy
+  image: apline
   variables:
     build_path: "Backend/Backend.WebApi"
   script:
@@ -50,7 +52,7 @@ deployBackend:
     - "git push -f heroku master"
 
 deployFrontend:
-  stage: deploy
+  stage: deployFront
   image: node:latest
   variables:
     build_path: "Frontend-React"
