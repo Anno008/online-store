@@ -14,3 +14,13 @@ namespace Backend.WebApi
                 .Build();
     }
 }
+
+// Consider figuring out either with conditional variables how to host this differently based
+// on build config
+//public static IWebHost BuildWebHost(string[] args) =>
+//           new WebHostBuilder()
+//             .UseKestrel()
+//             .UseContentRoot(Directory.GetCurrentDirectory())
+//             .UseUrls("http://*:8080")
+//             .UseStartup<Startup>()
+//             .Build();
