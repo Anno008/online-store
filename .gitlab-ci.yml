@@ -58,7 +58,7 @@ deployFrontend:
     - "cd $build_path"
     - "npm install"
     - "npm run build"
-    - "cd $build_path/dist"
+    - "cd dist"
     - "touch composer.json"
     - "touch index.php"
     - "'<?php include_once('index.html'); ?>' > index.php"
