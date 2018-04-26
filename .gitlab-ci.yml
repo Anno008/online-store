@@ -1,8 +1,11 @@
 stages:
   - build
   - test
-  - deploy
+  - deployBack
   - deployFront
+
+# A workaround cause of heroku, free accounts can't have concurent deployments
+# So I need to execute them synchronously
 
 variables:
   api_key: $HEROKU_API_KEY
@@ -37,8 +40,8 @@ testBackend:
     - "dotnet test"
 
 deployBackend:
-  stage: deploy
-  image: apline
+  stage: deployBack
+  image: alpine
   variables:
     build_path: "Backend/Backend.WebApi"
   script:
