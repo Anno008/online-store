@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore;
+﻿using System.IO;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
 namespace Backend.WebApi
@@ -8,19 +9,20 @@ namespace Backend.WebApi
         public static void Main(string[] args) =>
             BuildWebHost(args).Run();
 
-        public static IWebHost BuildWebHost(string[] args) =>
-          WebHost.CreateDefaultBuilder(args)
+        public static IWebHost BuildWebHost(string[] args)
+        {
+#if DEBUG
+            return new WebHostBuilder()
+                     .UseKestrel()
+                     .UseContentRoot(Directory.GetCurrentDirectory())
+                     .UseUrls("http://*:8080")
+                     .UseStartup<Startup>()
+               .Build();
+#else
+            return WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .Build();
+#endif
+        }
     }
 }
-
-// Consider figuring out either with conditional variables how to host this differently based
-// on build config
-//public static IWebHost BuildWebHost(string[] args) =>
-//           new WebHostBuilder()
-//             .UseKestrel()
-//             .UseContentRoot(Directory.GetCurrentDirectory())
-//             .UseUrls("http://*:8080")
-//             .UseStartup<Startup>()
-//             .Build();
