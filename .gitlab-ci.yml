@@ -41,7 +41,6 @@ testBackend:
 
 deployBackend:
   stage: deployBack
-  image: alpine
   variables:
     build_path: "Backend/Backend.WebApi"
   script:
