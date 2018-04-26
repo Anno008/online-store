@@ -46,7 +46,27 @@ deployBackend:
     - "git config user.name 'Your Name'"
     - "git add ."
     - "git commit -m 'Publish'"
-    - "git remote add heroku https://heroku:$api_key@git.heroku.com/on-star.git"
+    - "git remote add heroku https://heroku:$api_key@git.heroku.com/backon.git"
+    - "git push -f heroku master"
+
+deployFrontend:
+  stage: deploy
+  variables:
+    build_path: "Frontend-React"
+  script:
+    - "cd $build_path"
+    - "npm install"
+    - "npm run build"
+    - "cd $build_path/dist"
+    - "touch composer.json"
+    - "touch index.php"
+    - "'<?php include_once('index.html'); ?>' > index.php"
+    - "git init"
+    - "git config user.email 'you@example.com'"
+    - "git config user.name 'Your Name'"
+    - "git add ."
+    - "git commit -m 'Publish'"
+    - "git remote add heroku https://heroku:$api_key@git.heroku.com/front-star.git"
     - "git push -f heroku master"
 
 # deployBackend:
