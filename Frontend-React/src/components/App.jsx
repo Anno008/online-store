@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import "css/app.css";
 import AuthComponent from "./AuthComponent/AuthComponent";
-import NavComponent from "./NavComponent/NavComponent";
+import NavComponent from "./NavComponents/NavComponent";
 import { checkForUser } from "../actions/AuthActions";
 import ComponentsCatalogComponent from "components/ShoppingComponents/ComponentsCatalogComponent";
 import { get } from "../navigation/NavigationComponentsDictionary";
