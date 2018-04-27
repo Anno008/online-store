@@ -32,7 +32,7 @@ class ComponentsCatalogComponent extends React.Component {
   render() {
     return (
         <React.Fragment>
-          <div className="filter">
+          <div className="header">
             <FilterComponent />
           </div>
           <div className="main">

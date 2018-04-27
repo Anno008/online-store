@@ -14,7 +14,7 @@ body {
   grid-template-areas:
     "navBar navBar navBar"
     ". . ."
-    ". filter ."
+    ". header ."
     ". . ."
     ". main ."
     ". . ."
@@ -37,8 +37,8 @@ body {
   justify-content: space-between;
 }
 
-.filter {
-  grid-area: filter;
+.header {
+  grid-area: header;
   text-align: center;
   padding: 10px;
 }
@@ -86,7 +86,7 @@ body {
     grid-template-columns: 1fr;
     grid-template-areas:
     "navBar"
-    "filter"
+    "header"
     "main"
     "."
   }
