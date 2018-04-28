@@ -9,6 +9,7 @@ import ComponentListComponent from "./ComponentComponents/ComponentListComponent
 import PagingComponent from "./PagingComponents/PagingComponent";
 import { debounce } from "lodash";
 import ComponentDetailsComponent from "./ComponentDetailsComponents/ComponentDetailsComponent";
+import { LoaderComponent } from "../Utils/LoaderComponent";
 
 class ComponentsCatalogComponent extends React.Component {
   constructor(props) {
@@ -36,8 +37,8 @@ class ComponentsCatalogComponent extends React.Component {
             <FilterComponent />
           </div>
           <div className="main">
-          <PagingComponent />
-            <ComponentListComponent />
+            <PagingComponent />
+            {this.props.componentsState.isFetching ? <LoaderComponent/> : <ComponentListComponent />}
           </div>
         </React.Fragment>
     );
@@ -48,7 +49,8 @@ const mapStateToProps = state => ({
   brandsState: state.brandsState,
   filterState: state.filterState,
   pagingState: state.pagingState,
-  selectedComponent: state.selectedComponentState
+  selectedComponent: state.selectedComponentState,
+  componentsState: state.componentsState
 });
 
 const updateWithDelay = debounce((dispatch, props) => 
