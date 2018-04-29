@@ -1,6 +1,7 @@
 import { login, register } from "../../actions/AuthActions";
 import React from "react";
 import { connect } from "react-redux";
+import "components/css/auth.css";
 
 class RegisterComponent extends React.Component {
   constructor(props) {
@@ -35,7 +36,7 @@ class RegisterComponent extends React.Component {
   render() {
     return (
       <form onSubmit={this.register} method="POST" onChange={this.handleChange}>
-        <p>Username</p>
+        <p className="textLabels">Username</p>
         <input
           className="textBox"
           name="username"
@@ -45,7 +46,7 @@ class RegisterComponent extends React.Component {
         />
         <br />
         <br />
-        <p>Password</p>
+        <p className="textLabels">Password</p>
         <input
           className="textBox"
           name="password"
@@ -56,7 +57,7 @@ class RegisterComponent extends React.Component {
         />
         <br />
         <br />
-        <p>Confirm password</p>
+        <p className="textLabels">Confirm password</p>
         <input
           className="textBox"
           name="confirmPassword"

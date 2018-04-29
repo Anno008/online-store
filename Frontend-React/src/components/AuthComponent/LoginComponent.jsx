@@ -29,8 +29,8 @@ class LoginComponent extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.login} method="POST" onChange={this.handleChange}>
-        <p>Username</p>
+      <form onSubmit={this.login} method="POST" onChange={this.handleChange} className="auth">
+        <p className="textLabels">Username</p>
         <input
           className="textBox"
           name="username"
@@ -40,7 +40,7 @@ class LoginComponent extends React.Component {
         />
         <br/>
         <br/>
-        <p>Password</p>
+        <p className="textLabels">Password</p>
         <input
           className="textBox"
           name="password"
