@@ -9,18 +9,21 @@ import "../../css/filter.css";
 const FilterComponent = props => {
   return (
     <React.Fragment>
-      {props.brandsState.error ? <p className="error">{props.brandsState.error}</p>: null}
-      <div className="filterContainer">
-        <ComponentsNameFilterComponent />
-        <BrandsFilterComponent />
-        <ComponentTypesFilterComponent />
-      </div>
+      {(props.brandsState.error || props.componentTypesState.error || props.componentsError) ? 
+        <p className="error">{props.componentsError}</p>: null}
+        <div className="filterContainer">
+          <ComponentsNameFilterComponent />
+          <BrandsFilterComponent />
+          <ComponentTypesFilterComponent />
+        </div>
     </React.Fragment>
   );
 };
 
 const mapStateToProps = state => ({
-  brandsState: state.brandsState
+  brandsState: state.brandsState,
+  componentsError: state.componentsState.error,
+  componentTypesState: state.componentTypesState,
 });
 
 const mapDispatchToProps = dispatch => ({});
