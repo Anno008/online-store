@@ -10,6 +10,7 @@ import PagingComponent from "./PagingComponents/PagingComponent";
 import { debounce } from "lodash";
 import ComponentDetailsComponent from "./ComponentDetailsComponents/ComponentDetailsComponent";
 import { LoaderComponent } from "../Utils/LoaderComponent";
+import { pageNumberChanged } from "actions/PagingActions";
 
 class ComponentsCatalogComponent extends React.Component {
   constructor(props) {
@@ -27,6 +28,12 @@ class ComponentsCatalogComponent extends React.Component {
       props.pagingState.page !== this.props.pagingState.page ||
       props.pagingState.pageSize !== this.props.pagingState.pageSize){
         this.props.fetchComponentsWithDelay(props, 100);
+    }
+  }
+
+  componentWillUpdate(props){
+    if(props.pagingState.page > props.componentsState.data.pages){
+      this.props.changePageNumber(1);
     }
   }
 
@@ -60,8 +67,8 @@ const mapDispatchToProps = dispatch => ({
   initializeBrands: () => dispatch(fetchBrands()),
   initializeComponentTypes: () => dispatch(fetchComponentTypes()),
   fetchComponents: (filter, paging) => dispatch(fetchComponents(filter, paging)),
-  fetchComponentsWithDelay: (props) => updateWithDelay(dispatch, props)
-  
+  fetchComponentsWithDelay: (props) => updateWithDelay(dispatch, props),
+  changePageNumber: pageNumber => dispatch(pageNumberChanged(pageNumber)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ComponentsCatalogComponent);
