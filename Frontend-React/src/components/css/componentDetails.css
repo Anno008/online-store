@@ -1,0 +1,11 @@
+p {
+    text-align: left;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.detailsHeaderContainer{
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    grid-gap: 10px;
+}
