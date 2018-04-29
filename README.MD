@@ -1,4 +1,10 @@
-# Backend
+# Demo
+* The application is currently hosted on heroku. The deployment is done automatically through gitlabs' continuous integration.
+* The frontend application can be viewed at the following address https://front-star.herokuapp.com/
+
+
+# Setting up the development environment
+## Backend
 
 To run the backend after cloning the repository the following steps are necessary:
 * Install the [.NET Core SDK](https://www.microsoft.com/net/download/windows) 
@@ -14,7 +20,7 @@ To create our database with the relationships defined in the models, and very im
 
 An easy way to see the exposed endpoints that clients can consume is to start the application and in your favorite browser navigate to http://localhost:8080/swagger/.
 
-# Frontend-React
+## Frontend-React
 To run the frontend after cloning the repository the following steps are necessary:
 * Install [node](https://nodejs.org/en/download/current/)
 * **npm install** to download all the packages defined in package.json.
