@@ -1,26 +1,39 @@
 import React from "react";
 import { connect } from "react-redux";
+import "components/css/componentDetails.css";
 
-const ComponentDetailsComponent = props => (
+const ComponentDetailsComponent = props =>
+  props.componentState.data ? (
     <React.Fragment>
-    {props.componentState.data ? 
-        <div className="main">
-            {props.componentState.data.name}
-            <br/>
-            Price: {props.componentState.data.price}
-            <br/>
-            Brand: {props.componentState.data.brand.name}
-            <br/>
-            Type: {props.componentState.data.componentType.name}
-        </div> :  props.componentState.isFetching ? "fetching"  : null }
-        </React.Fragment>
-  );
+      <div className="header">
+        <div className="detailsHeaderContainer">
+          <div>
+            <p>Name: {props.componentState.data.name}</p>
+            <p>Price: {props.componentState.data.price}</p>
+            <p>Brand: {props.componentState.data.brand.name}</p>
+            <p>Type: {props.componentState.data.componentType.name}</p>
+          </div>
+          <div>
+            {props.userState.data && props.userState.data.username && props.userState.data.roles.indexOf("User") > -1? 
+          <button className="btn">Add to cart</button> : null}
+          </div>
+        </div>
+      </div>
+      <div className="main" >
+        Comments, TODO
+      </div>
+    </React.Fragment>
+  ) : props.componentState.isFetching ? (
+    "fetching"
+  ) : null;
 
-  const mapStateToProps = state => ({
-    componentState: state.selectedComponentState
-  });
-  
-  const mapDispatchToProps = dispatch => ({
-  });
-  
-export default connect(mapStateToProps, mapDispatchToProps)(ComponentDetailsComponent);
+const mapStateToProps = state => ({
+  componentState: state.selectedComponentState,
+  userState: state.userState
+});
+
+const mapDispatchToProps = dispatch => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(
+  ComponentDetailsComponent
+);
