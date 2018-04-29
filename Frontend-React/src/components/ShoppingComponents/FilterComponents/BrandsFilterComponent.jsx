@@ -5,6 +5,7 @@ import "components/css/dropdown.css";
 
 const BrandsFilterComponent = props => (
     <select 
+    disabled={props.brandsState.isFetching}
     value={props.filterState.brandId} 
     className="dropdown" 
     onChange={(e) => props.handleBrandSelectionChanged(e.currentTarget.value)}>
