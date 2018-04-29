@@ -36,7 +36,7 @@ class ComponentsCatalogComponent extends React.Component {
   }
 
   componentWillUpdate(props){
-    if(props.componentsState.data.page !== undefined && props.pagingState.page > props.componentsState.data.pages){
+    if(props.componentsState.data !== undefined && props.pagingState.page > props.componentsState.data.pages){
       this.props.changePageNumber(1);
     }
   }
