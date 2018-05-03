@@ -20,7 +20,7 @@ const PagingComponent = props => (
     <input
         type="button" 
         className="horizontalPadding"
-        disabled={props.componentsState.data.currentPage <= 1}
+        disabled={props.componentsState.data.totalItems == undefined || props.componentsState.data.currentPage <= 1}
         onClick={() => props.handlePageNumberChanged(props.componentsState.data.currentPage - 1)}
         value="&lt;&lt;"/>
     {props.componentsState.data.currentPage || 0} / {props.componentsState.data.pages || 0}
