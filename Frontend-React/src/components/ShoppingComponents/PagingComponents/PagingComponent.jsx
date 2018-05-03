@@ -8,6 +8,7 @@ const PagingComponent = props => (
     Items per page
     <select
       id="itemsPerPage"
+      disabled={props.componentsState.isFetching}
       className="dropdown itemsParePage horizontalPadding"
       value={props.pagingState.pageSize}
       onChange={e => props.handlePageSizeChanged(e.target.value)}>
