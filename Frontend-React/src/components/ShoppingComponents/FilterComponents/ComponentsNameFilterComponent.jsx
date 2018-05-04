@@ -3,10 +3,16 @@ import { connect } from "react-redux";
 import { searchBarTextChanged } from "actions/FilterActions";
 
 const ComponentsNameFilterComponent = props => 
-    <input placeholder="search" className="textBox" value={props.filterState.componentName} onChange={(e) => props.searchBarTextChanged(e.target.value)}/>;
+    <input 
+        disabled={props.componentsState.isFetching}
+        placeholder="search" 
+        className="textBox" 
+        value={props.filterState.componentName} 
+        onChange={(e) => props.searchBarTextChanged(e.target.value)}/>;
 
 const mapStateToProps = state => ({
-    filterState: state.filterState
+    filterState: state.filterState,
+    componentsState: state.componentsState
 });
 
 const mapDispatchToProps = dispatch => ({
