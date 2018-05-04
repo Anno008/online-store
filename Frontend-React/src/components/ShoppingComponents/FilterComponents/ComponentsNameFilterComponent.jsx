@@ -4,7 +4,6 @@ import { searchBarTextChanged } from "actions/FilterActions";
 
 const ComponentsNameFilterComponent = props => 
     <input 
-        disabled={props.componentsState.isFetching}
         placeholder="search" 
         className="textBox" 
         value={props.filterState.componentName} 
@@ -12,7 +11,6 @@ const ComponentsNameFilterComponent = props =>
 
 const mapStateToProps = state => ({
     filterState: state.filterState,
-    componentsState: state.componentsState
 });
 
 const mapDispatchToProps = dispatch => ({
