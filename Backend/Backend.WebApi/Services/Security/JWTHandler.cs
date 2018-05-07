@@ -23,10 +23,10 @@ namespace Backend.WebApi.Services.Security
 
             var claims = new Claim[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, clientId),
+                new Claim(JwtRegisteredClaimNames.Sub, username),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToUniversalTime().ToString(), ClaimValueTypes.Integer64),
-                new Claim("user_name", username)
+                new Claim("clientId", clientId),
             };
 
             var token = new JwtSecurityToken(

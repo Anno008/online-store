@@ -39,7 +39,7 @@ export const login = (username, password, rememberMe) => dispatch => {
       const decodedToken = jwt_decode(result.accessToken);
       location.href = "/";
       return dispatch(
-        authSuccessful(decodedToken.user_name, decodedToken.roles)
+        authSuccessful(decodedToken.sub, decodedToken.roles)
       );
     })
     .catch(error => {
@@ -51,7 +51,7 @@ export const checkForUser = () => dispatch => {
   const token = localStorage.getItem("accessToken");
   if (token) {
     const decodedToken = jwt_decode(token);
-    return dispatch(authSuccessful(decodedToken.user_name, decodedToken.roles));
+    return dispatch(authSuccessful(decodedToken.sub, decodedToken.roles));
   }
 };
 
