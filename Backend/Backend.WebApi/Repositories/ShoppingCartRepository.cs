@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Backend.WebApi.Models;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +9,7 @@ namespace Backend.WebApi.Repositories
     {
         public ShoppingCartRepository(DatabaseContext context) : base(context) { }
 
-        public override Task<ShoppingCart> GetAsync(long userId)
+        public Task<ShoppingCart> GetAsync(string username)
         {
             // Forcing eager loading on foreign tables
             databaseContext.ShoppingCarts
@@ -23,10 +22,10 @@ namespace Backend.WebApi.Repositories
                 .ThenInclude(c => c.ComponentType)
                 .Load();
 
-            return databaseContext.ShoppingCarts.FirstOrDefaultAsync(x => x.User.Id == userId);
+            return databaseContext.ShoppingCarts.FirstOrDefaultAsync(x => x.User.Username == username);
         }
 
-        public async Task<ShoppingCart> UpdateAsync(string username, List<int> componentIds)
+        public ShoppingCart AddItem(string username, int componentId)
         {
             if (string.IsNullOrWhiteSpace(username))
                 return null;
@@ -35,6 +34,12 @@ namespace Backend.WebApi.Repositories
 
             // User doesn't exist
             if (user == null)
+                return null;
+
+            var component = databaseContext.Components.FirstOrDefault(x => x.Id == componentId);
+
+            // Component doesn't exist anymore
+            if (component == null)
                 return null;
 
             var usersShoppingCart = databaseContext.ShoppingCarts.FirstOrDefault(x => x.User.Id == user.Id);
@@ -46,32 +51,29 @@ namespace Backend.WebApi.Repositories
                 databaseContext.ShoppingCarts.Add(usersShoppingCart);
             }
 
-            var items = componentIds.Select(i => new ShoppingCartItem
-            {
-                Component = databaseContext.Components.FirstOrDefault(c => c.Id == i)
-            }).ToList();
+            var shoppingCartItem = new ShoppingCartItem { Component = component };
+            usersShoppingCart.Items.Add(shoppingCartItem);
 
-            usersShoppingCart.Update(items);
-            await databaseContext.SaveChangesAsync();
+            usersShoppingCart.Update(usersShoppingCart.Items);
+            databaseContext.SaveChanges();
             return usersShoppingCart;
         }
 
-        // Honestly I can just call update and it will do the same thing plus return the 
-        // updated shopping cart
-        public void Delete(string userName, long shoppingCartItemId)
+        public ShoppingCart RemoveItem(string userName, long shoppingCartItemId)
         {
             var cart = databaseContext.ShoppingCarts.FirstOrDefault(x => x.User.Username == userName);
             if (cart == null)
-                return;
+                return null;
 
             var cartItem = cart.Items.FirstOrDefault(c => c.Id == shoppingCartItemId);
 
             if (cartItem == null)
-                return;
-
+                return cart;
 
             cart.Items.Remove(cartItem);
+            cart.Update(cart.Items);
             databaseContext.SaveChanges();
+            return cart;
         }
     }
 }

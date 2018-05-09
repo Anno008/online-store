@@ -15,25 +15,25 @@ namespace Backend.Tests.UnitTests.Repositories
             var brand = new Brand { Name = "Intel" };
             var type = new ComponentType { Name = "CPU" };
 
-            var component1 = new Component { Name = "Component1", Brand = brand, ComponentType = type, Price = 40 };
-            var component2 = new Component { Name = "Component2", Brand = brand, ComponentType = type, Price = 80 };
-            var component3 = new Component { Name = "Component3", Brand = brand, ComponentType = type, Price = 120 };
-            var component4 = new Component { Name = "Component4", Brand = brand, ComponentType = type, Price = 160 };
+            var component1 = new Component { Id = 1, Name = "Component1", Brand = brand, ComponentType = type, Price = 40 };
+            var component2 = new Component { Id = 2, Name = "Component2", Brand = brand, ComponentType = type, Price = 80 };
+            var component3 = new Component { Id = 3, Name = "Component3", Brand = brand, ComponentType = type, Price = 120 };
+            var component4 = new Component { Id = 4, Name = "Component4", Brand = brand, ComponentType = type, Price = 160 };
 
-            var user1 = new User { Username = "Test", Password = "Test" };
-            var user2 = new User { Username = "Test", Password = "Test" };
-
+            var user1 = new User { Username = "Test1", Password = "Test1" };
+            var user2 = new User { Username = "Test2", Password = "Test2" };
 
             var cart = new ShoppingCart
             {
                 User = user1,
                 Items = new List<ShoppingCartItem>
                 {
-                    new ShoppingCartItem {Component = component1 },
-                    new ShoppingCartItem {Component = component4 }
+                    new ShoppingCartItem { Component = component1 },
+                    new ShoppingCartItem {  Component = component4 }
                 }
             };
 
+            cart.Update(cart.Items);
             dbContext.Users.Add(user1);
             dbContext.Users.Add(user2);
 
@@ -67,31 +67,47 @@ namespace Backend.Tests.UnitTests.Repositories
 
             Assert.NotNull(cart);
             Assert.Equal(2, cart.Items.Count);
+            Assert.Equal(200, cart.TotalPrice);
         }
 
         [Fact]
-        public async void UpdateShoppingCart_UserDoesntExist_ReturnNull()
+        public void AddItem_ReturnCart_WithNewItem()
         {
-            var userName = "Something";
-            var componentIds = new List<int>();
+            var componentId = 3;
+            var username = "Test1";
 
-            var cart = await shoppingCartRepository.UpdateAsync(userName, componentIds);
-            Assert.Null(cart);
-        }
 
-        [Fact]
-        public async void UpdateShoppingCart_UserExists_ReturnCart()
-        {
-            var userName = "Test";
-
-            // Component { Id = 1, Name = "Component1", Brand = brand, Type = type, Price = 40 }
-            var componentIds = new List<int> { 1, 1, 1 };
-
-            var cart = await shoppingCartRepository.UpdateAsync(userName, componentIds);
+            var cart = shoppingCartRepository.AddItem(username, componentId);
 
             Assert.NotNull(cart);
             Assert.Equal(3, cart.Items.Count);
-            Assert.Equal(120, cart.TotalPrice);
+            Assert.Equal(320, cart.TotalPrice);
+        }
+
+        [Fact]
+        public void RemoveItem_ReturnCart_WithOneItemLess()
+        {
+            var shoppingCartItemId = 2;
+            var username = "Test1";
+
+            var cart = shoppingCartRepository.RemoveItem(username, shoppingCartItemId);
+
+            Assert.NotNull(cart);
+            Assert.Single(cart.Items);
+            Assert.Equal(40, cart.TotalPrice);
+        }
+
+        [Fact]
+        public void RemoveItem_ItemDoesntExist_ReturnCart()
+        {
+            var shoppingCartItemId = 55;
+            var username = "Test1";
+
+            var cart = shoppingCartRepository.RemoveItem(username, shoppingCartItemId);
+
+            Assert.NotNull(cart);
+            Assert.Equal(2, cart.Items.Count);
+            Assert.Equal(200, cart.TotalPrice);
         }
     }
 }

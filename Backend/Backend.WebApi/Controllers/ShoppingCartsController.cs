@@ -1,8 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-using Backend.WebApi.DTOs.RequestDTOs;
 using Backend.WebApi.DTOs.ResponseDTOs;
-using Backend.WebApi.Models;
 using Backend.WebApi.Repositories;
 
 using Microsoft.AspNetCore.Authorization;
@@ -13,17 +11,36 @@ namespace Backend.WebApi.Controllers
     [Route("api/[controller]")]
     public class ShoppingCartsController : Controller
     {
-        private readonly ShoppingCartRepository repo;
-        public ShoppingCartsController(ShoppingCartRepository repo) =>
-            this.repo = repo;
+        private readonly ShoppingCartRepository shoppingCartRepository;
 
-        [HttpGet("{userId}")]
-        public ShoppingCart Get(int userId) =>
-            repo.Get(userId);
+        public ShoppingCartsController(ShoppingCartRepository shoppingCartRepository) =>
+            this.shoppingCartRepository = shoppingCartRepository;
+
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<ShoppingCartResponseDTO> Get()
+        {
+            var username = User.FindFirst("sub")?.Value;
+
+            return new ShoppingCartResponseDTO(await shoppingCartRepository.GetAsync(username));
+        }
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<ShoppingCartResponseDTO> Post([FromBody]ShoppingCartRequestDTO cart) =>
-            new ShoppingCartResponseDTO(await repo.UpdateAsync(cart.Username, cart.ComponentIds));
+        public ShoppingCartResponseDTO AddItemToShoppingCart([FromBody] int componentId)
+        {
+            var username = User.FindFirst("sub")?.Value;
+
+            return new ShoppingCartResponseDTO(shoppingCartRepository.AddItem(username, componentId));
+        }
+
+        [HttpDelete]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public ShoppingCartResponseDTO DeleteItemFromShoppingCart([FromBody] int componentId)
+        {
+            var username = User.FindFirst("sub")?.Value;
+
+            return new ShoppingCartResponseDTO(shoppingCartRepository.RemoveItem(username, componentId));
+        }
     }
 }
