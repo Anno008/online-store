@@ -17,7 +17,7 @@ const PagingComponent = props => (
       <option value={10}>10</option>
       <option value={15}>15</option>
     </select>
-    Total items: {props.componentsState.data.totalItems || 0}
+    Total items: {props.componentsState.data ? 0 : props.componentsState.data.totalItems || 0}
     <input
         type="button" 
         className="horizontalPadding"
