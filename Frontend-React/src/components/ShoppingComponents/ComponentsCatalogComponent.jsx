@@ -28,6 +28,7 @@ class ComponentsCatalogComponent extends React.Component {
       props.pagingState.page !== this.props.pagingState.page ||
       props.pagingState.pageSize !== this.props.pagingState.pageSize){
         this.props.fetchComponentsWithDelay(props, 100);
+       
         if(this.props.brandsState.data.length < 1){
           this.props.initializeBrands();
           this.props.initializeComponentTypes();
@@ -36,7 +37,9 @@ class ComponentsCatalogComponent extends React.Component {
   }
 
   componentWillUpdate(props){
-    if(props.componentsState.data !== undefined && props.pagingState.page > props.componentsState.data.pages){
+    if(props.pagingState.page != 1 && 
+      props.pagingState.page > props.componentsState.data.pages && 
+      props.componentsState.data.pages != 0){
       this.props.changePageNumber(1);
     }
   }
