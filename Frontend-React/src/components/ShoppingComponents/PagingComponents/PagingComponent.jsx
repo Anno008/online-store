@@ -8,7 +8,7 @@ const PagingComponent = props => (
     Items per page
     <select
       id="itemsPerPage"
-      disabled={props.componentsState.isFetching}
+      disabled={props.componentsState.isFetching || false}
       className="dropdown itemsParePage horizontalPadding"
       value={props.pagingState.pageSize}
       onChange={e => props.handlePageSizeChanged(e.target.value)}>
@@ -17,18 +17,20 @@ const PagingComponent = props => (
       <option value={10}>10</option>
       <option value={15}>15</option>
     </select>
-    Total items: {props.componentsState.data ? 0 : props.componentsState.data.totalItems || 0}
+    Total items: {props.componentsState ?  props.componentsState.data ? props.componentsState.data.totalItems : 0 : 0 || 0}
     <input
         type="button" 
         className="horizontalPadding"
-        disabled={props.componentsState.data.totalItems == undefined || props.componentsState.data.currentPage <= 1}
+        disabled={props.componentsState == undefined  || props.componentsState.data == undefined || props.componentsState.data.totalItems == undefined || props.componentsState.data.currentPage <= 1}
         onClick={() => props.handlePageNumberChanged(props.componentsState.data.currentPage - 1)}
         value="&lt;&lt;"/>
-    {props.componentsState.data.currentPage || 0} / {props.componentsState.data.pages || 0}
+      {props.componentsState ? props.componentsState.data ? props.componentsState.data.currentPage : 1 : 1 || 1} 
+      / 
+      {props.componentsState ? props.componentsState.data ? props.componentsState.data.pages : 1 : 1 || 1}
     <input 
         type="button"
         className="horizontalPadding"
-        disabled={props.componentsState.data.currentPage == props.componentsState.data.pages}
+        disabled={props.componentsState == undefined || props.componentsState.data == undefined || props.componentsState.data.currentPage == props.componentsState.data.pages}
         onClick={() => props.handlePageNumberChanged(props.componentsState.data.currentPage + 1)}
         value="&gt;&gt;"/>
   </div>
