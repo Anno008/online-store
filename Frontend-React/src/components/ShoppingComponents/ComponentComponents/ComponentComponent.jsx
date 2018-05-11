@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import { pageNumberChanged, pageSizeChanged } from "actions/PagingActions";
 import { componentSelected } from "actions/ComponentActions";
 
 const ComponentComponent = props => (

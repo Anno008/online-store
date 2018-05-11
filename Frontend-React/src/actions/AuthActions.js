@@ -37,7 +37,6 @@ export const login = (username, password, rememberMe) => dispatch => {
       localStorage.setItem("refreshToken", result.refreshToken);
 
       const decodedToken = jwt_decode(result.accessToken);
-      location.href = "/";
       return dispatch(
         authSuccessful(decodedToken.sub, decodedToken.roles)
       );
@@ -52,6 +51,9 @@ export const checkForUser = () => dispatch => {
   if (token) {
     const decodedToken = jwt_decode(token);
     return dispatch(authSuccessful(decodedToken.sub, decodedToken.roles));
+  } else {
+    // Clearing local storage just in case
+    return dispatch(logout());
   }
 };
 
@@ -83,6 +85,6 @@ export const register = (username, password) => dispatch => {
 };
 
 export const logout = () => dispatch => {
-  localStorage.clear();
-  dispatch(logoutUser());
+  localStorage.removeItem("accessToken");
+  return dispatch(logoutUser());
 };

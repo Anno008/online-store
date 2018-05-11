@@ -10,22 +10,22 @@ const NavComponent = props => {
   const handleAuth = user => user && user.username ?
       props.logout() : props.changeNavigation(keys.auth);
 
-  return (
-    <div className="navBar">
-    <button className="btn" onClick={() => props.changeNavigation(keys.catalog)}>
+    return (
+      <div className="navBar">
+        <button className="btn" onClick={() => props.changeNavigation(keys.catalog)}>
         Home
-      </button>
-      <span>
+        </button>
+        <span>
         {props.userState.data && props.userState.data.username && props.userState.data.roles.indexOf("User") > -1? 
-          <button className="btn">My shopping cart</button> : null}
-      <button className="btn" onClick={() => handleAuth(props.userState.data)}>
+        <button className="btn" onClick={() => props.changeNavigation(keys.cart)}>My shopping cart</button> : null}
+        <button className="btn" onClick={() => handleAuth(props.userState.data)}>
         {props.userState.data && props.userState.data.username
-          ? `Welcome ${props.userState.data.username}, Logout`
-          : "Login"}
-      </button>
-      </span>
-    </div>
-  );
+        ? `Welcome ${props.userState.data.username}, Logout`
+        : "Login"}
+        </button>
+        </span>
+      </div>
+    );
 };
 
 const mapStateToProps = state => ({

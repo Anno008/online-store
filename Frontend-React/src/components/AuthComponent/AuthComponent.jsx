@@ -1,22 +1,20 @@
 import React from "react";
-import { login, register } from "../../actions/AuthActions";
+import { login, register, checkForUser } from "../../actions/AuthActions";
 import { connect } from "react-redux";
 import LoginComponent from "./LoginComponent";
 import RegisterComponent from "./RegisterComponent";
 import "components/css/label.css";
+import { navigationComponentChanged } from "../../actions/SelectedNavigationComponentActions";
+import { keys } from "navigation/NavigationKeys";
+
 
 class AuthComponent extends React.Component {
   constructor(props) {
     super(props);
-    if (props.userState.data) {
-      location.href = "/";
+    this.state = { login:  true};
+    if (this.props.userState.data) {
+      this.props.changeNavigation(keys.catalog);
     }
-  }
-
-  componentWillMount() {
-    this.setState({
-      login: true
-    });
   }
 
   handleLinkClick(e, login) {
@@ -58,6 +56,9 @@ const mapStateToProps = state => ({
   userState: state.userState
 });
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  checkStatus: () => dispatch(checkForUser()),
+  changeNavigation: (key) => dispatch(navigationComponentChanged(key))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthComponent);

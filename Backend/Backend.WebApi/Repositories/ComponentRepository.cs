@@ -132,7 +132,7 @@ namespace Backend.WebApi.Repositories
             if (totalItems % itemsPerPage != 0)
                 totalPages++;
 
-            return totalPages;
+            return totalPages == 0 ? 1 : totalPages;
         }
     }
 }
