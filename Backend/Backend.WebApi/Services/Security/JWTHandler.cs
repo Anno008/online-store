@@ -23,9 +23,9 @@ namespace Backend.WebApi.Services.Security
 
             var claims = new Claim[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, username),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToUniversalTime().ToString(), ClaimValueTypes.Integer64),
+                new Claim("username", username),
                 new Claim("clientId", clientId),
             };
 

@@ -40,7 +40,7 @@ export const login = (username, password, rememberMe) => dispatch => {
 
       const decodedToken = jwt_decode(result.accessToken);
       dispatch(navigationComponentChanged(keys.catalog));
-      return dispatch(authSuccessful(decodedToken.sub, decodedToken.roles));
+      return dispatch(authSuccessful(decodedToken.username, decodedToken.roles));
     })
     .catch(error => {
       // dispatch(navigationComponentChanged(keys.auth));
@@ -52,7 +52,7 @@ export const checkForUser = () => dispatch => {
   const token = localStorage.getItem("accessToken");
   if (token) {
     const decodedToken = jwt_decode(token);
-    return dispatch(authSuccessful(decodedToken.sub, decodedToken.roles));
+    return dispatch(authSuccessful(decodedToken.username, decodedToken.roles));
   } else {
     // Clearing local storage just in case
     return dispatch(logout());

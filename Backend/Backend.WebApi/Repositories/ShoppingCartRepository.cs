@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Backend.WebApi.Models;
 using Microsoft.EntityFrameworkCore;
@@ -43,11 +44,16 @@ namespace Backend.WebApi.Repositories
                 return null;
 
             var usersShoppingCart = databaseContext.ShoppingCarts.FirstOrDefault(x => x.User.Id == user.Id);
+            databaseContext.ShoppingCarts
+                .Include(c => c.Items)
+                .Load();
 
             // If the user doesn't already have a shopping cart, create one
             if (usersShoppingCart == null)
             {
                 usersShoppingCart = new ShoppingCart { User = user };
+                usersShoppingCart.Items = new List<ShoppingCartItem>();
+
                 databaseContext.ShoppingCarts.Add(usersShoppingCart);
             }
 
