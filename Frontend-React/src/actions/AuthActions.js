@@ -39,9 +39,8 @@ export const login = (username, password, rememberMe) => dispatch => {
       localStorage.setItem("refreshToken", result.refreshToken);
 
       const decodedToken = jwt_decode(result.accessToken);
-      return dispatch(
-        authSuccessful(decodedToken.sub, decodedToken.roles)
-      );
+      dispatch(navigationComponentChanged(keys.catalog));
+      return dispatch(authSuccessful(decodedToken.sub, decodedToken.roles));
     })
     .catch(error => {
       // dispatch(navigationComponentChanged(keys.auth));
