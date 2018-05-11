@@ -2,6 +2,8 @@ import actions from "./Actions";
 import apiCall from "../api/ApiWrapper";
 import { apiUrl, clientId } from "../constants";
 import jwt_decode from "jwt-decode";
+import { navigationComponentChanged } from "./SelectedNavigationComponentActions";
+import { keys } from "../navigation/NavigationKeys";
 
 const authInProgress = () => ({ type: actions.AUTH_IN_PROGRESS });
 
@@ -42,6 +44,7 @@ export const login = (username, password, rememberMe) => dispatch => {
       );
     })
     .catch(error => {
+      // dispatch(navigationComponentChanged(keys.auth));
       return dispatch(authFailed(error.message));
     });
 };
@@ -80,6 +83,7 @@ export const register = (username, password) => dispatch => {
       );
     })
     .catch(error => {
+      // navigationComponentChanged(keys.auth);
       dispatch(authFailed(error.message));
     });
 };

@@ -27,7 +27,7 @@ class AuthComponent extends React.Component {
     return (
       <React.Fragment>
         <div className="header">
-          <p>
+          <p className="errorMessage">
             {this.props.userState.error ? this.props.userState.error : null}
           </p>
         </div>
