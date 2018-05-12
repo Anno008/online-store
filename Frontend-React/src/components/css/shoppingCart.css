@@ -1,0 +1,6 @@
+.cartItemContainer {
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    margin: 10px;
+    box-sizing: border-box;
+}
