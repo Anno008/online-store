@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Backend.WebApi.Models;
 
 namespace Backend.WebApi.DTOs.ResponseDTOs
@@ -13,7 +14,7 @@ namespace Backend.WebApi.DTOs.ResponseDTOs
         {
             Username = cart.User.Username;
             Items = cart.Items;
-            TotalPrice = cart.TotalPrice;
+            TotalPrice = cart.Items?.Sum(c => c.Component.Price) ?? 0;
         }
     }
 }
