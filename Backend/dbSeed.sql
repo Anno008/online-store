@@ -86,7 +86,7 @@ INSERT INTO ComponentTypes ( Name) VALUES ("RAM");
 
 /* Components */
 INSERT INTO Components (Name, Price, BrandId, ComponentTypeId)
-SELECT "Inte Core i5-6600K 3.50 GHz Quad Core Skypelake Desktop Processor", 235, brandsF.Id, typesF.Id
+SELECT "Intel Core i5-6600K 3.50 GHz Quad Core Skypelake Desktop Processor", 235, brandsF.Id, typesF.Id
 FROM (SELECT Id FROM Brands WHERE Name like "Intel") AS brandsF
 CROSS JOIN (SELECT Id FROM ComponentTypes WHERE Name like "CPU") AS typesF;
 
@@ -111,12 +111,12 @@ FROM (SELECT Id FROM Brands WHERE Name like "Nvidia") AS brandsF
 CROSS JOIN (SELECT Id FROM ComponentTypes WHERE Name like "GPU") AS typesF;
 
 INSERT INTO Components (Name, Price, BrandId, ComponentTypeId)
-SELECT "Inte Core i7 8700K", 359, brandsF.Id, typesF.Id
+SELECT "Intel Core i7 8700K", 359, brandsF.Id, typesF.Id
 FROM (SELECT Id FROM Brands WHERE Name like "Intel") AS brandsF
 CROSS JOIN (SELECT Id FROM ComponentTypes WHERE Name like "CPU") AS typesF;
 
 INSERT INTO Components (Name, Price, BrandId, ComponentTypeId)
-SELECT "Inte Core i7 8750H", 395, brandsF.Id, typesF.Id
+SELECT "Intel Core i7 8750H", 395, brandsF.Id, typesF.Id
 FROM (SELECT Id FROM Brands WHERE Name like "Intel") AS brandsF
 CROSS JOIN (SELECT Id FROM ComponentTypes WHERE Name like "CPU") AS typesF;
 
@@ -154,3 +154,15 @@ INSERT INTO Components (Name, Price, BrandId, ComponentTypeId)
 SELECT "Corsair Vengeance 8 GB (2 x 4 GB) DDR3 1600 MHz", 67, brandsF.Id, typesF.Id
 FROM (SELECT Id FROM Brands WHERE Name like "Corsair") AS brandsF
 CROSS JOIN (SELECT Id FROM ComponentTypes WHERE Name like "RAM") AS typesF;
+
+INSERT INTO ShoppingCarts (TotalPrice, UserId) 
+SELECT 0, Id 
+FROM Users WHERE Username = "User";
+
+INSERT INTO ShoppingCartItem (ShoppingCartId, ComponentId) 
+SELECT 1, Id
+FROM Components WHERE Name = "Samsung 960 EVO 250GB";
+
+INSERT INTO ShoppingCartItem (ShoppingCartId, ComponentId) 
+SELECT 1, Id
+FROM Components WHERE Name = "NVIDIA - Founders Edition GeForce GTX 1080";
