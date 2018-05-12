@@ -1,5 +1,6 @@
 import { apiUrl } from "../constants";
 import jwt_decode from "jwt-decode";
+import store from "store/store";
 
 const apiCall = async config => {
   const request = {
@@ -54,10 +55,15 @@ const acquireAccessToken = async () => {
         })
           .then(response => response.json().then(res => res.accessToken))
           .catch(error => {
+            // HACK: Anti pattern the store should be modified like this
+            // in case of an error while getting the token clear data and redirect to auth
+            store().getState().selectedNavigationComponent.data = "auth";
+            store().getState().userState.data = undefined;
             throw new Error("Failed to refresh access token").message;
           });
       } else {
-        // Couldn't acquire access token
+        // HACK: Anti pattern the store should be modified like this
+        // in case of an error while getting the token clear data and redirect to auth
         throw Error("Please login.");
       }
     }
