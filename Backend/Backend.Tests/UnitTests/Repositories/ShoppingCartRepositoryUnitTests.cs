@@ -33,7 +33,7 @@ namespace Backend.Tests.UnitTests.Repositories
                 }
             };
 
-            cart.Update(cart.Items);
+            cart.Update(cart);
             dbContext.Users.Add(user1);
             dbContext.Users.Add(user2);
 

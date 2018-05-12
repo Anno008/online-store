@@ -26,6 +26,8 @@ namespace Backend.WebApi.Repositories
             return databaseContext.ShoppingCarts.FirstOrDefaultAsync(x => x.User.Username == username);
         }
 
+        // Consider changing this to void, since the returned data doesn't have all fields mapped,
+        // right now after adding/deleting I am calling get anyway. Or mapping the data
         public ShoppingCart AddItem(string username, int componentId)
         {
             if (string.IsNullOrWhiteSpace(username))
@@ -46,28 +48,34 @@ namespace Backend.WebApi.Repositories
             var usersShoppingCart = databaseContext.ShoppingCarts.FirstOrDefault(x => x.User.Id == user.Id);
             databaseContext.ShoppingCarts
                 .Include(c => c.Items)
+                .ThenInclude(c => c.Component)
                 .Load();
 
             // If the user doesn't already have a shopping cart, create one
             if (usersShoppingCart == null)
             {
-                usersShoppingCart = new ShoppingCart { User = user };
-                usersShoppingCart.Items = new List<ShoppingCartItem>();
-
+                usersShoppingCart = new ShoppingCart { User = user, Items = new List<ShoppingCartItem>() };
                 databaseContext.ShoppingCarts.Add(usersShoppingCart);
             }
 
-            var shoppingCartItem = new ShoppingCartItem { Component = component };
-            usersShoppingCart.Items.Add(shoppingCartItem);
+            usersShoppingCart.Items.Add(new ShoppingCartItem { Component = component });
 
-            usersShoppingCart.Update(usersShoppingCart.Items);
+            usersShoppingCart.Update(usersShoppingCart);
             databaseContext.SaveChanges();
             return usersShoppingCart;
         }
 
+        // Consider changing this to void, since the returned data doesn't have all fields mapped,
+        // right now after adding/deleting I am calling get anyway. Or mapping the data
         public ShoppingCart RemoveItem(string userName, long shoppingCartItemId)
         {
             var cart = databaseContext.ShoppingCarts.FirstOrDefault(x => x.User.Username == userName);
+            databaseContext.ShoppingCarts
+                .Include(c => c.User)
+                .Include(c => c.Items)
+                .ThenInclude(c => c.Component)
+                .Load();
+
             if (cart == null)
                 return null;
 
@@ -77,7 +85,9 @@ namespace Backend.WebApi.Repositories
                 return cart;
 
             cart.Items.Remove(cartItem);
-            cart.Update(cart.Items);
+            cart.Update(cart);
+            databaseContext.Remove(cartItem);
+
             databaseContext.SaveChanges();
             return cart;
         }

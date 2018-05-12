@@ -9,18 +9,12 @@ namespace Backend.WebApi.Models
         public List<ShoppingCartItem> Items { get; set; }
         public double TotalPrice { get; set; }
 
-        public void Update(List<ShoppingCartItem> items)
-        {
-            Items = items;
-            TotalPrice = items.Sum(x => x.Component.Price);
-        }
-
         public override void Update(BaseEntity e)
         {
             var shoppingCart = e as ShoppingCart;
             User = shoppingCart.User;
             Items = shoppingCart.Items;
-            TotalPrice = shoppingCart.TotalPrice;
+            TotalPrice = shoppingCart.Items?.Sum(x => x.Component.Price) ?? 0;
         }
     }
 }

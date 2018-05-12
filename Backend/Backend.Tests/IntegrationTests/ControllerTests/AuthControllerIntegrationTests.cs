@@ -53,7 +53,7 @@ namespace Backend.Tests.IntegrationTests.Controllers
             var result = (controller.Register(user) as ObjectResult).Value as AuthResponseDTO;
             var token = new JwtSecurityTokenHandler().ReadJwtToken(result.AccessToken);
 
-            var username = token.Claims.FirstOrDefault(claim => claim.Type == "sub").Value;
+            var username = token.Claims.FirstOrDefault(claim => claim.Type == "username").Value;
             var clientId = token.Claims.FirstOrDefault(claim => claim.Type == "clientId").Value;
             var role = token.Claims.Where(claim => claim.Type == "roles").FirstOrDefault().Value;
 
