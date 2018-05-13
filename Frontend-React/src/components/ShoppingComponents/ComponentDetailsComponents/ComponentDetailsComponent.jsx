@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import "components/css/componentDetails.css";
+import { addComponentToShoppingCart } from "../../../actions/ShoppingCartActions";
 
 const ComponentDetailsComponent = props =>
   props.componentState.data ? (
@@ -15,7 +16,7 @@ const ComponentDetailsComponent = props =>
           </div>
           <div>
             {props.userState.data && props.userState.data.username && props.userState.data.roles.indexOf("User") > -1? 
-          <button className="btn">Add to cart</button> : null}
+          <button className="btn" onClick={() => props.addToCart(props.componentState.data.id)}>Add to cart</button> : null}
           </div>
         </div>
       </div>
@@ -32,7 +33,9 @@ const mapStateToProps = state => ({
   userState: state.userState
 });
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  addToCart: (componentId) => dispatch(addComponentToShoppingCart(componentId))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(
   ComponentDetailsComponent
