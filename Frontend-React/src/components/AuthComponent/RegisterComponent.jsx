@@ -1,7 +1,15 @@
 import { login, register } from "../../actions/AuthActions";
 import React from "react";
+import { ToastContainer, toast, cssTransition } from "react-toastify";
 import { connect } from "react-redux";
 import "components/css/auth.css";
+import "react-toastify/dist/ReactToastify.css";
+
+const toastZoomTransition = cssTransition({
+  enter: "zoomIn",
+  exit: "zoomOut",
+  duration: [500, 600]
+});
 
 class RegisterComponent extends React.Component {
   constructor(props) {
@@ -23,10 +31,12 @@ class RegisterComponent extends React.Component {
   register(e) {
     e.preventDefault();
     const { username, password, confirmPassword } = this.state;
-    console.log(password);
-    console.log(confirmPassword);
     if(password !== confirmPassword){
-      alert("Password doesn't match")
+      toast.warn("Password does not match the confirm password!", {
+        position: toast.POSITION.TOP_RIGHT,
+        transition: toastZoomTransition,
+        closeButton: false
+      });
       return;
     }
     this.props.register(username, password);
@@ -36,6 +46,7 @@ class RegisterComponent extends React.Component {
   render() {
     return (
       <form onSubmit={this.register} method="POST" onChange={this.handleChange}>
+        <ToastContainer />
         <p className="textLabels">Username</p>
         <input
           className="textBox"
