@@ -55,7 +55,7 @@ const acquireAccessToken = async () => {
         })
           .then(response => response.json().then(res => res.accessToken))
           .catch(error => {
-            // HACK: Anti pattern the store should be modified like this
+            // HACK: Anti pattern the store shouldnt be modified like this
             // in case of an error while getting the token clear data and redirect to auth
             store().getState().selectedNavigationComponent.data = "auth";
             store().getState().userState.data = undefined;
