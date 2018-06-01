@@ -32,7 +32,7 @@ class RegisterComponent extends React.Component {
     e.preventDefault();
     const { username, password, confirmPassword } = this.state;
     if(password !== confirmPassword){
-      toast.warn("Password does not match the confirm password!", {
+      toast.error("Password does not match the confirm password!", {
         position: toast.POSITION.TOP_RIGHT,
         transition: toastZoomTransition,
         closeButton: false
@@ -41,7 +41,6 @@ class RegisterComponent extends React.Component {
     }
     this.props.register(username, password);
   }
-
 
   render() {
     return (
