@@ -16,6 +16,8 @@ using Backend.WebApi.Repositories;
 using Backend.WebApi.Services;
 using Backend.WebApi.Services.Security;
 using Backend.WebApi.Validation;
+using Microsoft.Extensions.Logging;
+using Backend.WebApi.WebSocketRelatedStuff;
 
 namespace Backend.WebApi
 {
@@ -85,10 +87,11 @@ namespace Backend.WebApi
             services.AddTransient<ComponentTypeRepository>();
             services.AddTransient<ComponentRepository>();
             services.AddTransient<ShoppingCartRepository>();
+            services.AddTransient<ChatRoomRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -104,9 +107,15 @@ namespace Backend.WebApi
 
             // handle exceptions globally
             AppDomain.CurrentDomain.UnhandledException += HandleErrors;
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();
 
             // configure CORS
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+
+            // adding web socket support
+            app.UseWebSockets();
+            app.UseMiddleware<ChatRoomWebSocketMiddleware>();
 
             app.UseMvc();
         }
