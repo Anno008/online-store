@@ -2,5 +2,6 @@ export const keys = {
   catalog: "catalog",
   auth: "auth",
   details: "details",
-  cart: "cart"
+  cart: "cart",
+  chat: "chat"
 };
