@@ -11,6 +11,7 @@ namespace Backend.WebApi.Repositories
         public DbSet<User> Users { get; set; }
         public DbSet<RefreshToken> Tokens { get; set; }
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+        public DbSet<ChatRoomMessage> ChatRoomMessages { get; set; }
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
     }
