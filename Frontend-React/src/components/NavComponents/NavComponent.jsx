@@ -16,8 +16,12 @@ const NavComponent = props => {
         Home
         </button>
         <span>
-        {props.userState.data && props.userState.data.username && props.userState.data.roles.indexOf("User") > -1? 
-        <button className="btn" onClick={() => props.changeNavigation(keys.cart)}>My shopping cart</button> : null}
+        {props.userState.data && props.userState.data.username? 
+        <span>
+          {props.userState.data.roles.indexOf("User") > -1 ? 
+          <button className="btn" onClick={() => props.changeNavigation(keys.cart)}>My shopping cart</button> : null}
+          <button className="btn" onClick={() => props.changeNavigation(keys.chat)}>Chat room</button>
+        </span>: null}
         <button className="btn" onClick={() => handleAuth(props.userState.data)}>
         {props.userState.data && props.userState.data.username
         ? `Welcome ${props.userState.data.username}, Logout`
