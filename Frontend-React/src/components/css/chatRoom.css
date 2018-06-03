@@ -1,0 +1,58 @@
+.chatRoomWrapper {
+  height: 100%;
+  display: grid;
+  grid-template-rows:50px calc(100% - 120px) 70px;
+  grid-template-areas:
+    "chatRoomHeader"
+    "messages"
+    "controls";
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.chatRoomHeader{
+    grid-area: chatRoomHeader;
+}
+
+.messages {
+  grid-area: messages;
+  overflow: auto;
+}
+
+.messageContainer {
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 5px;
+    word-wrap: break-word;
+}
+
+.messageInfo {
+    display: flex;
+    justify-content: space-between;
+}
+
+.controls {
+  grid-area: controls;
+  margin-top: 15px;
+  box-sizing: border-box;
+  display: flex;
+}
+
+.hr {
+    border: 0;
+    height: 0; 
+    box-shadow: 0 0 10px 1px black;
+    margin: 15px 0 15px 0;
+    box-sizing: border-box;
+}
+
+.hr:after {  
+    content: "\00a0"; 
+}
+
+.messageBox {
+    flex: 1;
+}
