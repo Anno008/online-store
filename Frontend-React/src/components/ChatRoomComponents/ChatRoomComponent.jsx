@@ -9,28 +9,10 @@ class ChatRoomComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      socket: new WebSocket(apiSocketUrl),
+      socket: {},
       message: "",
-      allMessages: []
-    };
-    this.state.socket.onopen = e => {
-      console.log("socket opened", e);
-      props.getAllChatRoomMessages();
-    };
-
-    this.state.socket.onclose = e => {
-      console.log("socket closed", e);
-    };
-
-    this.state.socket.onmessage = e => {
-      let response = this.transformMessageData(JSON.parse(e.data));
-      this.setState(prevState => ({
-        allMessages: [...prevState.allMessages, response]
-      }));
-    };
-
-    this.state.socket.onerror = e => {
-      console.error(e.data);
+      allMessages: [],
+      intervalId: 0
     };
 
     this.sendMessage = this.sendMessage.bind(this);
@@ -38,7 +20,47 @@ class ChatRoomComponent extends React.Component {
     this.transformMessageData = this.transformMessageData.bind(this);
   }
 
-  transformMessageData(data){
+  componentDidMount() {
+    // Adding the interval to state so it can be cleaned up on dismounting
+    this.setState({ intervalId: this.initializeWebSocket() });
+  }
+
+  componentWillUnmount() {
+    // Clearing the interval on component dismounting
+    clearInterval(this.state.intervalId);
+  }
+
+  initializeWebSocket() {
+    let start = () => {
+      // re initializing the web socket
+      var ws = new WebSocket(apiSocketUrl);
+      this.setState({
+        socket: ws
+      });
+
+      // fetching all previous messages
+      ws.onopen = () => {
+        this.props.getAllChatRoomMessages();
+      };
+
+      // appending the message to the message collection
+      ws.onmessage = e => {
+        let response = this.transformMessageData(JSON.parse(e.data));
+        this.setState(prevState => ({
+          allMessages: [...prevState.allMessages, response]
+        }));
+      };
+    };
+
+    // If the socket is any other state then open try to connect again
+    let check = () => {
+      if (!this.state.socket || this.state.socket.readyState !== 1) start();
+    };
+
+    return setInterval(check, 5000);
+  }
+
+  transformMessageData(data) {
     let response = data;
     let date = new Date(response.date);
     let formatedDate = `${date.getUTCFullYear()}/${date.getUTCMonth()}/${date.getUTCDate()}    
@@ -47,19 +69,21 @@ class ChatRoomComponent extends React.Component {
     return response;
   }
 
-  componentWillReceiveProps(props){
-    if(props.chatRoomState.data !== undefined){
+  componentWillReceiveProps(props) {
+    if (props.chatRoomState.data !== undefined) {
       this.setState(prevState => ({
-        allMessages: props.chatRoomState.data.map(x => this.transformMessageData(x)) 
+        allMessages: props.chatRoomState.data.map(x =>
+          this.transformMessageData(x)
+        )
       }));
     }
   }
 
-  componentDidUpdate(){
+  componentDidUpdate() {
     this.messagesDiv.scrollTop = this.messagesDiv.scrollHeight;
   }
 
-  enterKeyHandler(e){
+  enterKeyHandler(e) {
     if (e.key === "Enter") {
       this.sendMessage();
     }
@@ -68,27 +92,28 @@ class ChatRoomComponent extends React.Component {
   sendMessage(e) {
     var msg = {
       message: this.state.message,
-      user:  this.props.userState.data.username,
-      date:  Date.now()
+      user: this.props.userState.data.username,
+      date: Date.now()
     };
 
+    console.log(this.state.socket.readyState);
     this.state.socket.send(JSON.stringify(msg));
-    this.setState({message: ""});
+    this.setState({ message: "" });
   }
 
   render() {
     return (
       <div className="main">
         <div className="chatRoomWrapper">
-        <h1 className="chatRoomHeader">Chat room</h1>
-          <div className="messages" ref={c => this.messagesDiv = c}>
+          <h1 className="chatRoomHeader">Chat room</h1>
+          <div className="messages" ref={c => (this.messagesDiv = c)}>
             {this.state.allMessages.map((msg, index) => (
               <div className="messageContainer" key={index}>
                 <div className="messageInfo">
                   <span>{msg.user}</span>
                   <span>{msg.date}</span>
                 </div>
-                <hr className="hr"/>
+                <hr className="hr" />
                 <p>{msg.message}</p>
               </div>
             ))}
@@ -96,12 +121,19 @@ class ChatRoomComponent extends React.Component {
           <div className="controls">
             <input
               className="textBox messageBox"
+              disabled={this.state.socket.readyState !== 1}
               onKeyPress={this.enterKeyHandler}
               type="text"
               value={this.state.message}
               onChange={e => this.setState({ message: e.target.value })}
             />
-            <button className="btn" onClick={e => this.sendMessage(e)}>Send</button>
+            <button
+              disabled={this.state.socket.readyState !== 1}
+              className="btn"
+              onClick={e => this.sendMessage(e)}
+            >
+              Send
+            </button>
           </div>
         </div>
       </div>
@@ -117,6 +149,5 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   getAllChatRoomMessages: () => dispatch(fetchChatRoomMessages())
 });
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatRoomComponent);
