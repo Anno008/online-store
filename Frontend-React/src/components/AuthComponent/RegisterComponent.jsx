@@ -71,7 +71,7 @@ class RegisterComponent extends React.Component {
         <input
           className="textBox"
           name="confirmPassword"
-          type="confirmPassword"
+          type="password"
           required
           onChange={this.handleChange}
           value={this.state.confirmPassword}
