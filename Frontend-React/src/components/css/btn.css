@@ -24,6 +24,15 @@
   opacity: 1;
 }
 
+.btn:disabled:hover {
+  animation: none;
+}
+
+.btn:disabled {
+  background: linear-gradient(0deg, #232324 0%, #281880 100%);
+  opacity: 0.5;
+}
+
 @keyframes swing {
   15% {
     -webkit-transform: translateX(5px);
