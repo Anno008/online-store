@@ -1,4 +1,4 @@
-import { login, register } from "../../actions/AuthActions";
+import { login, register, checkForUser } from "../../actions/AuthActions";
 import React from "react";
 import { ToastContainer, toast, cssTransition } from "react-toastify";
 import { connect } from "react-redux";
@@ -37,9 +37,9 @@ class RegisterComponent extends React.Component {
         transition: toastZoomTransition,
         closeButton: false
       });
-      return;
+    } else {
+      this.props.register(username, password);
     }
-    this.props.register(username, password);
   }
 
   render() {
