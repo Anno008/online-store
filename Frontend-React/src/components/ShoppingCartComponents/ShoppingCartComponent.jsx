@@ -27,7 +27,7 @@ class ShoppingCartComponent extends React.Component {
           <h1>items {this.props.shoppingCart.data.items.length}</h1>
         </div>
         <div className="main">
-          {this.props.shoppingCart.data.items.map(c => 
+          {this.props.shoppingCart.data && this.props.shoppingCart.data.items.map(c => 
             <div key={c.id} className="cartItemContainer">
               <ComponentComponent component={c.component} inCart={true}/>
               <button className="btn" onClick={() => this.props.removeComponentFromCart(c.id)}>Remove</button>
