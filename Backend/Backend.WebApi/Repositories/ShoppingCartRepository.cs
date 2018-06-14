@@ -60,7 +60,6 @@ namespace Backend.WebApi.Repositories
 
             usersShoppingCart.Items.Add(new ShoppingCartItem { Component = component });
 
-            usersShoppingCart.Update(usersShoppingCart);
             databaseContext.SaveChanges();
             return usersShoppingCart;
         }
@@ -85,7 +84,6 @@ namespace Backend.WebApi.Repositories
                 return cart;
 
             cart.Items.Remove(cartItem);
-            cart.Update(cart);
             databaseContext.Remove(cartItem);
 
             databaseContext.SaveChanges();

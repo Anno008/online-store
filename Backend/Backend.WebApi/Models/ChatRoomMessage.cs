@@ -7,10 +7,5 @@ namespace Backend.WebApi.Models
         public string Message { get; set; }
         public string User { get; set; }
         public DateTime Date { get; set; }
-
-        public override void Update(BaseEntity e)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

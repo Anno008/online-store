@@ -45,26 +45,22 @@ namespace Backend.WebApi.Repositories
 
         public virtual T Update(T entity)
         {
-            var existingEntity = entities.FirstOrDefault(e => e.Id == entity.Id);
-
-            if (existingEntity == null)
+            if (!entities.AsNoTracking().Any(e => e.Id == entity.Id))
                 return null;
 
-            existingEntity.Update(entity);
+            entities.Update(entity);
             databaseContext.SaveChanges();
-            return existingEntity;
+            return entity;
         }
 
         public virtual async Task<T> UpdateAsync(T entity)
         {
-            var existingEntity = entities.FirstOrDefault(e => e.Id == entity.Id);
-
-            if (existingEntity == null)
+            if (!entities.AsNoTracking().Any(e => e.Id == entity.Id))
                 return null;
 
-            existingEntity.Update(entity);
+            entities.Update(entity);
             await databaseContext.SaveChangesAsync();
-            return existingEntity;
+            return entity;
         }
 
         public virtual void Delete(int id)
