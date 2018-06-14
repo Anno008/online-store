@@ -26,8 +26,6 @@ namespace Backend.WebApi.Repositories
             return databaseContext.ShoppingCarts.FirstOrDefaultAsync(x => x.User.Username == username);
         }
 
-        // Consider changing this to void, since the returned data doesn't have all fields mapped,
-        // right now after adding/deleting I am calling get anyway. Or mapping the data
         public ShoppingCart AddItem(string username, int componentId)
         {
             if (string.IsNullOrWhiteSpace(username))
@@ -45,27 +43,25 @@ namespace Backend.WebApi.Repositories
             if (component == null)
                 return null;
 
-            var usersShoppingCart = databaseContext.ShoppingCarts.FirstOrDefault(x => x.User.Id == user.Id);
+            var cart = databaseContext.ShoppingCarts.FirstOrDefault(x => x.User.Id == user.Id);
             databaseContext.ShoppingCarts
                 .Include(c => c.Items)
                 .ThenInclude(c => c.Component)
                 .Load();
 
             // If the user doesn't already have a shopping cart, create one
-            if (usersShoppingCart == null)
+            if (cart == null)
             {
-                usersShoppingCart = new ShoppingCart { User = user, Items = new List<ShoppingCartItem>() };
-                databaseContext.ShoppingCarts.Add(usersShoppingCart);
+                cart = new ShoppingCart { User = user, Items = new List<ShoppingCartItem>() };
+                databaseContext.ShoppingCarts.Add(cart);
             }
 
-            usersShoppingCart.Items.Add(new ShoppingCartItem { Component = component });
-
+            cart.Items.Add(new ShoppingCartItem { Component = component });
+            cart.TotalPrice = cart.Items.Sum(x => x.Component.Price);
             databaseContext.SaveChanges();
-            return usersShoppingCart;
+            return cart;
         }
 
-        // Consider changing this to void, since the returned data doesn't have all fields mapped,
-        // right now after adding/deleting I am calling get anyway. Or mapping the data
         public ShoppingCart RemoveItem(string userName, long shoppingCartItemId)
         {
             var cart = databaseContext.ShoppingCarts.FirstOrDefault(x => x.User.Username == userName);
@@ -84,6 +80,7 @@ namespace Backend.WebApi.Repositories
                 return cart;
 
             cart.Items.Remove(cartItem);
+            cart.TotalPrice = cart.Items.Sum(x => x.Component.Price);
             databaseContext.Remove(cartItem);
 
             databaseContext.SaveChanges();

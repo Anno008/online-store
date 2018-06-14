@@ -190,8 +190,8 @@ namespace Backend.Tests.UnitTests.Repositories
         [Fact]
         public void CreateComponent_WithValidBrandAndComponentType_ReturnCreatedComponent()
         {
-            var brand = new Brand { Id = 1, Name = "Intel" };
-            var type = new ComponentType { Id = 1, Name = "CPU" };
+            var brand = dbContext.Brands.Find(1);
+            var type = dbContext.ComponentTypes.Find(1);
 
             var component = new Component
             {
@@ -289,52 +289,41 @@ namespace Backend.Tests.UnitTests.Repositories
         [Fact]
         public void UpdateComponent_WithValidBrandAndComponentType_ReturnCreatedComponent()
         {
-            var brand1 = new Brand { Id = 1, Name = "Intel" };
-            var brand2 = new Brand { Id = 2, Name = "AMD" };
+            var brand = dbContext.Brands.Find(1);
 
-            var type1 = new ComponentType { Id = 1, Name = "GPU" };
-            var type2 = new ComponentType { Id = 2, Name = "CPU" };
+            var type = dbContext.ComponentTypes.Find(1);
 
-            var component = new Component
-            {
-                Id = 1,
-                Brand = brand2,
-                ComponentType = type2,
-                Name = "AMD FX 6600",
-                Price = 150
-            };
+            var component = dbContext.Components.Find(1);
+            component.Name = "Changed name";
+            component.Price = 400;
+            component.Brand = brand;
+            component.ComponentType = type;
 
             var result = componentRepository.Update(component);
             Assert.NotNull(result);
             Assert.Equal(component.Name, result.Name);
-            Assert.Equal(component.Brand.Name, result.Brand.Name);
-            Assert.Equal(component.ComponentType.Name, result.ComponentType.Name);
+            Assert.Equal(brand.Name, result.Brand.Name);
+            Assert.Equal(type.Name, result.ComponentType.Name);
             Assert.Equal(8, dbContext.Components.Count());
         }
 
         [Fact]
         public async void UpdateComponentAsync_WithValidBrandAndComponentType_ReturnCreatedComponent()
         {
-            var brand1 = new Brand { Id = 1, Name = "Intel" };
-            var brand2 = new Brand { Id = 2, Name = "AMD" };
+            var brand = dbContext.Brands.Find(1);
+            var type = dbContext.ComponentTypes.Find(1);
 
-            var type1 = new ComponentType { Id = 1, Name = "GPU" };
-            var type2 = new ComponentType { Id = 2, Name = "CPU" };
-
-            var component = new Component
-            {
-                Id = 1,
-                Brand = brand2,
-                ComponentType = type2,
-                Name = "AMD FX 6600",
-                Price = 150
-            };
+            var component = dbContext.Components.Find(1);
+            component.Name = "Changed name";
+            component.Price = 400;
+            component.Brand = brand;
+            component.ComponentType = type;
 
             var result = await componentRepository.UpdateAsync(component);
             Assert.NotNull(result);
             Assert.Equal(component.Name, result.Name);
-            Assert.Equal(component.Brand.Name, result.Brand.Name);
-            Assert.Equal(component.ComponentType.Name, result.ComponentType.Name);
+            Assert.Equal(brand.Name, result.Brand.Name);
+            Assert.Equal(type.Name, result.ComponentType.Name);
             Assert.Equal(8, dbContext.Components.Count());
         }
 

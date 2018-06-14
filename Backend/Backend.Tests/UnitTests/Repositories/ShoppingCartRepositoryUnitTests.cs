@@ -30,10 +30,10 @@ namespace Backend.Tests.UnitTests.Repositories
                 {
                     new ShoppingCartItem { Component = component1 },
                     new ShoppingCartItem {  Component = component4 }
-                }
+                },
+                TotalPrice = 200
             };
 
-            cart.Update(cart);
             dbContext.Users.Add(user1);
             dbContext.Users.Add(user2);
 
@@ -61,9 +61,7 @@ namespace Backend.Tests.UnitTests.Repositories
         [Fact]
         public async void GetAsyncShoppingCartByUserId_UserExist_ReturnShoppingCart()
         {
-            var user = new User { Id = 1, Username = "Test", Password = "Test" };
-
-            var cart = await shoppingCartRepository.GetAsync(user.Id);
+            var cart = await shoppingCartRepository.GetAsync(1);
 
             Assert.NotNull(cart);
             Assert.Equal(2, cart.Items.Count);

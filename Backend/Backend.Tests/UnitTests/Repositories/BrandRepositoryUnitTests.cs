@@ -104,7 +104,8 @@ namespace Backend.Tests.UnitTests.Repositories
         [Fact]
         public void IfBrandExists_UpdateBrand_AndReturnUpdatedBrand()
         {
-            var brand = new Brand { Id = 1, Name = "Intel123" };
+            var brand = dbContext.Brands.Find(1);
+            brand.Name = "Intel123";
 
             var updatedBrand = brandRepository.Update(brand);
 
@@ -126,7 +127,8 @@ namespace Backend.Tests.UnitTests.Repositories
         [Fact]
         public async void IfBrandExists_UpdateBrandAsync_AndReturnUpdatedBrand()
         {
-            var brand = new Brand { Id = 1, Name = "Intel123" };
+            var brand = dbContext.Brands.Find(1);
+            brand.Name = "Intel1234";
             var updatedBrand = await brandRepository.UpdateAsync(brand);
 
             Assert.NotNull(updatedBrand);
