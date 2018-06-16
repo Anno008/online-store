@@ -96,7 +96,6 @@ class ChatRoomComponent extends React.Component {
       date: Date.now()
     };
 
-    console.log(this.state.socket.readyState);
     this.state.socket.send(JSON.stringify(msg));
     this.setState({ message: "" });
   }
