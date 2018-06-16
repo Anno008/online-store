@@ -47,7 +47,7 @@ const acquireAccessToken = async () => {
     // Access token has expired
     if (decoded.exp * 1000 < Date.now()) {
       const refreshToken = localStorage.getItem("refreshToken");
-      if (refreshToken) {
+      if (refreshToken && refreshToken !== null) {
         return await fetch(`${apiUrl}/Auth/auth`, {
           method: "POST",
           headers: await createHeader(false),

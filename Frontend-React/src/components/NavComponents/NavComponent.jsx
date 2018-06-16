@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import "components/css/btn.css";
 import { logout } from "actions/AuthActions";
-import { redirectUri } from "../../constants";
 import { navigationComponentChanged } from "../../actions/SelectedNavigationComponentActions";
 import { keys } from "../../navigation/NavigationKeys";
 

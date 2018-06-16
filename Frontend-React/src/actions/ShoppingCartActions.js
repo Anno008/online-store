@@ -1,7 +1,6 @@
 import actions from "./Actions";
 import apiCall from "../api/ApiWrapper";
 import { apiUrl } from "../constants";
-import { navigationComponentChanged } from "./SelectedNavigationComponentActions";
 
 const fetchingShoppingCart = () => ({ type: actions.FETCHING_SHOPPING_CART });
 

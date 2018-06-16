@@ -39,6 +39,7 @@ export const fetchComponents = (filter, paging) => dispatch => {
 
   const config = {
     method: "GET",
+    needsAuth: false,
     url: query
   };
 
