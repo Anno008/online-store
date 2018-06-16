@@ -11,7 +11,7 @@ namespace Backend.Tests.IntegrationTests.TestServerSetup
 {
     public class WebServer
     {
-        protected readonly HttpClient client;
+        protected readonly HttpClient Client;
 
         // Initializing our TestServer
         public WebServer()
@@ -21,7 +21,7 @@ namespace Backend.Tests.IntegrationTests.TestServerSetup
                 .ConfigureServices(services => services.AddSingleton(TestData()))
                 .UseStartup<TestStartup>());
 
-            client = server.CreateClient();
+            Client = server.CreateClient();
         }
 
         /// <summary>

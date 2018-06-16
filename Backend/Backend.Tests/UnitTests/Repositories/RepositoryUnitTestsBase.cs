@@ -7,7 +7,7 @@ namespace Backend.Tests.UnitTests.Repositories
 {
     public abstract class RepositoryUnitTestsBase : IDisposable
     {
-        protected readonly DatabaseContext dbContext;
+        protected readonly DatabaseContext DbContext;
 
         protected RepositoryUnitTestsBase()
         {
@@ -25,10 +25,10 @@ namespace Backend.Tests.UnitTests.Repositories
                 .UseInternalServiceProvider(serviceProvider)
                 .Options;
 
-            dbContext = new DatabaseContext(options);
+            DbContext = new DatabaseContext(options);
         }
 
         public void Dispose() =>
-            dbContext.Dispose();
+            DbContext.Dispose();
     }
 }

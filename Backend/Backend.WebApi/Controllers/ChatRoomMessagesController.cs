@@ -13,14 +13,14 @@ namespace Backend.WebApi.Controllers
     [Route("api/[controller]")]
     public class ChatRoomMessagesController : Controller
     {
-        private readonly ChatRoomRepository chatRoomRepository;
+        private readonly ChatRoomRepository _chatRoomRepository;
 
         public ChatRoomMessagesController(ChatRoomRepository chatRoomRepository) =>
-            this.chatRoomRepository = chatRoomRepository;
+            _chatRoomRepository = chatRoomRepository;
 
         [HttpGet]
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<List<MessageData>> Get() =>
-            (await chatRoomRepository.GetAllAsync()).Select(m => new MessageData(m)).ToList();
+            (await _chatRoomRepository.GetAllAsync()).Select(m => new MessageData(m)).ToList();
     }
 }

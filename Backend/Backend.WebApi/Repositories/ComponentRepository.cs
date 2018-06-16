@@ -15,10 +15,10 @@ namespace Backend.WebApi.Repositories
             string name, int brandId, int typeId, int currentPage, int pageSize)
         {
             // Forcing eager loading on foreign tables
-            databaseContext.Components.Include(c => c.ComponentType).Load();
-            databaseContext.Components.Include(c => c.Brand).Load();
+            DatabaseContext.Components.Include(c => c.ComponentType).Load();
+            DatabaseContext.Components.Include(c => c.Brand).Load();
 
-            var all = databaseContext.Components.AsQueryable();
+            var all = DatabaseContext.Components.AsQueryable();
 
             // filtering by name
             if(!string.IsNullOrWhiteSpace(name))
@@ -54,8 +54,8 @@ namespace Backend.WebApi.Repositories
 
         public override Component Create(Component entity)
         {
-            var brand = databaseContext.Brands.FirstOrDefault(b => b.Id == entity.Brand.Id);
-            var componentType = databaseContext.ComponentTypes.FirstOrDefault(c => c.Id == entity.Brand.Id);
+            var brand = DatabaseContext.Brands.FirstOrDefault(b => b.Id == entity.Brand.Id);
+            var componentType = DatabaseContext.ComponentTypes.FirstOrDefault(c => c.Id == entity.Brand.Id);
 
             // The brand and component type must exist to successfully create the component
             if (brand == null || componentType == null)
@@ -69,8 +69,8 @@ namespace Backend.WebApi.Repositories
 
         public override Task<Component> CreateAsync(Component entity)
         {
-            var brand = databaseContext.Brands.FirstOrDefault(b => b.Id == entity.Brand.Id);
-            var componentType = databaseContext.ComponentTypes.FirstOrDefault(c => c.Id == entity.Brand.Id);
+            var brand = DatabaseContext.Brands.FirstOrDefault(b => b.Id == entity.Brand.Id);
+            var componentType = DatabaseContext.ComponentTypes.FirstOrDefault(c => c.Id == entity.Brand.Id);
 
             if (brand == null || componentType == null)
                 return Task.FromResult<Component>(null);
@@ -84,23 +84,23 @@ namespace Backend.WebApi.Repositories
         public override Task<Component> GetAsync(long id)
         {
             // Forcing eager loading on foreign tables
-            databaseContext.Components.Include(c => c.ComponentType).Load();
-            databaseContext.Components.Include(c => c.Brand).Load();
+            DatabaseContext.Components.Include(c => c.ComponentType).Load();
+            DatabaseContext.Components.Include(c => c.Brand).Load();
             return base.GetAsync(id);
         }
 
         public override Component Get(long id)
         {
             // Forcing eager loading on foreign tables
-            databaseContext.Components.Include(c => c.ComponentType).Load();
-            databaseContext.Components.Include(c => c.Brand).Load();
+            DatabaseContext.Components.Include(c => c.ComponentType).Load();
+            DatabaseContext.Components.Include(c => c.Brand).Load();
             return base.Get(id);
         }
 
         public override Component Update(Component entity)
         {
-            var brand = databaseContext.Brands.FirstOrDefault(b => b.Id == entity.Brand.Id);
-            var componentType = databaseContext.ComponentTypes.FirstOrDefault(c => c.Id == entity.Brand.Id);
+            var brand = DatabaseContext.Brands.FirstOrDefault(b => b.Id == entity.Brand.Id);
+            var componentType = DatabaseContext.ComponentTypes.FirstOrDefault(c => c.Id == entity.Brand.Id);
 
             if (brand == null || componentType == null)
                 return null;
@@ -113,8 +113,8 @@ namespace Backend.WebApi.Repositories
 
         public override Task<Component> UpdateAsync(Component entity)
         {
-            var brand = databaseContext.Brands.FirstOrDefault(b => b.Id == entity.Brand.Id);
-            var componentType = databaseContext.ComponentTypes.FirstOrDefault(c => c.Id == entity.Brand.Id);
+            var brand = DatabaseContext.Brands.FirstOrDefault(b => b.Id == entity.Brand.Id);
+            var componentType = DatabaseContext.ComponentTypes.FirstOrDefault(c => c.Id == entity.Brand.Id);
 
             if (brand == null || componentType == null)
                 return Task.FromResult<Component>(null);

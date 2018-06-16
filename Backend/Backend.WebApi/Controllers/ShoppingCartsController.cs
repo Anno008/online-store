@@ -11,10 +11,10 @@ namespace Backend.WebApi.Controllers
     [Route("api/[controller]")]
     public class ShoppingCartsController : Controller
     {
-        private readonly ShoppingCartRepository shoppingCartRepository;
+        private readonly ShoppingCartRepository _shoppingCartRepository;
 
         public ShoppingCartsController(ShoppingCartRepository shoppingCartRepository) =>
-            this.shoppingCartRepository = shoppingCartRepository;
+            _shoppingCartRepository = shoppingCartRepository;
 
         [HttpGet]
         [Authorize(AuthenticationSchemes = "Bearer")]
@@ -22,7 +22,7 @@ namespace Backend.WebApi.Controllers
         {
             var username = User.FindFirst("username")?.Value;
 
-            return new ShoppingCartResponseDTO(await shoppingCartRepository.GetAsync(username));
+            return new ShoppingCartResponseDTO(await _shoppingCartRepository.GetAsync(username));
         }
 
         [HttpPost]
@@ -31,7 +31,7 @@ namespace Backend.WebApi.Controllers
         {
             var username = User.FindFirst("username")?.Value;
 
-            return new ShoppingCartResponseDTO(shoppingCartRepository.AddItem(username, componentId));
+            return new ShoppingCartResponseDTO(_shoppingCartRepository.AddItem(username, componentId));
         }
 
         [HttpDelete]
@@ -40,7 +40,7 @@ namespace Backend.WebApi.Controllers
         {
             var username = User.FindFirst("username")?.Value;
 
-            return new ShoppingCartResponseDTO(shoppingCartRepository.RemoveItem(username, componentId));
+            return new ShoppingCartResponseDTO(_shoppingCartRepository.RemoveItem(username, componentId));
         }
     }
 }

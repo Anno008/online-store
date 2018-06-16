@@ -12,31 +12,32 @@ namespace Backend.WebApi.Controllers
     [Route("api/[controller]")]
     public class BrandsController : Controller
     {
-        private readonly BrandRepository brandRepository;
+        private readonly BrandRepository _brandRepository;
+
         public BrandsController(BrandRepository brandRepository) =>
-            this.brandRepository = brandRepository;
+            _brandRepository = brandRepository;
 
         [HttpGet]
         public Task<List<Brand>> Get() =>
-            brandRepository.GetAllAsync();
+            _brandRepository.GetAllAsync();
 
         [HttpGet("{id}")]
         public Task<Brand> Get(int id) =>
-            brandRepository.GetAsync(id);
+            _brandRepository.GetAsync(id);
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public Task<Brand> Post([FromBody]Brand brand) =>
-            brandRepository.CreateAsync(brand);
+            _brandRepository.CreateAsync(brand);
 
         [HttpPut("{id}")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public Task<Brand> Put(int id, [FromBody]Brand brand) =>
-            brandRepository.UpdateAsync(brand);
+            _brandRepository.UpdateAsync(brand);
 
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public void Delete(int id) =>
-            brandRepository.DeleteAsync(id);
+            _brandRepository.DeleteAsync(id);
     }
 }

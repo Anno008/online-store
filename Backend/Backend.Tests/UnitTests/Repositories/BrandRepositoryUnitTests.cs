@@ -7,22 +7,22 @@ namespace Backend.Tests.UnitTests.Repositories
 {
     public class BrandRepositoryUnitTests : RepositoryUnitTestsBase
     {
-        private readonly BrandRepository brandRepository;
+        private readonly BrandRepository _brandRepository;
 
         public BrandRepositoryUnitTests()
         {
-            brandRepository = new BrandRepository(dbContext);
-            dbContext.Brands.Add(new Brand { Name = "Intel" });
-            dbContext.Brands.Add(new Brand { Name = "AMD" });
-            dbContext.SaveChanges();
+            _brandRepository = new BrandRepository(DbContext);
+            DbContext.Brands.Add(new Brand { Name = "Intel" });
+            DbContext.Brands.Add(new Brand { Name = "AMD" });
+            DbContext.SaveChanges();
         }
 
         [Fact]
         public void GetAllBrands_ShouldReturnExpectedResults()
         {
-            var brands = brandRepository.GetAll();
+            var brands = _brandRepository.GetAll().ToList();
 
-            Assert.Equal(2, brands.ToList().Count);
+            Assert.Equal(2, brands.Count);
             Assert.Equal(1, brands.First().Id);
             Assert.Equal("Intel", brands.First().Name);
         }
@@ -30,7 +30,7 @@ namespace Backend.Tests.UnitTests.Repositories
         [Fact]
         public async void GetAllBrandsAsync_ShouldReturnExpectedResults()
         {
-            var brands = await brandRepository.GetAllAsync();
+            var brands = await _brandRepository.GetAllAsync();
 
             Assert.Equal(2, brands.ToList().Count);
             Assert.Equal(1, brands.First().Id);
@@ -40,7 +40,7 @@ namespace Backend.Tests.UnitTests.Repositories
         [Fact]
         public void GetBrandById_BrandExists_ReturnBrand()
         {
-            var brand = brandRepository.Get(1);
+            var brand = _brandRepository.Get(1);
 
             Assert.NotNull(brand);
             Assert.Equal(1, brand.Id);
@@ -50,7 +50,7 @@ namespace Backend.Tests.UnitTests.Repositories
         [Fact]
         public async void GetBrandByIdAsync_BrandExists_ReturnBrand()
         {
-            var brand = await brandRepository.GetAsync(1);
+            var brand = await _brandRepository.GetAsync(1);
 
             Assert.NotNull(brand);
             Assert.Equal(1, brand.Id);
@@ -60,7 +60,7 @@ namespace Backend.Tests.UnitTests.Repositories
         [Fact]
         public void GetBrandById_BrandDoesntExists_ReturnBrand()
         {
-            var brand = brandRepository.Get(3);
+            var brand = _brandRepository.Get(3);
 
             Assert.Null(brand);
         }
@@ -68,7 +68,7 @@ namespace Backend.Tests.UnitTests.Repositories
         [Fact]
         public async void GetBrandByIdAsync_BrandDoesntExists_ReturnBrand()
         {
-            var brand = await brandRepository.GetAsync(3);
+            var brand = await _brandRepository.GetAsync(3);
 
             Assert.Null(brand);
         }
@@ -77,37 +77,37 @@ namespace Backend.Tests.UnitTests.Repositories
         public void CreateBrand_ShouldReturnTheCreatedBrand_AndIncreaseTheBrandsCount()
         {
             var newBrand = new Brand { Name = "Apple" };
-            var expectedNumberOfBrands = dbContext.Brands.Count() + 1;
+            var expectedNumberOfBrands = DbContext.Brands.Count() + 1;
 
-            var createdBrand = brandRepository.Create(newBrand);
+            var createdBrand = _brandRepository.Create(newBrand);
 
             Assert.NotNull(createdBrand);
             Assert.Equal(newBrand.Name, createdBrand.Name);
             Assert.True(newBrand.Id != 0);
-            Assert.Equal(expectedNumberOfBrands, dbContext.Brands.Count());
+            Assert.Equal(expectedNumberOfBrands, DbContext.Brands.Count());
         }
 
         [Fact]
         public async void CreateBrandAsync_ShouldReturnTheCreatedBrand_AndIncreaseTheBrandsCount()
         {
             var newBrand = new Brand { Name = "Apple" };
-            var expectedNumberOfBrands = dbContext.Brands.Count() + 1;
+            var expectedNumberOfBrands = DbContext.Brands.Count() + 1;
 
-            var createdBrand = await brandRepository.CreateAsync(newBrand);
+            var createdBrand = await _brandRepository.CreateAsync(newBrand);
 
             Assert.NotNull(createdBrand);
             Assert.Equal(newBrand.Name, createdBrand.Name);
             Assert.True(newBrand.Id != 0);
-            Assert.Equal(expectedNumberOfBrands, dbContext.Brands.Count());
+            Assert.Equal(expectedNumberOfBrands, DbContext.Brands.Count());
         }
 
         [Fact]
         public void IfBrandExists_UpdateBrand_AndReturnUpdatedBrand()
         {
-            var brand = dbContext.Brands.Find(1);
+            var brand = DbContext.Brands.Find(1);
             brand.Name = "Intel123";
 
-            var updatedBrand = brandRepository.Update(brand);
+            var updatedBrand = _brandRepository.Update(brand);
 
             Assert.NotNull(updatedBrand);
             Assert.Equal(brand.Name, updatedBrand.Name);
@@ -119,7 +119,7 @@ namespace Backend.Tests.UnitTests.Repositories
         {
             var brand = new Brand { Id = 3, Name = "Intel123" };
 
-            var updatedBrand = brandRepository.Update(brand);
+            var updatedBrand = _brandRepository.Update(brand);
 
             Assert.Null(updatedBrand);
         }
@@ -127,9 +127,9 @@ namespace Backend.Tests.UnitTests.Repositories
         [Fact]
         public async void IfBrandExists_UpdateBrandAsync_AndReturnUpdatedBrand()
         {
-            var brand = dbContext.Brands.Find(1);
+            var brand = DbContext.Brands.Find(1);
             brand.Name = "Intel1234";
-            var updatedBrand = await brandRepository.UpdateAsync(brand);
+            var updatedBrand = await _brandRepository.UpdateAsync(brand);
 
             Assert.NotNull(updatedBrand);
             Assert.Equal(brand.Name, updatedBrand.Name);
@@ -141,7 +141,7 @@ namespace Backend.Tests.UnitTests.Repositories
         {
             var brand = new Brand { Id = 3, Name = "Intel123" };
 
-            var updatedBrand = await brandRepository.UpdateAsync(brand);
+            var updatedBrand = await _brandRepository.UpdateAsync(brand);
 
             Assert.Null(updatedBrand);
         }
@@ -151,8 +151,8 @@ namespace Backend.Tests.UnitTests.Repositories
         {
             var brandId = 1;
 
-            brandRepository.Delete(brandId);
-            Assert.Equal(1, dbContext.Brands.Count());
+            _brandRepository.Delete(brandId);
+            Assert.Equal(1, DbContext.Brands.Count());
         }
 
         [Fact]
@@ -160,8 +160,8 @@ namespace Backend.Tests.UnitTests.Repositories
         {
             var brandId = 1;
 
-            brandRepository.DeleteAsync(brandId);
-            Assert.Equal(1, dbContext.Brands.Count());
+            _brandRepository.DeleteAsync(brandId);
+            Assert.Equal(1, DbContext.Brands.Count());
         }
 
         [Fact]
@@ -169,8 +169,8 @@ namespace Backend.Tests.UnitTests.Repositories
         {
             var brandId = 11;
 
-            brandRepository.Delete(brandId);
-            Assert.Equal(2, dbContext.Brands.Count());
+            _brandRepository.Delete(brandId);
+            Assert.Equal(2, DbContext.Brands.Count());
         }
 
         [Fact]
@@ -178,8 +178,8 @@ namespace Backend.Tests.UnitTests.Repositories
         {
             var brandId = 11;
 
-            brandRepository.DeleteAsync(brandId);
-            Assert.Equal(2, dbContext.Brands.Count());
+            _brandRepository.DeleteAsync(brandId);
+            Assert.Equal(2, DbContext.Brands.Count());
         }
     }
 }

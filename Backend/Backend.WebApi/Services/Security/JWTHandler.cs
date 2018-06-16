@@ -2,23 +2,23 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Backend.WebApi.Models;
+
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Backend.WebApi.Services.Security
 {
-    public class JWTHandler
+    public class JwtHandler
     {
-        private readonly JWTSettings options;
+        private readonly JwtSettings _options;
 
-        public JWTHandler(IOptions<JWTSettings> options) =>
-            this.options = options.Value;
+        public JwtHandler(IOptions<JwtSettings> options) =>
+            _options = options.Value;
 
-        public string CreateJWT(string clientId, string username, string role)
+        public string CreateJwt(string clientId, string username, string role)
         {
-            var secret = options.SecretKey;
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.SecretKey));
+            var secret = _options.SecretKey;
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var claims = new Claim[]
@@ -30,13 +30,14 @@ namespace Backend.WebApi.Services.Security
             };
 
             var token = new JwtSecurityToken(
-                issuer: options.Issuer,
-                audience: options.Audience,
+                issuer: _options.Issuer,
+                audience: _options.Audience,
                 claims: claims,
-                expires: DateTime.Now.Add(TimeSpan.FromMinutes(options.Expiration)),
-                signingCredentials: creds);
-
-            token.Payload["roles"] = new string[] { role };
+                expires: DateTime.Now.Add(TimeSpan.FromMinutes(_options.Expiration)),
+                signingCredentials: creds)
+            {
+                Payload = { ["roles"] = new string[] { role } }
+            };
 
             return new JwtSecurityTokenHandler().WriteToken(token);
 
@@ -56,9 +57,9 @@ namespace Backend.WebApi.Services.Security
 
         public string CreateRefreshToken(string clientId, string username, string refreshTokenId)
         {
-            var secret = options.SecretKey;
+            var secret = _options.SecretKey;
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.SecretKey));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var claims = new Claim[]
@@ -69,8 +70,8 @@ namespace Backend.WebApi.Services.Security
             };
 
             var token = new JwtSecurityToken(
-                issuer: options.Issuer,
-                audience: options.Audience,
+                issuer: _options.Issuer,
+                audience: _options.Audience,
                 claims: claims,
                 signingCredentials: creds);
             return new JwtSecurityTokenHandler().WriteToken(token);

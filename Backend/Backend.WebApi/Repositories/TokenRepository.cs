@@ -8,6 +8,6 @@ namespace Backend.WebApi.Repositories
         public TokenRepository(DatabaseContext context) : base(context) { }
 
         public bool TokenExists(string tokenId) =>
-           databaseContext.Tokens.Any(token => token.TokenId == tokenId);
+           DatabaseContext.Tokens.Any(token => token.TokenId == tokenId);
     }
 }

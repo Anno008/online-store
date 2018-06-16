@@ -14,6 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Mvc;
 
 using Backend.WebApi;
+using Backend.WebApi.DTOs.RequestDTOs;
 using Backend.WebApi.Models;
 using Backend.WebApi.Repositories;
 using Backend.WebApi.Services;
@@ -24,13 +25,13 @@ namespace Backend.Tests.IntegrationTests.TestServerSetup
 {
     public class TestStartup
     {
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         public TestStartup(IHostingEnvironment env)
         {
             var assembly = typeof(Startup).GetTypeInfo().Assembly;
             // To escape Debug/Release bin folder
-            var root = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.Name;
+            var root = Directory.GetParent(Directory.GetCurrentDirectory()).Parent?.Parent?.Parent?.Name;
 
             var basePath = GetProjectPath(root, assembly);
             var builder = new ConfigurationBuilder()
@@ -43,7 +44,7 @@ namespace Backend.Tests.IntegrationTests.TestServerSetup
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<JWTSettings>(Configuration.GetSection("JWTSettings"));
+            services.Configure<JwtSettings>(Configuration.GetSection("JWTSettings"));
             services.AddSingleton(Configuration);
 
             services.Configure<MvcOptions>(x => x.Conventions.Add(new ModelStateValidatorConvention()));
@@ -60,11 +61,10 @@ namespace Backend.Tests.IntegrationTests.TestServerSetup
             services.AddDbContext<DatabaseContext>(option => option.UseInMemoryDatabase(Guid.NewGuid().ToString()));
 
             // Services
-            services.AddTransient<UserService>();
             services.AddTransient<AuthService>();
 
             // Utils
-            services.AddTransient<JWTHandler>();
+            services.AddTransient<JwtHandler>();
 
             // Repositories
             services.AddTransient<TokenRepository>();
@@ -75,8 +75,16 @@ namespace Backend.Tests.IntegrationTests.TestServerSetup
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, TestDataSet seedData)
         {
             // Seeding our in memory database with the test data
-            seedData.Users.Select(x => app.ApplicationServices.GetService<UserService>().Register(x.Username, x.Password));
-            seedData.Brands.Select(x => app.ApplicationServices.GetService<BrandRepository>().Create(x));
+            seedData.Users?.Select(x =>
+                app.ApplicationServices.GetService<AuthService>().Register(
+                    new RegisterRequestDTO
+                    {
+                        ClientId = "clientId",
+                        Password = x.Password,
+                        Username = x.Username
+                    }));
+            seedData.Brands.Select(x =>
+                app.ApplicationServices.GetService<BrandRepository>().Create(x));
 
             app.UseMvc();
         }
@@ -112,7 +120,7 @@ namespace Backend.Tests.IntegrationTests.TestServerSetup
             {
                 directoryInfo = directoryInfo.Parent;
 
-                var projectDirectoryInfo = new DirectoryInfo(Path.Combine(directoryInfo.FullName, projectRelativePath));
+                var projectDirectoryInfo = new DirectoryInfo(Path.Combine(directoryInfo?.FullName, projectRelativePath));
                 if (projectDirectoryInfo.Exists)
                 {
                     var projectFileInfo = new FileInfo(Path.Combine(projectDirectoryInfo.FullName, projectName, $"{projectName}.csproj"));
@@ -122,7 +130,7 @@ namespace Backend.Tests.IntegrationTests.TestServerSetup
                     }
                 }
             }
-            while (directoryInfo.Parent != null);
+            while (directoryInfo?.Parent != null);
 
             throw new Exception($"Project root could not be located using the application root {applicationBasePath}.");
         }

@@ -21,11 +21,11 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace Backend.Tests.IntegrationTests.Controllers
+namespace Backend.Tests.IntegrationTests.ControllerTests
 {
     public class AuthControllerIntegrationTests : WebServer
     {
-        private readonly AuthService authService;
+        private readonly AuthService _authService;
 
         public AuthControllerIntegrationTests()
         {
@@ -37,25 +37,25 @@ namespace Backend.Tests.IntegrationTests.Controllers
             var dbContext = new DatabaseContext(options);
             var userRepository = new UserRepository(dbContext);
             var tokenRepository = new TokenRepository(dbContext);
-            var jwtOptions = Options.Create<JWTSettings>(new JWTSettings() { Issuer = "Backend", Audience = "Users", SecretKey = "myXAuthenticationSecret" });
-            var jwtHandler = new JWTHandler(jwtOptions);
-            authService = new AuthService(userRepository, jwtHandler, tokenRepository);
+            var jwtOptions = Options.Create(new JwtSettings { Issuer = "Backend", Audience = "Users", SecretKey = "myXAuthenticationSecret" });
+            var jwtHandler = new JwtHandler(jwtOptions);
+            _authService = new AuthService(userRepository, jwtHandler, tokenRepository);
 
-            authService.Register(new RegisterRequestDTO { Username = "Test", Password = "Test", ClientId = "Test" });
+            _authService.Register(new RegisterRequestDTO { Username = "Test", Password = "Test", ClientId = "Test" });
         }
 
         [Fact]
         public void IfUsernameIsntTaken_CompleteRegistration()
         {
             var user = new RegisterRequestDTO { Username = "Test1", Password = "Test1", ClientId = "Test" };
-            var controller = new AuthController(authService);
+            var controller = new AuthController(_authService);
 
-            var result = (controller.Register(user) as ObjectResult).Value as AuthResponseDTO;
-            var token = new JwtSecurityTokenHandler().ReadJwtToken(result.AccessToken);
+            var result = (controller.Register(user) as ObjectResult)?.Value as AuthResponseDTO;
+            var token = new JwtSecurityTokenHandler().ReadJwtToken(result?.AccessToken);
 
-            var username = token.Claims.FirstOrDefault(claim => claim.Type == "username").Value;
-            var clientId = token.Claims.FirstOrDefault(claim => claim.Type == "clientId").Value;
-            var role = token.Claims.Where(claim => claim.Type == "roles").FirstOrDefault().Value;
+            var username = token.Claims.FirstOrDefault(claim => claim.Type == "username")?.Value;
+            var clientId = token.Claims.FirstOrDefault(claim => claim.Type == "clientId")?.Value;
+            var role = token.Claims.FirstOrDefault(claim => claim.Type == "roles")?.Value;
 
             Assert.NotNull(result);
             Assert.Equal(user.Username, username);
@@ -72,11 +72,11 @@ namespace Backend.Tests.IntegrationTests.Controllers
                 ClientId = "Test"
             };
 
-            var controller = new AuthController(authService);
+            var controller = new AuthController(_authService);
             var result = controller.Register(user) as ObjectResult;
 
-            Assert.Equal(400, result.StatusCode);
-            Assert.Equal("The user with the given username already exists.", result.Value);
+            Assert.Equal(400, result?.StatusCode);
+            Assert.Equal("The user with the given username already exists.", result?.Value);
         }
 
         [Fact]
@@ -90,18 +90,18 @@ namespace Backend.Tests.IntegrationTests.Controllers
                 GrantType = "password"
             };
 
-            var controller = new AuthController(authService);
+            var controller = new AuthController(_authService);
             var result = controller.Auth(user).Result as ObjectResult;
-            var content = result.Value as AuthResponseDTO;
+            var content = result?.Value as AuthResponseDTO;
 
-            Assert.Equal(200, result.StatusCode);
-            Assert.True(content.AccessToken.Length > 10);
+            Assert.Equal(200, result?.StatusCode);
+            Assert.True(content?.AccessToken.Length > 10);
         }
 
         [Fact]
         public void IfUserExists_WithRememberMe_CompleteLoginAndReturnAccessAndRefreshToken()
         {
-            var controller = new AuthController(authService);
+            var controller = new AuthController(_authService);
             
             var user = new AuthRequestDTO
             {
@@ -113,17 +113,17 @@ namespace Backend.Tests.IntegrationTests.Controllers
             };
 
             var result = controller.Auth(user).Result as ObjectResult;
-            var content = result.Value as AuthResponseDTO;
+            var content = result?.Value as AuthResponseDTO;
 
-            Assert.Equal(200, result.StatusCode);
-            Assert.True(content.AccessToken.Length > 10);
+            Assert.Equal(200, result?.StatusCode);
+            Assert.True(content?.AccessToken.Length > 10);
             Assert.True(content.RefreshToken.Length > 10);
         }
 
         [Fact]
         public void UserProvidesRefreshToken_ReturnNewAccessToken()
         {
-            var controller = new AuthController(authService);
+            var controller = new AuthController(_authService);
 
             var firstLoginToCreateRefreshToken = new AuthRequestDTO
             {
@@ -136,12 +136,12 @@ namespace Backend.Tests.IntegrationTests.Controllers
 
             var login = controller.Auth(firstLoginToCreateRefreshToken).Result as ObjectResult;
 
-            var user = new AuthRequestDTO { ClientId = "Test", GrantType = "refresh_token", RefreshToken= (login.Value as AuthResponseDTO).RefreshToken };
+            var user = new AuthRequestDTO { ClientId = "Test", GrantType = "refresh_token", RefreshToken= (login?.Value as AuthResponseDTO)?.RefreshToken };
             var result = controller.Auth(user).Result as ObjectResult;
-            var content = result.Value as AuthResponseDTO;
+            var content = result?.Value as AuthResponseDTO;
 
-            Assert.Equal(200, result.StatusCode);
-            Assert.True(content.AccessToken.Length > 10);
+            Assert.Equal(200, result?.StatusCode);
+            Assert.True(content?.AccessToken.Length > 10);
             Assert.True(content.RefreshToken == null);
         }
 
@@ -149,12 +149,12 @@ namespace Backend.Tests.IntegrationTests.Controllers
         public void IfUserExists_RememberMeFalse_RefreshTokenNull()
         {
             var user = new AuthRequestDTO { Username = "Test", Password = "Test", ClientId = "Test", GrantType = "password", RememberMe = false };
-            var controller = new AuthController(authService);
+            var controller = new AuthController(_authService);
             var result = controller.Auth(user).Result as ObjectResult;
-            var content = result.Value as AuthResponseDTO;
+            var content = result?.Value as AuthResponseDTO;
 
-            Assert.Equal(200, result.StatusCode);
-            Assert.True(content.AccessToken.Length > 10);
+            Assert.Equal(200, result?.StatusCode);
+            Assert.True(content?.AccessToken.Length > 10);
             Assert.True(content.RefreshToken == null);
         }
 
@@ -163,38 +163,36 @@ namespace Backend.Tests.IntegrationTests.Controllers
         {
             var user = new AuthRequestDTO { Username = "Test123", Password = "Test123", ClientId = "Test", GrantType = "password" };
 
-            var controller = new AuthController(authService);
+            var controller = new AuthController(_authService);
             var result = controller.Auth(user).Result as ObjectResult;
 
-            Assert.Equal(400, result.StatusCode);
-            Assert.Equal("Incorrect credentials.", result.Value);
+            Assert.Equal(400, result?.StatusCode);
+            Assert.Equal("Incorrect credentials.", result?.Value);
         }
 
         [Fact]
         public void RequestWithoutGrantType_ReturnsBadRequest()
         {
             var user = new AuthRequestDTO();
-            var controller = new AuthController(authService);
+            var controller = new AuthController(_authService);
             var result = controller.Auth(user).Result as ObjectResult;
 
-            Assert.Equal(400, result.StatusCode);
+            Assert.Equal(400, result?.StatusCode);
         }
 
         [Fact]
         public void RegisterRequestWithoutData_ReturnsBadRequest()
         {
-            var user = new RegisterRequestDTO();
-            var controller = new AuthController(authService);
+            var controller = new AuthController(_authService);
             var result = controller.Register(null) as StatusCodeResult;
 
-            Assert.Equal(400, result.StatusCode);
+            Assert.Equal(400, result?.StatusCode);
         }
 
         [Fact]
         public async Task IfGrantTypeIsInvalid_Auth_ShoudReturnBadRequest()
         {
             // Arrange
-            var controller = new AuthController(authService);
             var formData = new Dictionary<string, string>
               {
                 {"Username", "Test"},
@@ -205,7 +203,7 @@ namespace Backend.Tests.IntegrationTests.Controllers
             var content = new StringContent(JsonConvert.SerializeObject(formData), Encoding.UTF8, "application/json");
 
             // Act
-            var response = await client.PostAsync("api/auth/auth", content);
+            var response = await Client.PostAsync("api/auth/auth", content);
 
             // Assert
             Assert.Equal("Bad Request", response.ReasonPhrase);
@@ -215,7 +213,6 @@ namespace Backend.Tests.IntegrationTests.Controllers
         public async Task IfGrantTypeIsNull_Auth_ShoudReturnBadRequest()
         {
             // Arrange
-            var controller = new AuthController(authService);
             var formData = new Dictionary<string, string>
               {
                 {"Username", "Test"},
@@ -226,7 +223,7 @@ namespace Backend.Tests.IntegrationTests.Controllers
             var content = new StringContent(JsonConvert.SerializeObject(formData), Encoding.UTF8, "application/json");
 
             // Act
-            var response = await client.PostAsync("api/auth/auth", content);
+            var response = await Client.PostAsync("api/auth/auth", content);
 
             Assert.Equal("Bad Request", response.ReasonPhrase);
         }

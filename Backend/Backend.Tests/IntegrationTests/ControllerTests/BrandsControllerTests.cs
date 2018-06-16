@@ -13,7 +13,7 @@ namespace Backend.Tests.IntegrationTests.ControllerTests
 {
     public class BrandsControllerTests : WebServer
     {
-        private readonly BrandRepository brandRepository;
+        private readonly BrandRepository _brandRepository;
         
         public BrandsControllerTests()
         {
@@ -23,20 +23,20 @@ namespace Backend.Tests.IntegrationTests.ControllerTests
                 .Options;
 
             var dbContext = new DatabaseContext(options);
-            brandRepository = new BrandRepository(dbContext);
-            brandRepository.Create(new Brand { Name = "Test" });
+            _brandRepository = new BrandRepository(dbContext);
+            _brandRepository.Create(new Brand { Name = "Test" });
         }
 
         [Fact]
         public async Task GetAllBrands_ShouldReturnList()
         {
             // Act
-            var response = await client.GetAsync("api/brands");
+            var response = await Client.GetAsync("api/brands");
 
-            var t = await response.Content.ReadAsStringAsync();
+            await response.Content.ReadAsStringAsync();
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
-            var controller = new BrandsController(brandRepository);
+            var controller = new BrandsController(_brandRepository);
             var result = await controller.Get();
 
             Assert.True(result.Count > 0);

@@ -12,32 +12,32 @@ namespace Backend.WebApi.Controllers
     [Route("api/[controller]")]
     public class ComponentTypesController : Controller
     {
-        private readonly ComponentTypeRepository componentTypeRepository;
+        private readonly ComponentTypeRepository _componentTypeRepository;
 
         public ComponentTypesController(ComponentTypeRepository componentTypeRepository) =>
-            this.componentTypeRepository = componentTypeRepository;
+            _componentTypeRepository = componentTypeRepository;
 
         [HttpGet]
         public Task<List<ComponentType>> Get() =>
-            componentTypeRepository.GetAllAsync();
+            _componentTypeRepository.GetAllAsync();
 
         [HttpGet("{id}")]
         public Task<ComponentType> Get(int id) =>
-            componentTypeRepository.GetAsync(id);
+            _componentTypeRepository.GetAsync(id);
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
-        public Task<ComponentType> Post([FromBody]ComponentType ComponentType) =>
-            componentTypeRepository.CreateAsync(ComponentType);
+        public Task<ComponentType> Post([FromBody]ComponentType componentType) =>
+            _componentTypeRepository.CreateAsync(componentType);
 
         [HttpPut("{id}")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
-        public Task<ComponentType> Put(int id, [FromBody]ComponentType ComponentType) =>
-            componentTypeRepository.UpdateAsync(ComponentType);
+        public Task<ComponentType> Put(int id, [FromBody]ComponentType componentType) =>
+            _componentTypeRepository.UpdateAsync(componentType);
 
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public void Delete(int id) =>
-            componentTypeRepository.DeleteAsync(id);
+            _componentTypeRepository.DeleteAsync(id);
     }
 }

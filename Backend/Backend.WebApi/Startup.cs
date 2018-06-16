@@ -44,7 +44,7 @@ namespace Backend.WebApi
             // Adding our filter which will validate incoming dtos, based on the IValidatableObject.Validate method
             services.Configure<MvcOptions>(x => x.Conventions.Add(new ModelStateValidatorConvention()));
 
-            services.Configure<JWTSettings>(Configuration.GetSection("JWTSettings"));
+            services.Configure<JwtSettings>(Configuration.GetSection("JWTSettings"));
             services.AddSingleton<IConfiguration>(Configuration);
 
             // Enable token authentication
@@ -74,11 +74,10 @@ namespace Backend.WebApi
                     options.UseSqlite($"Data Source={Configuration["Connection"]}"));
 
             // Services
-            services.AddTransient<UserService>();
             services.AddTransient<AuthService>();
 
             // Utilities
-            services.AddTransient<JWTHandler>();
+            services.AddTransient<JwtHandler>();
 
             // Repositories
             services.AddTransient<TokenRepository>();
@@ -122,9 +121,9 @@ namespace Backend.WebApi
 
         private void HandleErrors(object sender, UnhandledExceptionEventArgs args)
         {
-            if (sender is Exception)
+            if (sender is Exception ex)
             {
-                Console.WriteLine((sender as Exception)?.Message);
+                Console.WriteLine(ex.Message);
             }
         }
 

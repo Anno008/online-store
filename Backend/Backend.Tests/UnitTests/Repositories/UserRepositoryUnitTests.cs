@@ -11,8 +11,8 @@ namespace Backend.Tests.UnitTests.Repositories
 {
     public class UserRepositoryUnitTests
     {
-        private readonly DatabaseContext dbContext;
-        private readonly UserRepository userRepository;
+        private readonly DatabaseContext _dbContext;
+        private readonly UserRepository _userRepository;
 
         public UserRepositoryUnitTests()
         {
@@ -21,36 +21,36 @@ namespace Backend.Tests.UnitTests.Repositories
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
-            dbContext = new DatabaseContext(options);
-            userRepository = new UserRepository(dbContext);
+            _dbContext = new DatabaseContext(options);
+            _userRepository = new UserRepository(_dbContext);
 
-            userRepository.Register("Test", "Test");
+            _userRepository.Register("Test", "Test");
         }
 
         [Fact]
         public void IfUserExists_ReturnNull()
         {
-            Assert.Equal(1, dbContext.Users.ToList().Count);
-            var result = userRepository.Register("Test", "Test");
+            Assert.Single(_dbContext.Users.ToList());
+            var result = _userRepository.Register("Test", "Test");
 
             Assert.Null(result);
-            Assert.Equal(1, dbContext.Users.ToList().Count);
+            Assert.Single(_dbContext.Users.ToList());
 
         }
 
         [Fact]
         public void IfUserDoesntExist_CompleteRegistration_ReturnUser()
         {
-            Assert.Equal(1, dbContext.Users.ToList().Count);
+            Assert.Single(_dbContext.Users.ToList());
             var username = "Test1";
             var password = "Test1";
 
-            var result = userRepository.Register(username, password);
+            var result = _userRepository.Register(username, password);
 
             Assert.NotNull(result);
             Assert.Equal(username, result.Username);
             Assert.Equal(Role.User, result.Role);
-            Assert.Equal(2, dbContext.Users.ToList().Count);
+            Assert.Equal(2, _dbContext.Users.ToList().Count);
         }
 
         [Fact]
@@ -59,7 +59,7 @@ namespace Backend.Tests.UnitTests.Repositories
             var username = "Test";
             var password = "Test";
 
-            var result = userRepository.Authenticate(username, password);
+            var result = _userRepository.Authenticate(username, password);
 
             Assert.NotNull(result);
             Assert.Equal(username, result.Username);
@@ -72,7 +72,7 @@ namespace Backend.Tests.UnitTests.Repositories
             var username = "ABC";
             var password = "Test";
 
-            var result = userRepository.Authenticate(username, password);
+            var result = _userRepository.Authenticate(username, password);
 
             Assert.Null(result);
         }
@@ -83,7 +83,7 @@ namespace Backend.Tests.UnitTests.Repositories
             var username = "Test";
             var password = "ABC";
 
-            var result = userRepository.Authenticate(username, password);
+            var result = _userRepository.Authenticate(username, password);
 
             Assert.Null(result);
         }
@@ -93,7 +93,7 @@ namespace Backend.Tests.UnitTests.Repositories
         {
             var username = "Test";
 
-            var user = userRepository.GetUserByName(username);
+            var user = _userRepository.GetUserByName(username);
 
             Assert.True(user != null);
         }
@@ -103,7 +103,7 @@ namespace Backend.Tests.UnitTests.Repositories
         {
             var username = "Test1";
 
-            var user = userRepository.GetUserByName(username);
+            var user = _userRepository.GetUserByName(username);
 
             Assert.False(user != null);
         }

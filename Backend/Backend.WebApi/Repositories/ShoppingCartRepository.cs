@@ -13,7 +13,7 @@ namespace Backend.WebApi.Repositories
         public Task<ShoppingCart> GetAsync(string username)
         {
             // Forcing eager loading on foreign tables
-            databaseContext.ShoppingCarts
+            DatabaseContext.ShoppingCarts
                 .Include(c => c.User)
                 .Include(c => c.Items)
                 .ThenInclude(c => c.Component)
@@ -23,7 +23,7 @@ namespace Backend.WebApi.Repositories
                 .ThenInclude(c => c.ComponentType)
                 .Load();
 
-            return databaseContext.ShoppingCarts.FirstOrDefaultAsync(x => x.User.Username == username);
+            return DatabaseContext.ShoppingCarts.FirstOrDefaultAsync(x => x.User.Username == username);
         }
 
         public ShoppingCart AddItem(string username, int componentId)
@@ -31,20 +31,20 @@ namespace Backend.WebApi.Repositories
             if (string.IsNullOrWhiteSpace(username))
                 return null;
 
-            var user = databaseContext.Users.FirstOrDefault(x => x.Username == username);
+            var user = DatabaseContext.Users.FirstOrDefault(x => x.Username == username);
 
             // User doesn't exist
             if (user == null)
                 return null;
 
-            var component = databaseContext.Components.FirstOrDefault(x => x.Id == componentId);
+            var component = DatabaseContext.Components.FirstOrDefault(x => x.Id == componentId);
 
             // Component doesn't exist anymore
             if (component == null)
                 return null;
 
-            var cart = databaseContext.ShoppingCarts.FirstOrDefault(x => x.User.Id == user.Id);
-            databaseContext.ShoppingCarts
+            var cart = DatabaseContext.ShoppingCarts.FirstOrDefault(x => x.User.Id == user.Id);
+            DatabaseContext.ShoppingCarts
                 .Include(c => c.Items)
                 .ThenInclude(c => c.Component)
                 .Load();
@@ -53,19 +53,19 @@ namespace Backend.WebApi.Repositories
             if (cart == null)
             {
                 cart = new ShoppingCart { User = user, Items = new List<ShoppingCartItem>() };
-                databaseContext.ShoppingCarts.Add(cart);
+                DatabaseContext.ShoppingCarts.Add(cart);
             }
 
             cart.Items.Add(new ShoppingCartItem { Component = component });
             cart.TotalPrice = cart.Items.Sum(x => x.Component.Price);
-            databaseContext.SaveChanges();
+            DatabaseContext.SaveChanges();
             return cart;
         }
 
         public ShoppingCart RemoveItem(string userName, long shoppingCartItemId)
         {
-            var cart = databaseContext.ShoppingCarts.FirstOrDefault(x => x.User.Username == userName);
-            databaseContext.ShoppingCarts
+            var cart = DatabaseContext.ShoppingCarts.FirstOrDefault(x => x.User.Username == userName);
+            DatabaseContext.ShoppingCarts
                 .Include(c => c.User)
                 .Include(c => c.Items)
                 .ThenInclude(c => c.Component)
@@ -81,9 +81,9 @@ namespace Backend.WebApi.Repositories
 
             cart.Items.Remove(cartItem);
             cart.TotalPrice = cart.Items.Sum(x => x.Component.Price);
-            databaseContext.Remove(cartItem);
+            DatabaseContext.Remove(cartItem);
 
-            databaseContext.SaveChanges();
+            DatabaseContext.SaveChanges();
             return cart;
         }
     }

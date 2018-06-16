@@ -15,7 +15,7 @@ namespace Backend.WebApi.Repositories
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 return null;
 
-            var user = databaseContext.Users.SingleOrDefault(x => x.Username == username);
+            var user = DatabaseContext.Users.SingleOrDefault(x => x.Username == username);
 
             // check if username exists
             if (user == null)
@@ -34,18 +34,18 @@ namespace Backend.WebApi.Repositories
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 return null;
 
-            var user = databaseContext.Users.SingleOrDefault(x => x.Username == username);
+            var user = DatabaseContext.Users.SingleOrDefault(x => x.Username == username);
 
             // user with the given username already exists
             if (user != null)
                 return null;
 
             // registration successful
-            return base.Create(new User { Username = username, Password = HashPassword(password), Role = Role.User });
+            return Create(new User { Username = username, Password = HashPassword(password), Role = Role.User });
         }
 
         public User GetUserByName(string username) => 
-            databaseContext.Users.FirstOrDefault(user => user.Username == username);
+            DatabaseContext.Users.FirstOrDefault(user => user.Username == username);
 
         private string HashPassword(string password)
         {

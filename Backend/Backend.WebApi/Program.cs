@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace Backend.WebApi
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args) =>
             BuildWebHost(args).Run();

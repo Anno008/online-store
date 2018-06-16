@@ -1,6 +1,6 @@
 ﻿namespace Backend.WebApi.Services.Security
 {
-    public class JWTSettings
+    public class JwtSettings
     {
         public string SecretKey { get; set; }
         public string Issuer { get; set; }

@@ -13,20 +13,20 @@ namespace Backend.WebApi.Services
 {
     public class AuthService
     {
-        private readonly JWTHandler jwtHandler;
-        private readonly TokenRepository tokenRepository;
-        private readonly UserRepository userRepository;
+        private readonly JwtHandler _jwtHandler;
+        private readonly TokenRepository _tokenRepository;
+        private readonly UserRepository _userRepository;
 
-        public AuthService(UserRepository userRepository, JWTHandler jwtHandler, TokenRepository tokenRepository)
+        public AuthService(UserRepository userRepository, JwtHandler jwtHandler, TokenRepository tokenRepository)
         {
-            this.userRepository = userRepository;
-            this.jwtHandler = jwtHandler;
-            this.tokenRepository = tokenRepository;
+            _userRepository = userRepository;
+            _jwtHandler = jwtHandler;
+            _tokenRepository = tokenRepository;
         }
 
         public async Task<AuthResponseDTO> Login(AuthRequestDTO authDto)
         {
-            var user = userRepository.Authenticate(authDto.Username, authDto.Password);
+            var user = _userRepository.Authenticate(authDto.Username, authDto.Password);
 
             if (user == null)
             {
@@ -42,21 +42,21 @@ namespace Backend.WebApi.Services
                 var token = new RefreshToken
                 {
                     TokenId = refreshTokenId,
-                    Token = jwtHandler.CreateRefreshToken(authDto.ClientId, user.Username, refreshTokenId)
+                    Token = _jwtHandler.CreateRefreshToken(authDto.ClientId, user.Username, refreshTokenId)
                 };
-                refreshToken = (await tokenRepository.CreateAsync(token)).Token;
+                refreshToken = (await _tokenRepository.CreateAsync(token)).Token;
             }
 
             return new AuthResponseDTO
             {
-                AccessToken = jwtHandler.CreateJWT(authDto.ClientId, authDto.Username, user.Role.ToString()),
+                AccessToken = _jwtHandler.CreateJwt(authDto.ClientId, authDto.Username, user.Role.ToString()),
                 RefreshToken = refreshToken
             };
         }
 
         public AuthResponseDTO Register(RegisterRequestDTO registerDto) =>
-            userRepository.Register(registerDto.Username, registerDto.Password) == null ? null :
-                new AuthResponseDTO { AccessToken = jwtHandler.CreateJWT(registerDto.ClientId, registerDto.Username, Role.User.ToString()) };
+            _userRepository.Register(registerDto.Username, registerDto.Password) == null ? null :
+                new AuthResponseDTO { AccessToken = _jwtHandler.CreateJwt(registerDto.ClientId, registerDto.Username, Role.User.ToString()) };
 
         public AuthResponseDTO RefreshAccessToken(AuthRequestDTO authDto)
         {
@@ -64,14 +64,14 @@ namespace Backend.WebApi.Services
                 return null;
 
             var refreshToken = new JwtSecurityTokenHandler().ReadJwtToken(authDto.RefreshToken);
-            var username = refreshToken.Claims.FirstOrDefault(claim => claim.Type == "user_name").Value;
-            var user = userRepository.GetUserByName(username);
-            var refreshTokenExists = tokenRepository.TokenExists(refreshToken.Claims.FirstOrDefault(claim => claim.Type == "jti").Value);
+            var username = refreshToken.Claims.FirstOrDefault(claim => claim.Type == "user_name")?.Value;
+            var user = _userRepository.GetUserByName(username);
+            var refreshTokenExists = _tokenRepository.TokenExists(refreshToken.Claims.FirstOrDefault(claim => claim.Type == "jti")?.Value);
             if (user != null && refreshTokenExists)
             { 
                 return new AuthResponseDTO
                 {
-                    AccessToken = jwtHandler.CreateJWT(authDto.ClientId, username, user.Role.ToString())
+                    AccessToken = _jwtHandler.CreateJwt(authDto.ClientId, username, user.Role.ToString())
                 };
             }
             else

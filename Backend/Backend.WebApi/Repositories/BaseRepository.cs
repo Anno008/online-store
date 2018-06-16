@@ -8,77 +8,77 @@ namespace Backend.WebApi.Repositories
 {
     public abstract class BaseRepository<T> where T : BaseEntity
     {
-        protected readonly DatabaseContext databaseContext;
-        private readonly DbSet<T> entities;
+        protected readonly DatabaseContext DatabaseContext;
+        private readonly DbSet<T> _entities;
 
         protected BaseRepository(DatabaseContext context)
         {
-            databaseContext = context;
-            entities = context.Set<T>();
+            DatabaseContext = context;
+            _entities = context.Set<T>();
         }
 
         public virtual IEnumerable<T> GetAll() =>
-            entities.AsEnumerable();
+            _entities.AsEnumerable();
 
         public virtual Task<List<T>> GetAllAsync() =>
-            entities.ToListAsync();
+            _entities.ToListAsync();
 
         public virtual T Get(long id) =>
-            entities.SingleOrDefault(s => s.Id == id);
+            _entities.SingleOrDefault(s => s.Id == id);
 
         public virtual Task<T> GetAsync(long id) =>
-            entities.SingleOrDefaultAsync(s => s.Id == id);
+            _entities.SingleOrDefaultAsync(s => s.Id == id);
 
         public virtual T Create(T entity)
         {
-            var result = entities.Add(entity);
-            databaseContext.SaveChanges();
+            var result = _entities.Add(entity);
+            DatabaseContext.SaveChanges();
             return result.Entity;
         }
 
         public virtual async Task<T> CreateAsync(T entity)
         {
-            var result = await entities.AddAsync(entity);
-            await databaseContext.SaveChangesAsync();
+            var result = await _entities.AddAsync(entity);
+            await DatabaseContext.SaveChangesAsync();
             return result.Entity;
         }
 
         public virtual T Update(T entity)
         {
-            if (!entities.AsNoTracking().Any(e => e.Id == entity.Id))
+            if (!_entities.AsNoTracking().Any(e => e.Id == entity.Id))
                 return null;
 
-            entities.Update(entity);
-            databaseContext.SaveChanges();
+            _entities.Update(entity);
+            DatabaseContext.SaveChanges();
             return entity;
         }
 
         public virtual async Task<T> UpdateAsync(T entity)
         {
-            if (!entities.AsNoTracking().Any(e => e.Id == entity.Id))
+            if (!_entities.AsNoTracking().Any(e => e.Id == entity.Id))
                 return null;
 
-            entities.Update(entity);
-            await databaseContext.SaveChangesAsync();
+            _entities.Update(entity);
+            await DatabaseContext.SaveChangesAsync();
             return entity;
         }
 
         public virtual void Delete(int id)
         {
-            if (!entities.Any(e => e.Id == id))
+            if (!_entities.Any(e => e.Id == id))
                 return;
 
-            entities.Remove(entities.Find(id));
-            databaseContext.SaveChanges();
+            _entities.Remove(_entities.Find(id));
+            DatabaseContext.SaveChanges();
         }
 
         public virtual async void DeleteAsync(int id)
         {
-            if (!entities.Any(e => e.Id == id))
+            if (!_entities.Any(e => e.Id == id))
                 return;
 
-            entities.Remove(entities.Find(id));
-            await databaseContext.SaveChangesAsync();
+            _entities.Remove(_entities.Find(id));
+            await DatabaseContext.SaveChangesAsync();
         }
     }
 }

@@ -7,11 +7,11 @@ namespace Backend.Tests.UnitTests.Repositories
 {
     public class ShoppingCartRepositoryUnitTests : RepositoryUnitTestsBase
     {
-        private readonly ShoppingCartRepository shoppingCartRepository;
+        private readonly ShoppingCartRepository _shoppingCartRepository;
 
         public ShoppingCartRepositoryUnitTests()
         {
-            shoppingCartRepository = new ShoppingCartRepository(dbContext);
+            _shoppingCartRepository = new ShoppingCartRepository(DbContext);
             var brand = new Brand { Name = "Intel" };
             var type = new ComponentType { Name = "CPU" };
 
@@ -34,19 +34,19 @@ namespace Backend.Tests.UnitTests.Repositories
                 TotalPrice = 200
             };
 
-            dbContext.Users.Add(user1);
-            dbContext.Users.Add(user2);
+            DbContext.Users.Add(user1);
+            DbContext.Users.Add(user2);
 
-            dbContext.Brands.Add(brand);
-            dbContext.ComponentTypes.Add(type);
+            DbContext.Brands.Add(brand);
+            DbContext.ComponentTypes.Add(type);
 
-            dbContext.Components.Add(component1);
-            dbContext.Components.Add(component2);
-            dbContext.Components.Add(component3);
-            dbContext.Components.Add(component4);
+            DbContext.Components.Add(component1);
+            DbContext.Components.Add(component2);
+            DbContext.Components.Add(component3);
+            DbContext.Components.Add(component4);
 
-            dbContext.ShoppingCarts.Add(cart);
-            dbContext.SaveChanges();
+            DbContext.ShoppingCarts.Add(cart);
+            DbContext.SaveChanges();
         }
 
         [Fact]
@@ -54,14 +54,14 @@ namespace Backend.Tests.UnitTests.Repositories
         {
             var userId = 5;
 
-            var cart = await shoppingCartRepository.GetAsync(userId);
+            var cart = await _shoppingCartRepository.GetAsync(userId);
             Assert.Null(cart);
         }
 
         [Fact]
         public async void GetAsyncShoppingCartByUserId_UserExist_ReturnShoppingCart()
         {
-            var cart = await shoppingCartRepository.GetAsync(1);
+            var cart = await _shoppingCartRepository.GetAsync(1);
 
             Assert.NotNull(cart);
             Assert.Equal(2, cart.Items.Count);
@@ -75,7 +75,7 @@ namespace Backend.Tests.UnitTests.Repositories
             var username = "Test1";
 
 
-            var cart = shoppingCartRepository.AddItem(username, componentId);
+            var cart = _shoppingCartRepository.AddItem(username, componentId);
 
             Assert.NotNull(cart);
             Assert.Equal(3, cart.Items.Count);
@@ -88,7 +88,7 @@ namespace Backend.Tests.UnitTests.Repositories
             var shoppingCartItemId = 2;
             var username = "Test1";
 
-            var cart = shoppingCartRepository.RemoveItem(username, shoppingCartItemId);
+            var cart = _shoppingCartRepository.RemoveItem(username, shoppingCartItemId);
 
             Assert.NotNull(cart);
             Assert.Single(cart.Items);
@@ -101,7 +101,7 @@ namespace Backend.Tests.UnitTests.Repositories
             var shoppingCartItemId = 55;
             var username = "Test1";
 
-            var cart = shoppingCartRepository.RemoveItem(username, shoppingCartItemId);
+            var cart = _shoppingCartRepository.RemoveItem(username, shoppingCartItemId);
 
             Assert.NotNull(cart);
             Assert.Equal(2, cart.Items.Count);
