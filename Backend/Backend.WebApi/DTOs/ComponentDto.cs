@@ -1,8 +1,7 @@
 ﻿namespace Backend.WebApi.DTOs
 {
-    public class ComponentDto
+    public class ComponentDto : BaseDto
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public BrandDto Brand { get; set; }
         public ComponentTypeDto ComponentType { get; set; }
