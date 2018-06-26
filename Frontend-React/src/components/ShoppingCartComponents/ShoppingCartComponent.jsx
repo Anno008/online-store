@@ -23,8 +23,8 @@ class ShoppingCartComponent extends React.Component {
       </div> :
       <React.Fragment>
         <div className="header">
-        <h1>Shopping cart, total price: {this.props.shoppingCart.data.totalPrice}</h1>
-          <h1>items {this.props.shoppingCart.data.items.length}</h1>
+        <h1>Shopping cart, total price: {this.props.shoppingCart.data ? this.props.shoppingCart.data.totalPrice : 0}</h1>
+          <h1>items {this.props.shoppingCart.data ? this.props.shoppingCart.data.items.length : 0}</h1>
         </div>
         <div className="main">
           {this.props.shoppingCart.data ? this.props.shoppingCart.data.items.map(c => 
