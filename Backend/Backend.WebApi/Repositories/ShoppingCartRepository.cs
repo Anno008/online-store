@@ -10,7 +10,7 @@ namespace Backend.WebApi.Repositories
     {
         public ShoppingCartRepository(DatabaseContext context) : base(context) { }
 
-        public Task<ShoppingCart> GetAsync(string username)
+        public async Task<ShoppingCart> GetAsync(string username)
         {
             // Forcing eager loading on foreign tables
             DatabaseContext.ShoppingCarts
@@ -23,7 +23,22 @@ namespace Backend.WebApi.Repositories
                 .ThenInclude(c => c.ComponentType)
                 .Load();
 
-            return DatabaseContext.ShoppingCarts.FirstOrDefaultAsync(x => x.User.Username == username);
+            var user = DatabaseContext.Users.FirstOrDefault(x => x.Username == username);
+
+            // User doesn't exist
+            if (user == null)
+                return null;
+
+            var cart = await DatabaseContext.ShoppingCarts.FirstOrDefaultAsync(x => x.User.Username == username);
+            
+            // If the user doesn't already have a shopping cart, create one
+            if (cart == null)
+            {
+                cart = new ShoppingCart { User = user, Items = new List<ShoppingCartItem>() };
+                DatabaseContext.ShoppingCarts.Add(cart);
+            }
+
+            return cart;
         }
 
         public ShoppingCart AddItem(string username, int componentId)
