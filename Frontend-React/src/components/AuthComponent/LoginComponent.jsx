@@ -29,7 +29,7 @@ class LoginComponent extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.login} method="POST" onChange={this.handleChange} className="auth">
+      <form onSubmit={this.login} method="POST" className="auth">
         <p className="textLabels">Username</p>
         <input
           className="textBox"
@@ -55,8 +55,9 @@ class LoginComponent extends React.Component {
           Remember me
           <input
             type="checkbox"
-            onChange={this.handleChange}
-            value={this.state.rememberMe}
+            name="rememberMe"
+            defaultChecked={this.state.rememberMe}
+            onChange={(e) => this.setState({ rememberMe: !this.state.rememberMe })}
           />
         </label>
         <br />
