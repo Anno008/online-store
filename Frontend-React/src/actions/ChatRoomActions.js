@@ -1,6 +1,6 @@
 import actions from "./Actions";
-import apiCall from "../api/ApiWrapper";
 import { apiUrl } from "../constants";
+import { apiCall } from "../api/ApiWrapper";
 
 const getData = () => ({ type: actions.FETCHING_BRANDS });
 
@@ -22,7 +22,7 @@ export const fetchChatRoomMessages = () => dispatch => {
     url: `${apiUrl}/ChatRoomMessages`
   };
 
-  return apiCall(config)
+  return apiCall(config.url, config.needsAuth, config.method)
     .then(result => dispatch(getDataSuccess(result)))
     .catch(error => dispatch(getDataFailure(error.message)));
 };

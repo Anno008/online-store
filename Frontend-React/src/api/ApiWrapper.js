@@ -1,19 +1,60 @@
-import { apiUrl } from "../constants";
+import { apiUrl, clientId } from "../constants";
 import jwt_decode from "jwt-decode";
-import store from "store/store";
 
-const apiCall = async config => {
-  const request = {
-    data: config.data,
-    headers: await createHeader(config.needsAuth ? true : false),
-    method: config.method || "GET",
-    url: config.url
-  };
+export const apiCall = async (url, needsToken = false, method = "GET", data) => 
+  await makeRestCall(url, method, data, await createHeaders(needsToken));
 
-  return await fetch(request.url, {
-    method: request.method,
-    body: request.method == "GET" ? undefined : JSON.stringify(request.data),
-    headers: request.headers
+const createHeaders = async (needsToken) => {
+  const headers = new Headers();
+  headers.append("Content-Type", "application/json");
+
+  if (needsToken) {
+    headers.append("authorization", `bearer ${await acquireAccessToken()}`);
+  }
+
+  return headers;
+};
+
+const acquireAccessToken = async () => {
+  let existingToken = localStorage.getItem("accessToken");
+  let token;
+
+  if (existingToken) {
+    const decoded = jwt_decode(existingToken);
+    if (decoded.exp * 1000 < Date.now()) {
+        localStorage.removeItem("accessToken");
+        const refreshToken = localStorage.getItem("refreshToken");
+      if (refreshToken) {
+          token = await refreshAccessToken(refreshToken)
+            .then(response => response);
+      }
+    } else {
+    token = existingToken;
+    }
+  }
+
+  if(!token){
+      throw new Error("Token not defined");
+  }
+  localStorage.setItem("accessToken", token);
+  return token;
+};
+
+const refreshAccessToken = async (refreshToken) =>
+    await makeRestCall
+    (
+      `${apiUrl}/Auth/auth`,
+      "POST",
+      { grantType: "refresh_token", refreshToken: refreshToken, clientId: clientId }, 
+      await createHeaders(false)
+    );
+
+const makeRestCall = async (url, method = "GET", data, headers) => 
+  await fetch(url,
+  {
+    method,
+    body: method == "GET" ? undefined : JSON.stringify(data),
+    headers
   })
     .then(response => {
       if (response.status >= 200 && response.status < 300) {
@@ -27,48 +68,3 @@ const apiCall = async config => {
     .catch(error => {
       throw new Error(error);
     });
-};
-
-const createHeader = async needsToken => {
-  const headers = new Headers();
-  headers.append("Content-Type", "application/json");
-
-  if (needsToken) {
-    headers.append("authorization", `bearer ${await acquireAccessToken()}`);
-  }
-
-  return headers;
-};
-
-const acquireAccessToken = async () => {
-  let token = localStorage.getItem("accessToken");
-  if (token) {
-    const decoded = jwt_decode(token);
-    // Access token has expired
-    if (decoded.exp * 1000 < Date.now()) {
-      const refreshToken = localStorage.getItem("refreshToken");
-      if (refreshToken && refreshToken !== null) {
-        return await fetch(`${apiUrl}/Auth/auth`, {
-          method: "POST",
-          headers: await createHeader(false),
-          body: JSON.stringify({ grantType: "refresh_token" })
-        })
-          .then(response => response.json().then(res => res.accessToken))
-          .catch(error => {
-            // HACK: Anti pattern the store shouldnt be modified like this
-            // in case of an error while getting the token clear data and redirect to auth
-            store().getState().selectedNavigationComponent.data = "auth";
-            store().getState().userState.data = undefined;
-            throw new Error("Failed to refresh access token").message;
-          });
-      } else {
-        // HACK: Anti pattern the store should be modified like this
-        // in case of an error while getting the token clear data and redirect to auth
-        throw Error("Please login.");
-      }
-    }
-  }
-  return token;
-};
-
-export default apiCall;

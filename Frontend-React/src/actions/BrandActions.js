@@ -1,6 +1,6 @@
 import actions from "./Actions";
-import apiCall from "../api/ApiWrapper";
 import { apiUrl } from "../constants";
+import { apiCall } from "../api/ApiWrapper";
 
 const getData = () => ({ type: actions.FETCHING_BRANDS });
 
@@ -16,13 +16,14 @@ const getDataFailure = error => ({
 
 export const fetchBrands = () => dispatch => {
   dispatch(getData());
+
   const config = {
     method: "GET",
     needsAuth: false,
     url: `${apiUrl}/brands`
   };
 
-  return apiCall(config)
+  return apiCall(config.url, config.needsAuth, config.method)
     .then(result => dispatch(getDataSuccess(result)))
     .catch(error => dispatch(getDataFailure(error.message)));
 };

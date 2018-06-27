@@ -1,9 +1,9 @@
 import actions from "./Actions";
-import apiCall from "../api/ApiWrapper";
 import { apiUrl, clientId } from "../constants";
 import jwt_decode from "jwt-decode";
 import { navigationComponentChanged } from "./SelectedNavigationComponentActions";
 import { keys } from "../navigation/NavigationKeys";
+import { apiCall } from "../api/ApiWrapper";
 
 const authInProgress = () => ({ type: actions.AUTH_IN_PROGRESS });
 
@@ -21,31 +21,26 @@ const logoutUser = () => ({ type: actions.LOGOUT_USER });
 
 export const login = (username, password, rememberMe) => dispatch => {
   dispatch(authInProgress());
-  const config = {
-    method: "POST",
-    data: {
-      username: username,
-      password: password,
-      clientId: clientId,
-      rememberMe: rememberMe,
-      grantType: "password"
-    },
-    url: `${apiUrl}/auth/auth`
+
+  let data =  {
+    username: username,
+    password: password,
+    clientId: clientId,
+    rememberMe: rememberMe,
+    grantType: "password"
   };
 
-  return apiCall(config)
-    .then(result => {
-      localStorage.setItem("accessToken", result.accessToken);
-      localStorage.setItem("refreshToken", result.refreshToken);
-
-      const decodedToken = jwt_decode(result.accessToken);
-      dispatch(navigationComponentChanged(keys.catalog));
-      return dispatch(authSuccessful(decodedToken.username, decodedToken.roles));
-    })
-    .catch(error => {
-      // dispatch(navigationComponentChanged(keys.auth));
-      return dispatch(authFailed(error.message));
-    });
+  return apiCall(`${apiUrl}/auth/auth`, false, "POST", data)
+      .then(result => {
+        localStorage.setItem("accessToken", result.accessToken);
+        if(result.refreshToken) {
+          localStorage.setItem("refreshToken", result.refreshToken);
+        }
+        const decodedToken = jwt_decode(result.accessToken);
+        dispatch(navigationComponentChanged(keys.catalog));
+        return dispatch(authSuccessful(decodedToken.username, decodedToken.roles));
+      })
+      .catch(error => dispatch(authFailed(error.message)));
 };
 
 export const checkForUser = () => dispatch => {
@@ -55,7 +50,6 @@ export const checkForUser = () => dispatch => {
     dispatch(navigationComponentChanged(keys.catalog));
     return dispatch(authSuccessful(decodedToken.username, decodedToken.roles));
   } else {
-    // Clearing local storage just in case
     return dispatch(logout());
   }
 };
@@ -74,19 +68,21 @@ export const register = (username, password) => dispatch => {
     url: `${apiUrl}/auth/register`
   };
 
-  return apiCall(config)
-    .then(token => {
-      localStorage.setItem("accessToken", token.accessToken);
-      const decodedToken = jwt_decode(token.accessToken);
-      return dispatch(authSuccessful(decodedToken.user_name, decodedToken.roles));
+  return apiCall(config.url, config.needsAuth, config.method, config.data)
+    .then(result => {
+        localStorage.setItem("accessToken", result.accessToken);
+        if(result.refreshToken) {
+          localStorage.setItem("refreshToken", result.refreshToken);
+        }
+        const decodedToken = jwt_decode(result.accessToken);
+        dispatch(navigationComponentChanged(keys.catalog));
+        return dispatch(authSuccessful(decodedToken.username, decodedToken.roles));
     })
-    .then(_ => dispatch(checkForUser()))
-    .catch(error => {
-      dispatch(authFailed(error.message));
-    });
+    .catch(error => dispatch(authFailed(error.message)));
 };
 
 export const logout = () => dispatch => {
   localStorage.removeItem("accessToken");
+  localStorage.removeItem("refreshToken");
   return dispatch(logoutUser());
 };

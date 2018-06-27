@@ -1,7 +1,7 @@
 import actions from "./Actions";
-import apiCall from "../api/ApiWrapper";
 import { apiUrl } from "../constants";
 import { navigationComponentChanged } from "./SelectedNavigationComponentActions";
+import { apiCall } from "../api/ApiWrapper";
 
 const fetchingComponents = () => ({ type: actions.FETCHING_COMPONENTS });
 
@@ -43,7 +43,7 @@ export const fetchComponents = (filter, paging) => dispatch => {
     url: query
   };
 
-  return apiCall(config)
+  return apiCall(config.url, config.needsAuth, config.method)
     .then(result => dispatch(fetchingComponentsSucceeded(result)))
     .catch(error => dispatch(fetchingComponentsFailed(error.message)));
 };
@@ -53,14 +53,14 @@ export const componentSelected = id => dispatch => {
   
   const config = {
     method: "GET",
+    needsAuth: false,
     url: `${apiUrl}/components/${id}`
   };
 
-  return apiCall(config)
+  return apiCall(config.url, config.needsAuth, config.method)
     .then(result => {
       dispatch(fetchingOneComponentSucceeded(result));
-      dispatch(navigationComponentChanged("details"))
-    }
-    )
+      dispatch(navigationComponentChanged("details"));
+    })
     .catch(error => dispatch(fetchingOneComponentFailed(error.message)));
 }

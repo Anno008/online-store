@@ -1,6 +1,9 @@
 import actions from "./Actions";
-import apiCall from "../api/ApiWrapper";
 import { apiUrl } from "../constants";
+import { logout, checkForUser } from "./AuthActions";
+import { navigationComponentChanged } from "./SelectedNavigationComponentActions";
+import { keys } from "../navigation/NavigationKeys";
+import { apiCall } from "../api/ApiWrapper";
 
 const fetchingShoppingCart = () => ({ type: actions.FETCHING_SHOPPING_CART });
 
@@ -16,15 +19,13 @@ const fetchingShoppingCartFailed = error => ({
 
 export const fetchShoppingCart = () => dispatch => {
   dispatch(fetchingShoppingCart());
-  const config = {
-    method: "GET",
-    needsAuth: true,
-    url: `${apiUrl}/shoppingCarts`
-  };
 
-  return apiCall(config)
+  return apiCall(`${apiUrl}/shoppingCarts`, true, "GET")
     .then(result => dispatch(fetchingShoppingCartSucceeded(result)))
-    .catch(error => dispatch(fetchingShoppingCartFailed(error.message)));
+    .catch(err => {
+      dispatch(navigationComponentChanged(keys.catalog));
+      dispatch(checkForUser());
+    });
 };
 
 export const addComponentToShoppingCart = componentId => dispatch => {
@@ -34,8 +35,8 @@ export const addComponentToShoppingCart = componentId => dispatch => {
     url: `${apiUrl}/shoppingcarts`,
     data: componentId
   };
-
-  return apiCall(config);
+  return apiCall(config.url, config.needsAuth, config.method, config.data)
+    .catch(error => dispatch(logout()))
 };
 
 export const removeComponentFromShoppingCart = componentId => dispatch => {
@@ -46,5 +47,7 @@ export const removeComponentFromShoppingCart = componentId => dispatch => {
     data: componentId
   };
 
-  return apiCall(config).then(result => dispatch(fetchShoppingCart()));
+  return apiCall(config.url, config.needsAuth, config.method)
+    .then(_ => dispatch(fetchShoppingCart()))
+    .catch(error => dispatch(logout()));
 };
