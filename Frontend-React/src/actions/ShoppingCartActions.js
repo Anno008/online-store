@@ -1,6 +1,6 @@
 import actions from "./Actions";
 import { apiUrl } from "../constants";
-import { logout, checkForUser } from "./AuthActions";
+import { checkForUser } from "./AuthActions";
 import { navigationComponentChanged } from "./SelectedNavigationComponentActions";
 import { keys } from "../navigation/NavigationKeys";
 import { apiCall } from "../api/ApiWrapper";
@@ -36,7 +36,7 @@ export const addComponentToShoppingCart = componentId => dispatch => {
     data: componentId
   };
   return apiCall(config.url, config.needsAuth, config.method, config.data)
-    .catch(error => dispatch(logout()))
+    .catch(error => dispatch(checkForUser()))
 };
 
 export const removeComponentFromShoppingCart = componentId => dispatch => {
@@ -49,5 +49,8 @@ export const removeComponentFromShoppingCart = componentId => dispatch => {
 
   return apiCall(config.url, config.needsAuth, config.method, config.data)
     .then(_ => dispatch(fetchShoppingCart()))
-    .catch(error => dispatch(logout()));
+    .catch(error => {
+      dispatch(checkForUser());
+      dispatch(navigationComponentChanged(keys.catalog));
+    });
 };

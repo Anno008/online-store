@@ -36,6 +36,7 @@ const acquireAccessToken = async () => {
   if(!token){
       throw new Error("Token not defined");
   }
+  
   localStorage.setItem("accessToken", token);
   return token;
 };
