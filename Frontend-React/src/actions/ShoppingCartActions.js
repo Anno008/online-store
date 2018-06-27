@@ -47,7 +47,7 @@ export const removeComponentFromShoppingCart = componentId => dispatch => {
     data: componentId
   };
 
-  return apiCall(config.url, config.needsAuth, config.method)
+  return apiCall(config.url, config.needsAuth, config.method, config.data)
     .then(_ => dispatch(fetchShoppingCart()))
     .catch(error => dispatch(logout()));
 };
