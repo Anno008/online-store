@@ -38,7 +38,7 @@ module.exports = ({ production } = {}) => ({
                 exclude: /node_modules/,
                 loader: "babel-loader",
                 options: {
-                    presets: ["react"],
+                    presets: ["es2015", "react"],
                     plugins: [
                         "transform-es2015-destructuring",
                         "transform-es2015-parameters",
