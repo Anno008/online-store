@@ -6,7 +6,7 @@ const path = require("path");
 
 module.exports = ({ production } = {}) => ({
     // entry point of our application, within the `src` directory (which we add to resolve.modules below):
-    entry: ["index.jsx"],
+    entry: ["babel-polyfill", "index.jsx"],
     // tell Webpack to load js and jsx files
     resolve: {
         extensions: [".js", ".jsx"],
@@ -38,11 +38,12 @@ module.exports = ({ production } = {}) => ({
                 exclude: /node_modules/,
                 loader: "babel-loader",
                 options: {
-                    presets: ["es2015", "react"],
+                    presets: ["es2015", "stage-0", "react"],
                     plugins: [
                         "transform-es2015-destructuring",
                         "transform-es2015-parameters",
                         "transform-object-rest-spread",
+                        "transform-async-to-generator"
                     ],
                 },
             },
