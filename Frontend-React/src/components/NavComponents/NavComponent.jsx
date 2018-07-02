@@ -14,19 +14,19 @@ const NavComponent = props => {
         <button className="btn" onClick={() => props.changeNavigation(keys.catalog)}>
         Home
         </button>
-        <span>
+        <div className="btnContainer">
         {props.userState.data && props.userState.data.username? 
-        <span>
+        <React.Fragment>
           {props.userState.data.roles.indexOf("User") > -1 ? 
-          <button className="btn" onClick={() => props.changeNavigation(keys.cart)}>My shopping cart</button> : null}
+          <button className="btn" onClick={() => props.changeNavigation(keys.cart)}>Cart</button> : null}
           <button className="btn" onClick={() => props.changeNavigation(keys.chat)}>Chat room</button>
-        </span>: null}
+        </React.Fragment>: null}
         <button className="btn" onClick={() => handleAuth(props.userState.data)}>
         {props.userState.data && props.userState.data.username
-        ? `Welcome ${props.userState.data.username}, Logout`
+        ? `${props.userState.data.username}, Logout`
         : "Login"}
         </button>
-        </span>
+        </div>
       </div>
     );
 };
