@@ -19,7 +19,7 @@ namespace Backend.WebApi.WebSocketRelatedStuff
                     reader.TokenType));
             }
 
-            var ticks = ((long)reader.Value); // milliseconds
+            var ticks = (long)reader.Value; // milliseconds
             var seconds = ticks / 1000;
 
             var date = new DateTime(1970, 1, 1);
@@ -35,11 +35,10 @@ namespace Backend.WebApi.WebSocketRelatedStuff
             if (value is DateTime dateTime)
             {
                 var epoc = new DateTime(1970, 1, 1);
-                var delta = (dateTime) - epoc;
+                var delta = dateTime - epoc;
                 if (delta.TotalMilliseconds < 0)
                 {
-                    throw new ArgumentOutOfRangeException(
-                        "Unix epoch starts January 1st, 1970");
+                    throw new ArgumentOutOfRangeException("Unix epoch starts January 1st, 1970");
                 }
                 ticks = (long)delta.TotalMilliseconds;
             }
