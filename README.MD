@@ -1,7 +1,7 @@
 # Demo
 * The application is currently hosted on heroku. The deployment is done automatically through gitlabs' continuous integration.
 * The frontend application can be viewed at the following address https://front-star.herokuapp.com/
-
+* Currently supported endpoints can be tested on https://backon.herokuapp.com/swagger/index.html
 
 # Setting up the development environment
 ## Backend
