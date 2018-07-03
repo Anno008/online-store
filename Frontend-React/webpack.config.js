@@ -65,7 +65,16 @@ module.exports = ({ production } = {}) => ({
                 test: /\.css?$/,
                 include: path.resolve(__dirname, "node_modules/react-toastify/dist"),
                 use: ["style-loader", "css-loader"],
-            }
+            },
+            {
+                test: /\.(png|jpg|gif|ico)$/,
+                use: [
+                  {
+                    loader: "file-loader",
+                    options: {}  
+                  }
+                ]
+              }
         ],
     },
     plugins: (production ?
@@ -78,6 +87,7 @@ module.exports = ({ production } = {}) => ({
             new HtmlWebpackPlugin({
                 title: "Frontend-React",
                 template: "src/index.html",
+                favicon: "src/favicon.ico"
             }),
         ]),
 });
