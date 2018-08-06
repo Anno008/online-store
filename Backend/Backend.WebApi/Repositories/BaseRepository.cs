@@ -24,10 +24,10 @@ namespace Backend.WebApi.Repositories
             _entities.ToListAsync();
 
         public virtual T Get(long id) =>
-            _entities.SingleOrDefault(s => s.Id == id);
+            _entities.FirstOrDefault(s => s.Id == id);
 
         public virtual Task<T> GetAsync(long id) =>
-            _entities.SingleOrDefaultAsync(s => s.Id == id);
+            _entities.FirstOrDefaultAsync(s => s.Id == id);
 
         public virtual T Create(T entity)
         {
